@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Basis Vectors",
+        "type": "default.normal",
+        "video": "CrossProduct_0000_Basis Vectors.mp4",
+        "width": 1920,
+        "height": 1080,
+        "nb_frames": "180",
+        "duration": "3.000000",
+        "avg_frame_rate": "60/1",
+        "codec_name": "h264",
+        "pix_fmt": "yuv420p"
+    },
+    {
+        "name": "Trivector",
+        "type": "default.normal",
+        "video": "CrossProduct_0001_Trivector.mp4",
+        "width": 1920,
+        "height": 1080,
+        "nb_frames": "120",
+        "duration": "2.000000",
+        "avg_frame_rate": "60/1",
+        "codec_name": "h264",
+        "pix_fmt": "yuv420p"
+    }
+]
