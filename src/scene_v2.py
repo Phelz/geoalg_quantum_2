@@ -8,6 +8,9 @@ PAUSE_WAIT_TIME = 5
 # class Intro(Scene):
 #     def construct(self):
 
+# !!!!! ADD THIS QUOTE David Hestenes
+# Mathematics is taken for granted in the physics curriculum—a body of immutable truths to be assimilated and applied. The profound influence of mathematics on our conceptions of the physical world is never analyzed. The possibility that mathematical tools used today were invented to solve problems in the past and might not be well suited for current problems is never considered.
+
 #         self.next_section("Intro", skip_animations=False)
 #         # Video Title
 #         title = MarkupText(
@@ -389,16 +392,12 @@ PAUSE_WAIT_TIME = 5
 
 
 class CrossProduct(ThreeDScene):
+
     def construct(self):
-        # *______________________________________________________________________
-        self.next_section("Axes", skip_animations=True)
-        # *______________________________________________________________________
-        #
+        # * ______________________________________________________________________
+        self.next_section("Axes", skip_animations=False)
+        # * ______________________________________________________________________
         
-        # * ------------------------------------- 
-        # * Set up axes
-        # * ------------------------------------- 
-        self.set_camera_orientation(phi=75*DEGREES, theta=-45*DEGREES)
         axes = ThreeDAxes(
             x_range=(-10, 10, 1),
             y_range=(-10, 10, 1),
@@ -407,28 +406,45 @@ class CrossProduct(ThreeDScene):
             y_length=8,
             z_length=5,
         )
-        self.begin_ambient_camera_rotation(
-            rate=PI/10, about="theta"
-        )
-        # axes.set_width(FRAME_WIDTH)
-        # axes.center()
+        circle=Circle()
+        self.play(ShowCreation(circle),ShowCreation(axes))
+        self.move_camera(phi=30*DEGREES,theta=-45*DEGREES,run_time=3)
+        self.wait()
 
-#         # self.frame.reorient(43, 76, 1, IN, 10)
-#         # self.frame.add_updater(lambda m, dt: m.increment_theta(dt * 3 * DEGREES))
 
-        self.next_section("Basis Vectors", skip_animations=False)
-        self.play(FadeIn(axes), run_time=3)
+#     def construct(self):
+#         # *______________________________________________________________________
+#         self.next_section("Axes", skip_animations=True)
+#         # *______________________________________________________________________
+#         #
+        
+#         # * ------------------------------------- 
+#         # * Set up axes
+#         # * ------------------------------------- 
+#         self.set_camera_orientation(phi=75*DEGREES, theta=-45*DEGREES)
 
-#         # Create the basis vectors
-        i_hat = Arrow3D(np.array([0, 0, 0]), 2*np.array([1, 0, 0]), color=RED)
-        j_hat = Arrow3D(np.array([0, 0, 0]), 2*np.array([0, 1, 0]), color=GREEN)
-        k_hat = Arrow3D(np.array([0, 0, 0]), 2*np.array([0, 0, 1]), color=BLUE)
-        self.play(
-            Write(i_hat),
-            Write(j_hat),
-            Write(k_hat),
-            run_time=2
-        )
+#         self.begin_ambient_camera_rotation(
+#             rate=PI/10, about="theta"
+#         )
+#         # axes.set_width(FRAME_WIDTH)
+#         # axes.center()
+
+# #         # self.frame.reorient(43, 76, 1, IN, 10)
+# #         # self.frame.add_updater(lambda m, dt: m.increment_theta(dt * 3 * DEGREES))
+
+#         self.next_section("Basis Vectors", skip_animations=False)
+#         self.play(FadeIn(axes), run_time=3)
+
+# #         # Create the basis vectors
+#         i_hat = Arrow3D(np.array([0, 0, 0]), 2*np.array([1, 0, 0]), color=RED)
+#         j_hat = Arrow3D(np.array([0, 0, 0]), 2*np.array([0, 1, 0]), color=GREEN)
+#         k_hat = Arrow3D(np.array([0, 0, 0]), 2*np.array([0, 0, 1]), color=BLUE)
+#         self.play(
+#             Write(i_hat),
+#             Write(j_hat),
+#             Write(k_hat),
+#             run_time=2
+#         )
 
 #         # self.play(
 #         #     GrowArrow(i_hat),
