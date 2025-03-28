@@ -1,5 +1,6 @@
 from manim import *
-
+import manimforge as mf
+mf.setup()
 
 TITLE_FONTSIZE = 45
 NOMINAL_WAIT_TIME = 2
@@ -37,7 +38,7 @@ PAUSE_WAIT_TIME = 5
 #         self.play(Transform(title, new_title), FadeOut(name), run_time=1)
 
 
-# class GeometricAlgebra(VectorScene):
+# class Bivectors(VectorScene):
 # # class GeometricAlgebra(ThreeDScene):
 #     def construct(self):
 #         self.next_section("Scalars and Vectors", skip_animations=True)
@@ -391,12 +392,39 @@ PAUSE_WAIT_TIME = 5
 
 
 
-class CrossProduct(ThreeDScene):
+class Trivectors(ThreeDScene):
 
     def construct(self):
         # * ______________________________________________________________________
+        self.next_section("Title", skip_animations=False)
+        # * ______________________________________________________________________
+        title = Text(
+            f'Trivectors', color=BLUE_D,
+            font_size=TITLE_FONTSIZE
+        )
+        title.to_corner(UL)
+        
+        basis_vectors_text = MathTex(
+            " \{ \\mathbf{e}_1 , \\mathbf{e}_2 , \\mathbf{e}_3 \}",
+            color=WHITE, font_size=int(3 * TITLE_FONTSIZE / 3)
+        ).to_corner(UL).shift(DOWN * 1)
+        
+        self.add_fixed_in_frame_mobjects(title)
+        self.play(Write(title), run_time=3)
+
+
+        # * ______________________________________________________________________
         self.next_section("Axes", skip_animations=False)
         # * ______________________________________________________________________
+
+        CONFIG = {
+            "x_axis_label": "$x$",
+            "y_axis_label": "$y$",
+            "z_axis_label": "$z$",
+            "basis_i_color": GREEN_D,
+            "basis_j_color": RED_D,
+            "basis_k_color": BLUE_D
+        }
         
         axes = ThreeDAxes(
             x_range=(-10, 10, 1),
@@ -405,99 +433,168 @@ class CrossProduct(ThreeDScene):
             x_length=8,
             y_length=8,
             z_length=5,
+        ).set_opacity(0.5)
+        self.add_fixed_in_frame_mobjects(basis_vectors_text)
+        self.play(
+            Create(axes),
+            Write(basis_vectors_text),
+            run_time=3,
         )
-        circle=Circle()
-        self.play(ShowCreation(circle),ShowCreation(axes))
-        self.move_camera(phi=30*DEGREES,theta=-45*DEGREES,run_time=3)
-        self.wait()
+        self.move_camera(phi=70*DEGREES,theta=45*DEGREES + 15*DEGREES,run_time=3)
+        self.wait(NOMINAL_WAIT_TIME)
 
 
-#     def construct(self):
-#         # *______________________________________________________________________
-#         self.next_section("Axes", skip_animations=True)
-#         # *______________________________________________________________________
-#         #
         
-#         # * ------------------------------------- 
-#         # * Set up axes
-#         # * ------------------------------------- 
-#         self.set_camera_orientation(phi=75*DEGREES, theta=-45*DEGREES)
 
-#         self.begin_ambient_camera_rotation(
-#             rate=PI/10, about="theta"
-#         )
-#         # axes.set_width(FRAME_WIDTH)
-#         # axes.center()
+        # * ______________________________________________________________________
+        self.next_section("Basis Vectors", skip_animations=False)
+        # * ______________________________________________________________________
 
-# #         # self.frame.reorient(43, 76, 1, IN, 10)
-# #         # self.frame.add_updater(lambda m, dt: m.increment_theta(dt * 3 * DEGREES))
+        # Create 3 basis vectors
+        i_hat = Arrow3D(np.array([0, 0, 0]), 2*np.array([1, 0, 0]), color=CONFIG["basis_i_color"])
+        j_hat = Arrow3D(np.array([0, 0, 0]), 2*np.array([0, 1, 0]), color=CONFIG["basis_j_color"])
+        k_hat = Arrow3D(np.array([0, 0, 0]), 2*np.array([0, 0, 1]), color=CONFIG["basis_k_color"])
+        
+        for vector in [i_hat, j_hat, k_hat]:
+            self.play(
+                Write(vector, run_time=1),
+                # GrowArrow(vector, run_time=1),
+                # vector.animate.Create(), runtime=1
+            )
+        
+        # Add labeling math tex for each vector
+        i_hat_label = MathTex(
+            "\\mathbf{e}_1", color=CONFIG["basis_i_color"], font_size=int(3 * TITLE_FONTSIZE / 3)
+        ).next_to(i_hat, RIGHT) #.set_stroke(width=0, family=False).set_shaded_in_3d(True)
+        j_hat_label = MathTex(
+            "\\mathbf{e}_2", color=CONFIG["basis_j_color"], font_size=int(3 * TITLE_FONTSIZE / 3)
+        ).next_to(j_hat, UP) #.set_stroke(width=0, family=False).set_shaded_in_3d(True)
+        k_hat_label = MathTex(
+            "\\mathbf{e}_3", color=CONFIG["basis_k_color"], font_size=int(3 * TITLE_FONTSIZE / 3)
+        ).next_to(k_hat, OUT).shift(UP*.75) #.set_stroke(width=0, family=False).set_shaded_in_3d(True)
 
-#         self.next_section("Basis Vectors", skip_animations=False)
-#         self.play(FadeIn(axes), run_time=3)
+        
+        for obj in [i_hat_label, j_hat_label, k_hat_label]:
+            self.add_fixed_orientation_mobjects(obj)
+            obj.z_index = 10  # Ensure the labels are on top of the axes
+            self.play(
+                Write(obj, run_time=1),
+            )
+        
 
-# #         # Create the basis vectors
-#         i_hat = Arrow3D(np.array([0, 0, 0]), 2*np.array([1, 0, 0]), color=RED)
-#         j_hat = Arrow3D(np.array([0, 0, 0]), 2*np.array([0, 1, 0]), color=GREEN)
-#         k_hat = Arrow3D(np.array([0, 0, 0]), 2*np.array([0, 0, 1]), color=BLUE)
-#         self.play(
-#             Write(i_hat),
-#             Write(j_hat),
-#             Write(k_hat),
-#             run_time=2
-#         )
+        # self.stop_ambient_camera_rotation()
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        
+        # * ______________________________________________________________________
+        self.next_section("Outer Product", skip_animations=False)
+        # * ______________________________________________________________________
 
-#         # self.play(
-#         #     GrowArrow(i_hat),
-#         #     GrowArrow(j_hat),
-#         #     GrowArrow(k_hat),
-#         #     run_time=2
-#         # )
+        # Wedge all 3 basis vectors
+        wedge_text = MathTex(
+            "\\mathbf{e}_1 \\wedge \\mathbf{e}_2 \\wedge \\mathbf{e}_3",
+            color=WHITE, font_size=int(3 * TITLE_FONTSIZE / 3)
+        ).to_corner(UL).shift(DOWN *2.25)
+        
+        pseudoscalar = MathTex(
+            "\\mathbb{I} =  \\mathbf{e}_1 \\wedge \\mathbf{e}_2 \\wedge \\mathbf{e}_3",
+            color=WHITE, font_size=int(3 * TITLE_FONTSIZE / 3)
+        ).move_to(wedge_text.get_center()).shift(RIGHT * 0.75)
+        
+        
+        self.add_fixed_in_frame_mobjects(wedge_text)
+        self.play(
+            Write(wedge_text),
+            runtime=3
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # Create a volume element trivector
+        cube = Cube(
+            side_length=2,
+            fill_opacity=0.5,
+            fill_color=BLUE
+        )
+        cube.move_to(np.array([1, 1, 1]))
+        
+        self.play(
+            Write(cube),
+            run_time=3
+        )
+        self.wait(PAUSE_WAIT_TIME)
+        
+        # * The pseudoscalar
 
-#         self.next_section("Trivector", skip_animations=False)
 
-#         cube = Cube(side_length=2, fill_opacity=0.5, fill_color=BLUE)
-#         cube.move_to(np.array([1, 1, 1]))
-#         # cube.init_points(
-#         #     [
-#         #     np.array([0, 0, 0]),
-#         #     np.array([1, 0, 0]),
-#         #     np.array([1, 1, 0]),
-#         #     np.array([0, 1, 0]),
-#         #     np.array([0, 0, 1]),
-#         #     np.array([1, 0, 1]),
-#         #     np.array([1, 1, 1]),
-#         #     np.array([0, 1, 1]),
-#         #     ]
+        self.play(
+            ReplacementTransform(wedge_text, pseudoscalar),
+            runtime=3
+        )
+        self.add_fixed_in_frame_mobjects(pseudoscalar)
+        
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        
+        # Add box around the pseudoscalar
+        pseudoscalar_box = SurroundingRectangle(
+            pseudoscalar, buff=0.3, color=WHITE, corner_radius=0.005
+        )
+        self.add_fixed_in_frame_mobjects(pseudoscalar_box)
+        self.play(Create(pseudoscalar_box), run_time=1)
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # *  Indicate the pseudoscalar 
+        pseudoscalar_label = MathTex(
+            "\\text{Pseudoscalar}",
+            color=YELLOW,
+            font_size=int(3 * TITLE_FONTSIZE / 3),
+        ).next_to(pseudoscalar, DOWN).shift(DOWN * 0.5)
+        self.add_fixed_in_frame_mobjects(pseudoscalar_label)
 
-#         # )
-#         self.play(Create(cube), run_time=2)
+        self.play(
+            Indicate(pseudoscalar[0][0:1], rate_func=there_and_back),  # Indicate only \mathbb{I}
+            Write(pseudoscalar_label),
+            run_time=4,
+        )
+        self.wait(PAUSE_WAIT_TIME)
+        
+
+        # * ______________________________________________________________________
+        self.next_section("Multivectors", skip_animations=False)
+        # * ______________________________________________________________________ 
+        multivector_title = Text(
+            "Multivectors", color=BLUE_D,
+            font_size=TITLE_FONTSIZE
+        ).to_corner(UR)
+        
+        multivector_text = MathTex(
+            "\\mathbf{e}_1 \\wedge \\mathbf{e}_2 \\wedge \\mathbf{e}_3 \\wedge \\mathbf{e}_4 ... \\wedge \\mathbf{e}_n",
+            color=WHITE, font_size=int(3 * TITLE_FONTSIZE / 3)
+        ).to_corner(UR).shift(DOWN *1)
+        
+        self.add_fixed_in_frame_mobjects(multivector_title)
+        self.play(
+            Write(multivector_title),
+            runtime=3
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        self.add_fixed_in_frame_mobjects(multivector_text)
+        self.play(
+            Write(multivector_text),
+            runtime=3
+        )
+        self.wait(PAUSE_WAIT_TIME)
+        
+        # Fade everything away
+        self.play(
+            *[FadeOut(mob)for mob in self.mobjects]
+        )
 
 
 
-#         # # Create a volume element trivector
-#         # convex_hull_3D_pts = [
-#         #     np.array([0, 0, 0]),
-#         #     np.array([1, 0, 0]),
-#         #     np.array([1, 1, 0]),
-#         #     np.array([0, 1, 0]),
-#         #     np.array([0, 0, 1]),
-#         #     np.array([1, 0, 1]),
-#         #     np.array([1, 1, 1]),
-#         #     np.array([0, 1, 1]),
-#         # ]
-#         # hull = ConvexHull3D(
-#         #         *convex_hull_3D_pts,
-#         #         faces_config = {"stroke_opacity": 0},
-#         #         graph_config = {
-#         #             "vertex_type": Dot3D,
-#         #             "edge_config": {
-#         #                 "stroke_color": BLUE,
-#         #                 "stroke_width": 2,
-#         #                 "stroke_opacity": 0.05,
-#         #             }
-#         #         }
-#         #     )
 
-#         # dots = VGroup(*[Dot3D(pt) for pt in convex_hull_3D_pts])
-#         # self.play(Create(hull), Create(dots), run_time=1)
+class GeometricProduct(VectorScene):
 
+    def construct(self):
+        pass
