@@ -1,6 +1,4 @@
 from manim import *
-from reactive_manim import *
-
 import manimforge as mf
 mf.setup()
 
@@ -627,8 +625,6 @@ def construct_bivector(scene, u, v):
         fill_color=WHITE,
         fill_opacity=0.25,
     )
-    
-    
 
     scene.play(Create(bivector_polygon), run_time=1)
     
@@ -649,13 +645,8 @@ class GeometricProduct(VectorScene):
         title.to_edge(UP)
         
         # Geo product of u and v
-        uterm = MathTex( "\\mathbf{u}" )
-        vterm = MathTex( "\\mathbf{v}" )
-        
-        
         geo_prod_tex = MathTex(
-            uterm, vterm, "=", uterm, "\\cdot", vterm, "+", uterm, "\\wedge", vterm,
-            # "\\mathbf{u}  \\mathbf{v}  = \\mathbf{u} \\cdot \\mathbf{v} + \\mathbf{u} \\wedge \\mathbf{v}",
+            "\\mathbf{u}  \\mathbf{v}  = \\mathbf{u} \\cdot \\mathbf{v} + \\mathbf{u} \\wedge \\mathbf{v}",
             color=WHITE, font_size=int(4 * TITLE_FONTSIZE / 3)
         ).to_edge(UP).shift(DOWN *1.5)
         
@@ -678,25 +669,23 @@ class GeometricProduct(VectorScene):
         self.next_section("Complex Numbers", skip_animations=True)
         # * ______________________________________________________________________
         
-        z1 = MathTex("z_1", "=", "a" "+", "i", "b", 
-            # tex_to_color_map={"i": BLUE_C},
+        z1 = MathTex(
+            "z_1 = a + i b",
+            tex_to_color_map={"i": BLUE_C},
             color=WHITE, font_size=int(3 * TITLE_FONTSIZE / 3)
         ).to_edge(UP).shift(DOWN *3 + LEFT*1.75)
-        z1[3].set_color(BLUE_C)         
+        
         
         z2 = MathTex(
-            # "z_2 = c - i b",
-            "z_2", "=", "c", "-", "i", "d",
-            # tex_to_color_map={"i": BLUE_C},
+            "z_2 = c - i b",
+            tex_to_color_map={"i": BLUE_C},
             color=WHITE, font_size=int(3 * TITLE_FONTSIZE / 3)
         ).to_edge(UP).shift(DOWN *3 + RIGHT*1.75)
-        z2[4].set_color(BLUE_C)
         
         self.play(
             Write(z1),
             runtime=3
         )
-        
         self.wait(NOMINAL_WAIT_TIME)
         self.play(
             Write(z2),
@@ -705,12 +694,10 @@ class GeometricProduct(VectorScene):
         self.wait(NOMINAL_WAIT_TIME)
         
         z1_plus_z2 = MathTex(
-            "z_1 + z_2", "=", "(a + c)", "+", "(b - d)", "i",
-            # "z_1 + z_2 = (a + c) + (b - d) i",
-            # tex_to_color_map={"i": BLUE_C},
+            "z_1 + z_2 = (a + c) + (b - d) i",
+            tex_to_color_map={"i": BLUE_C},
             color=WHITE, font_size=int(3 * TITLE_FONTSIZE / 3)
         ).to_edge(UP).shift(DOWN *4)
-        z1_plus_z2[-1].set_color(BLUE_C)
 
         self.play(
             Write(z1_plus_z2),
@@ -729,10 +716,8 @@ class GeometricProduct(VectorScene):
         
         self.wait(NOMINAL_WAIT_TIME)
         
-        
-        
         # * ______________________________________________________________________
-        self.next_section("Bivector Setup", skip_animations=True)
+        self.next_section("Wedge Simplification", skip_animations=False)
         # * ______________________________________________________________________
         
         # Create a grid
@@ -774,10 +759,10 @@ class GeometricProduct(VectorScene):
         
         # Lavbel the basis vectors u and v (u is red, v is blue)
         u_label = MathTex(
-            uterm, color=RED, font_size=int(3 * TITLE_FONTSIZE / 3)
+            "\\mathbf{u}", color=RED, font_size=int(3 * TITLE_FONTSIZE / 3)
         ).next_to(basis_vectors[0], DOWN)
         v_label = MathTex(
-            vterm, color=BLUE, font_size=int(3 * TITLE_FONTSIZE / 3)
+            "\\mathbf{v}", color=BLUE, font_size=int(3 * TITLE_FONTSIZE / 3)
         ).next_to(basis_vectors[1], LEFT)
         
         left_rotation_symbol = MathTex(
@@ -794,79 +779,41 @@ class GeometricProduct(VectorScene):
             runtime=2
         )
         
-        uterm.set_color(RED)
-        vterm.set_color(BLUE)
+        # self.add(
+        #     index_labels(geo_prod_tex[0], color=RED),
+        #     )
         
-        geo_prod_tex[0] = uterm
-        geo_prod_tex[1] = vterm
-        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5))
-        
-        geo_prod_tex[3] = uterm
-        geo_prod_tex[5] = vterm
-        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5))
-        
-        geo_prod_tex[-3] = uterm
-        geo_prod_tex[-1] = vterm
-        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5))
 
         self.wait(NOMINAL_WAIT_TIME)
         
-        e1_term = MathTex( "\\mathbf{e_1}" ).set_color(RED)
-        e2_term = MathTex( "\\mathbf{e_2}" ).set_color(BLUE)
+        # In all the equations above, transform u and v to \mathbf{e}_1 and \mathbf{e}_2, keeping the colors
+        u_label_new = MathTex(
+            "\\mathbf{e}_1", color=RED, font_size=int(3 * TITLE_FONTSIZE / 3)
+        ).next_to(basis_vectors[0], DOWN)
+        v_label_new = MathTex(
+            "\\mathbf{e}_2", color=BLUE, font_size=int(3 * TITLE_FONTSIZE / 3)
+        ).next_to(basis_vectors[1], LEFT)
+        u_label_new.z_index = 10
+        v_label_new.z_index = 10
         
-        geo_prod_tex.shift(RIGHT*0.75)
+        geo_prod_tex_new = MathTex(
+            "\\mathbf{e}_1 \\mathbf{e}_2 = \\mathbf{e}_1 \\wedge \\mathbf{e}_2 + \\mathbf{e}_1 \\cdot \\mathbf{e}_2",
+            tex_to_color_map={"\\mathbf{e}_1": RED, "\\mathbf{e}_2": BLUE},
+            color=WHITE, font_size=int(4 * TITLE_FONTSIZE / 3)
+        ).to_corner(UL).shift(DOWN *0.75)
         
-        geo_prod_tex[0] = e1_term
-        geo_prod_tex[1] = e2_term
         
-        u_label[0] = e1_term
-        v_label[0] = e2_term
-        
-        self.play( 
-            TransformInStages.progress(geo_prod_tex, lag_ratio=0.5),
-            TransformInStages.progress(u_label, lag_ratio=0.5),
-            TransformInStages.progress(v_label, lag_ratio=0.5)
+
+        self.play(
+            ReplacementTransform(u_label, u_label_new),
+            ReplacementTransform(v_label, v_label_new),
+            ReplacementTransform(geo_prod_tex, geo_prod_tex_new),
+            # Transform(geo_prod_box, geo_prod_box_new),
+            run_time=3
         )
-        
-        geo_prod_tex[3] = e1_term
-        geo_prod_tex[5] = e2_term
-        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5))
-        
-        geo_prod_tex[-3] = e1_term
-        geo_prod_tex[-1] = e2_term
-        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5))
+        self.wait(PAUSE_WAIT_TIME)
         
         u_line, v_line, polygon_pts, bivector_polygon = construct_bivector(self, basis_vectors[0], basis_vectors[1])
-        # Set the lines and points of the polygon to always update position with their respective vectors
-
-        u_line.always_redraw(
-            lambda i=i: basis_vectors[0].get_start() + (basis_vectors[0].get_end() - basis_vectors[0].get_start()) * i
-        )
-
-        u_line.add_updater(lambda m: m.put_start_and_end_on(
-            basis_vectors[1].get_end(), 
-            basis_vectors[1].get_end() + (u_line.get_end() - basis_vectors[1].get_end()) )
-            
-            # /(1*np.linalg.norm(u_line.get_end() - basis_vectors[1].get_end()))
-            # )
-        )
-        v_line.add_updater(lambda m: m.put_start_and_end_on(
-            basis_vectors[0].get_end(),
-            # basis_vectors[0].get_end() - (u_line.get_end() - basis_vectors[0].get_end()),
-            # u_line.get_end(),
-            basis_vectors[1].get_end() + (v_line.get_end() - basis_vectors[1].get_end()) 
-            
-            # u_line.get_end()
-        ))
-        
-        bivector_polygon.add_updater(lambda m: m.set_points_as_corners([
-            basis_vectors[0].get_start(),
-            basis_vectors[0].get_end(),
-            v_line.get_end(),
-            u_line.get_start(),
-        ]))
-                    
-
         
         self.play(
             Write(left_rotation_symbol),
@@ -874,96 +821,26 @@ class GeometricProduct(VectorScene):
         )
         self.wait(NOMINAL_WAIT_TIME)
         
-        # * ______________________________________________________________________
-        self.next_section("Wedge Simplification", skip_animations=True)
-        # * ______________________________________________________________________
         
-        
-        # dot_product_part = geo_prod_tex[3] +  geo_prod_tex[4] + geo_prod_tex[5]
-        
-        cross = Cross(geo_prod_tex[3] +  geo_prod_tex[4] + geo_prod_tex[5] ).scale(0.35)
+        # cross = Cross().move_to( geo_prod_tex[4][0].get_center()) 
+        cross = Cross(geo_prod_tex[4:7])
         self.play(
             Write(cross),
-            Indicate(geo_prod_tex[3], rate_func=there_and_back),
-            Indicate(geo_prod_tex[4], rate_func=there_and_back),
-            Indicate(geo_prod_tex[5], rate_func=there_and_back),
-            run_time=3
-        )
-        self.wait(NOMINAL_WAIT_TIME)
-        
-        
-        geo_prod_tex[4:8] = ""
-        self.play(
-                FadeOut(cross), 
-                  TransformInStages.progress(geo_prod_tex, lag_ratio=0.5)
-                  )
-        
-        box_wedge_simple = SurroundingRectangle(
-            geo_prod_tex, buff=0.3, color=WHITE, corner_radius=0.005
-        )
-        
-        self.play(
-            Create(box_wedge_simple),
+            Indicate(geo_prod_tex[4:7], rate_func=there_and_back),
             run_time=2
         )
         
-        self.wait(PAUSE_WAIT_TIME)
-        
-        # * ______________________________________________________________________
-        self.next_section("Dot Simplification", skip_animations=False)
-        # * ______________________________________________________________________
-
-
-        
         self.wait(NOMINAL_WAIT_TIME)
         
-
-        # v_label = e1_term
-        # v_label.move_to(basis_vectors[1].get_center() + LEFT * 0.5)
-        v_label[0] = u_label.copy()
-        
-        
-        # Fade out the parallelogram and the rotation symbol, then rotate e_2 by 90 degrees clockwise about OUT
         self.play(
-            # FadeOut(u_line),
-            # FadeOut(v_line),
-            # FadeOut(bivector_polygon),
-            FadeOut(left_rotation_symbol),
-            # basis_vectors[1].animate.rotate(-PI / 2, about_point=basis_vectors[0].get_start()),
-            # Rotate the u_line as well
-            u_line.animate.rotate(-PI / 2, axis=OUT, about_point=basis_vectors[0].get_start()),
-            basis_vectors[1].animate.rotate(-PI / 2, axis=OUT, about_point=basis_vectors[0].get_start()),
-
-            TransformInStages.progress(v_label, lag_ratio=0.5),
-            runtime=5
+            FadeOut(cross),
+            # geo_prod_tex[4:7].animate.set_color(RED),
+            ReplacementTransform(
+                geo_prod_tex[4:7], MathTex("").move_to(geo_prod_tex[4:7].get_center())
+            ),
+            run_time=2
         )
-        
-        self.play(
-            basis_vectors[1].animate.set_color(RED),
-            runtime=1
-            
-        )
-        
-#         # * Copy the equation first
-        # geo_prod_tex_copy = geo_prod_tex.copy().shift(RIGHT*3)
-        
-        # geo_prod_tex_copy[1] = e1_term
-        # geo_prod_tex_copy[-2] = "\\cdot"
-        # geo_prod_tex_copy[-1] = e1_term
-        
-        # self.play(
-        #     TransformInStages.from_copy(geo_prod_tex, geo_prod_tex_copy, lag_ratio=0.5),
-        # )
-        
-        # self.play(
-        #     FadeOut(cross),
-        #     # geo_prod_tex[4:7].animate.set_color(RED),
-        #     ReplacementTransform(
-        #         geo_prod_tex[4:7], MathTex("").move_to(geo_prod_tex[4:7].get_center())
-        #     ),
-        #     run_time=2
-        # )
-        # self.wait(NOMINAL_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
 
         
         
