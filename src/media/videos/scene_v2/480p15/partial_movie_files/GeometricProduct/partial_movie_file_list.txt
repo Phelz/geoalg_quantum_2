@@ -1,4 +1,0 @@
-# This file is used internally by FFMPEG.
-file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/scene_v2/480p15/partial_movie_files/GeometricProduct/624642324_3225336045_4154858951.mp4'
-file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/scene_v2/480p15/partial_movie_files/GeometricProduct/624642324_1038707267_4081931900.mp4'
-file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/scene_v2/480p15/partial_movie_files/GeometricProduct/624642324_2274550743_2862390088.mp4'
