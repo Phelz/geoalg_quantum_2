@@ -29,3 +29,8 @@ class OpeningQuote(Scene):
         self.wait(1)
         self.play(Write(author, run_time = 3))
         self.wait()
+        
+        # Fade everything out
+        self.play(
+            [FadeOut(mob) for mob in self.mobjects]
+        )

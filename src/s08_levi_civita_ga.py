@@ -55,6 +55,7 @@ class LeviCivitaGA(Scene):
             pseudoscalar_dagger_outer_prod.get_corner(DR) + 2.5*np.array([0.1, -0.1, 0]),
             pseudoscalar_dagger_outer_prod.get_corner(DL) + 2.5*np.array([-0.1, -0.1, 0]),
         ]
+        
         pseudoscalar_dagger_box = Polygon(*rect_corners, color=WHITE)
         self.play(Create(pseudoscalar_dagger_box), run_time=2)
         self.wait(NOMINAL_WAIT_TIME)
