@@ -11,7 +11,7 @@ class OuterProduct(Scene):
     def construct(self):
         
         # * ______________________________________________________________________
-        self.next_section("Title", skip_animations=True)
+        self.next_section("Title", skip_animations=False)
         # * ______________________________________________________________________
         
         title = Tex(
@@ -23,7 +23,7 @@ class OuterProduct(Scene):
         
         
         # * ______________________________________________________________________
-        self.next_section("Summation equation", skip_animations=True)
+        self.next_section("Summation equation", skip_animations=False)
         # * ______________________________________________________________________
         
         A_term = MathTex("A", color=RED)
@@ -64,7 +64,7 @@ class OuterProduct(Scene):
         
         
         # * ______________________________________________________________________
-        self.next_section("Expanded Summation equation", skip_animations=True)
+        self.next_section("Expanded Summation equation", skip_animations=False)
         # * ______________________________________________________________________
         
         
@@ -91,7 +91,7 @@ class OuterProduct(Scene):
 
                 
         # * ______________________________________________________________________
-        self.next_section("Full expansion", skip_animations=True)
+        self.next_section("Full expansion", skip_animations=False)
         # * ______________________________________________________________________
         
         # Fully expand the sum 
@@ -137,7 +137,7 @@ class OuterProduct(Scene):
         
         
         # * ______________________________________________________________________
-        self.next_section("Cancellation", skip_animations=True)
+        self.next_section("Cancellation", skip_animations=False)
         # * ______________________________________________________________________
         
         # Fade out the wedge_expanded
@@ -180,7 +180,7 @@ class OuterProduct(Scene):
         
         
         # * ______________________________________________________________________
-        self.next_section("Removing Orthogonal Terms", skip_animations=True)
+        self.next_section("Removing Orthogonal Terms", skip_animations=False)
         # * ______________________________________________________________________
 
 
@@ -212,12 +212,9 @@ class OuterProduct(Scene):
         self.next_section("Rearranging Terms", skip_animations=False)
         # * ______________________________________________________________________
 
-        # Put the e1e2 and e2e1 terms together
-        full_expansion_line1[-1] = full_expansion_line2[1].copy()        
-        full_expansion_line2[1] = full_expansion_line1[-1].copy()
-        
+        # Swap locations of the e1e3 and e2e1 terms
         self.play(
-            TransformInStages.progress(full_expansion_line1, lag_ratio=0.25),
-            TransformInStages.progress(full_expansion_line2, lag_ratio=0.25),
-            run_time=3
+            e1e3_term.animate.move_to(e2e1_term),
+            e2e1_term.animate.move_to(e1e3_term),
+            run_time=2
         )
