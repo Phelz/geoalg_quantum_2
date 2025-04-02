@@ -19,7 +19,7 @@ class Intro(Scene):
 
         # Author
         name = MarkupText(
-            f'by Filobateer Ghaly', color=BLUE_D, font_size=int(2.5*dfs.TITLE_FONTSIZE/3)
+            f'Filobateer Ghaly', color=BLUE_D, font_size=int(2.5*dfs.TITLE_FONTSIZE/3)
         ).shift(DOWN)
 
         self.play(Write(name), run_time=2, shift=DOWN*2)
