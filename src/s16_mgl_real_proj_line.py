@@ -13,7 +13,11 @@ class RealProjectiveLine(Scene):
             font_size=TITLE_FONTSIZE*1.5,)
         title.to_corner(UL)
         title.set_color(BLUE_D)
-        title.fix_in_frame()
+        # title.fix_in_frame()
+        
+        title.z_index = 10
+            
+        
         
         self.play(
             Write(title),
@@ -26,14 +30,14 @@ class RealProjectiveLine(Scene):
 
         plane = NumberPlane(
             x_range=[-7, 7, 1],
-            y_range=[-5, 5, 1],
+            y_range=[-7, 7, 1],
             # background_line_style={
             #     "stroke_color": BLUE_D,
-            #     "stroke_width": 1,
-            #     "stroke_opacity": 1
+            #     "stroke_width": 0.5,
+            #     "stroke_opacity": 0.75
             # },
             # faded_line_style={
-            #     # "stroke_color": BLUE_D,
+            #     "stroke_color": BLUE_D,
             #     "stroke_width": 0.5,
             #     "stroke_opacity": 1
             # },
@@ -41,18 +45,28 @@ class RealProjectiveLine(Scene):
             width=15,
         )
         
+        
+        bg_rect_title = BackgroundRectangle(
+            title,
+            color=BLACK,
+            buff=0.3,)
+        bg_rect_title.z_index = 9
+        
+        
+        
         self.play(
             ShowCreation(plane),
+            ShowCreation(bg_rect_title),
             run_time=2,
         )
+        self.wait(NOMINAL_WAIT_TIME)
         
-        # * Signify the artist by a dot at the origin
+        # * Signify the artist by a dot at the ORIGIN
         # * ______________________________________________________________________
-        origin = plane.c2p(0, 0)
         
         
         artist_dot = Dot(
-            origin,
+            ORIGIN,
             color=YELLOW,
             radius=0.1,
         )
@@ -72,7 +86,7 @@ class RealProjectiveLine(Scene):
         
         
         self.play(
-            Flash(origin, color=YELLOW),
+            Flash(ORIGIN, color=YELLOW),
             Write(artist_tex),
             run_time=3,
         )
@@ -134,7 +148,7 @@ class RealProjectiveLine(Scene):
         # * Draw some points for the artist to draw
         # * ______________________________________________________________________
         dot_x_pos = np.array([-4, -2, 0, 2, 4])
-        dot_y_pos = np.ones(len(dot_x_pos)) * 1.75
+        dot_y_pos = np.ones(len(dot_x_pos)) * 2
         
         dots = VGroup()
         for x, y in zip(dot_x_pos, dot_y_pos):
@@ -156,12 +170,12 @@ class RealProjectiveLine(Scene):
         )
         self.wait(NOMINAL_WAIT_TIME)
         
-        # # * Draw lines connecting the dots to the origin
+        # # * Draw lines connecting the dots to the ORIGIN
         # # * ______________________________________________________________________
         lines = VGroup()
         for dot in dots:
             line = Line(
-                start=origin,
+                start=ORIGIN,
                 end=dot.get_center(),
                 color=BLUE_B,
                 stroke_width=2,
@@ -290,7 +304,7 @@ class RealProjectiveLine(Scene):
         
         # Extend the lines to the back of the camera
         dots_x_pos_behind = dot_x_pos * -1
-        dots_y_pos_behind = np.ones(len(dot_x_pos)) * -1.75
+        dots_y_pos_behind = np.ones(len(dot_x_pos)) * -2
         
         dots_behind = VGroup()
         lines_behind = VGroup()
@@ -314,7 +328,7 @@ class RealProjectiveLine(Scene):
             dots_behind.add(dot)
             
             line = Line(
-                start=origin,
+                start=ORIGIN,
                 end=dot.get_center(),
                 color=BLUE_B,
                 stroke_width=2,
@@ -394,23 +408,22 @@ class RealProjectiveLine(Scene):
         # Get the coords of the dots
         last_dot = dots[-1]
         dot_y_0_5 = pts_at_y_0_5[-1]
-        last_dot_behind = dots_behind[-1]
         
         last_dot_coords_point = plane.p2c(last_dot.get_center())
         dot_y_0_5_coords_point = plane.p2c(dot_y_0_5.get_center())
-        last_dot_behind_coords_point = plane.p2c(last_dot_behind.get_center())
+
         
         space = " \ "
         # Write out the coords of the dot_y_0_5 on screen in (x, y) format
         ldot_tex_lbra, ldot_coord_1, comma, ldot_coord_2, ldot_tex_lket = ldot_label = VGroup(
             Text("("),
-            DecimalNumber(last_dot_coords_point[0], num_decimal_places=2,
+            DecimalNumber(last_dot_coords_point[0], num_decimal_places=1,
                           text_config={
                               'font': 'Comic Sans MS',
                           }
                           ),
-            TexText(",  "),
-            DecimalNumber(last_dot_coords_point[1], num_decimal_places=2),
+            Tex(",  "),
+            DecimalNumber(last_dot_coords_point[1], num_decimal_places=1),
             Text(")"),
         )
         ldot_label.arrange(RIGHT, buff=0.1)
@@ -420,18 +433,24 @@ class RealProjectiveLine(Scene):
         ).shift(UP * 0.5 + RIGHT*1.25)
         
         # Copy
+        
+        last_dot_copy = last_dot.copy().set_opacity(0.5)
+        last_dot_copy.move_to(last_dot.get_center())
+        
+        last_dot_coords_copy = plane.p2c(last_dot_copy.get_center())
+        
         ldot_tex_lbra_copy, ldot_coord_1_copy, comma_copy, ldot_coord_2_copy, ldot_tex_lket_copy = ldot_label_copy = VGroup(
             Text("("),
-            DecimalNumber(last_dot_coords_point[0], num_decimal_places=2),
-            Text(", "),
-            DecimalNumber(last_dot_coords_point[1], num_decimal_places=2),
+            DecimalNumber(last_dot_coords_copy[0], num_decimal_places=1),
+            Tex(", "),
+            DecimalNumber(last_dot_coords_copy[1], num_decimal_places=1),
             Text(")"),
         )
         ldot_label_copy.arrange(RIGHT, buff=0.1)
         ldot_label_copy.set_color(BLUE_B).move_to(
             last_dot.get_center(),
             aligned_edge=DOWN,
-        ).shift(DOWN * 0.5 + RIGHT*1.25)
+        ).shift(DOWN * 0.75 + RIGHT*1.25)
         
         self.play(
             Write(ldot_label),
@@ -443,6 +462,268 @@ class RealProjectiveLine(Scene):
             run_time=1,
         )
         
+
+        ldot_label_copy.add_updater(lambda m: m.move_to(last_dot_copy.get_center(), aligned_edge=DOWN).shift(DOWN * 0.75 + RIGHT*1.25))
+        
+        def get_x_coord():
+            return plane.p2c(last_dot_copy.get_center())[0]
+        def get_y_coord():
+            return plane.p2c(last_dot_copy.get_center())[1]
+        
+        f_always(ldot_coord_1_copy.set_value, get_x_coord)
+        f_always(ldot_coord_2_copy.set_value, get_y_coord)
+        
+        
+        
+        self.play(
+            last_dot_copy.animate.move_to(
+                intersection_pts[-1].get_center(),
+            ),
+            run_time=3,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # * LAMBDA Scaling
+        # * ______________________________________________________________________
+        
+        lambda_tex = Tex(
+            r"\lambda",
+            font_size=TITLE_FONTSIZE*1.2,
+        ).set_color(YELLOW_C).next_to(ldot_label, LEFT, buff=0.1)
+        
+        self.play(
+            Write(lambda_tex),
+            run_time=3,
+        )
+        
+        self.play(
+            FlashAround(lambda_tex, color=YELLOW_C, buff=0.2),
+            run_time=3,
+        )
+        
+        self.wait(NOMINAL_WAIT_TIME)
+        one_half = Tex(
+            r"\frac{1}{2}",
+            font_size=TITLE_FONTSIZE*1.2,
+        ).set_color(YELLOW_C).move_to(
+            lambda_tex.get_center(),
+        )
+        self.play(
+            ReplacementTransform(lambda_tex, one_half),
+            run_time=3,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        
+        # Repeat the same procedure for the last_dot_behind
+        # Write out the coords of the dot_y_0_5 on screen in (x, y) format
+        last_dot_behind = dots_behind[-1]
+        last_dot_behind_coords_point = plane.p2c(last_dot_behind.get_center())
+        
+        lambda_decimal_descriptor, ldot_behind_tex_lbra, ldot_behind_coord_1, comma, ldot_behind_coord_2, ldot_behind_tex_lket = ldot_behind_label = VGroup(
+            DecimalNumber(-0.5, num_decimal_places=1),
+            Text("("),
+            DecimalNumber(last_dot_behind_coords_point[0], num_decimal_places=1),
+            Tex(",  "),
+            DecimalNumber(last_dot_behind_coords_point[1], num_decimal_places=1),
+            Text(")"),
+        )
+        ldot_behind_label.arrange(RIGHT, buff=0.1)
+        ldot_behind_label.set_color(BLUE_B).move_to(
+            last_dot_behind.get_center(),
+            aligned_edge=DOWN,
+        ).shift(UP * 0.75 + LEFT*0.8)
+        ldot_behind_label[0].set_color(YELLOW_C)
+        
+        self.play(
+            Write(ldot_behind_label),
+            run_time=2,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        ldot_behind_copy = last_dot_behind.copy().set_opacity(0.5)
+        ldot_behind_copy.move_to(last_dot_behind.get_center())
+        
+
+        ldot_behind_label.add_updater(lambda m: m.move_to(ldot_behind_copy.get_center(), aligned_edge=DOWN).shift(UP * 0.75 + LEFT*0.8))
+        
+        def get_x_coord_behind():
+            return plane.p2c(ldot_behind_copy.get_center())[0]
+        def get_y_coord_behind():
+            return plane.p2c(ldot_behind_copy.get_center())[1]
+
+        def get_lambda_decimal():
+            x_ldot_behind = plane.p2c(ldot_behind_copy.get_center())[0]
+            x_intersection = plane.p2c(intersection_pts[-1].get_center())[0]
+            ratio = x_intersection / x_ldot_behind
+            return ratio
+        lambda_decimal_descriptor.add_updater(lambda m: m.set_value(get_lambda_decimal()))    
+        
+        
+        f_always(ldot_behind_coord_1.set_value, get_x_coord_behind)
+        f_always(ldot_behind_coord_2.set_value, get_y_coord_behind) 
+        
+        
+        self.play(
+            ldot_behind_copy.animate.move_to(
+            lines_behind[-1].point_from_proportion(0.5),
+            ),
+            run_time=3,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        self.play(
+            ldot_behind_copy.animate.move_to(
+            lines_behind[-1].point_from_proportion(0.25),
+            ),
+            run_time=3,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # *3. Extend the lines
+        # * ______________________________________________________________________
+        
+        # Extend the y=2x line
+        start = np.array([8, 4])
+        end = - start 
+        new_line = Line(
+            start=start,
+            end=end,
+            color=BLUE_B,
+            stroke_width=4,
+        )
+        self.play(
+            FadeOut(lines_behind[-1]),
+            FadeOut(lines[-1]),
+            FadeIn(new_line),
+            run_time=3,
+        )
+        # Fadeout all other lines and dots completely
+        self.play(
+            *[
+            item.animate.set_opacity(0)
+            for group in [lines_behind[:-1], dots_behind[:-1], intersection_pts[:-1], dots[:-1], lines[:-1], pts_at_y_0_5[:-1]]
+            for item in group
+            ],
+            run_time=1,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # *4. Describe the line
+        # * ______________________________________________________________________
+        y = "y"
+        equal = "="
+        m = "m"
+        x = "x"
+        plus = "+"
+        b = "b"
+        
+        
+        line_equation = Tex(
+            y, space, equal, space, m, x, space, plus, space, b,
+            font_size=TITLE_FONTSIZE*1.5,
+            ).set_color(BLUE_B).to_edge(RIGHT).shift(DOWN*2 + LEFT*2)
+
+        bg_rect_tex = BackgroundRectangle(
+            line_equation,
+            color=BLACK,
+            buff=0.6)
+        
+        # Create a custom rectangle instead
+        # custom_rect = Rectangle(
+        #     width=line_equation.get_width() + 0.5,
+        #     height=line_equation.get_height() + 2,
+        #     color=BLACK,)
+        # custom_rect.move_to(line_equation.get_center())
+        # custom_rect.set_fill(color=BLACK, opacity=1)
+        
+        bg_rect_tex.z_index = 9
+        line_equation.z_index = 10
+        
+        # line_equation.shift(DOWN*0.65)
+        
+        self.play(
+            ShowCreation(bg_rect_tex),
+            run_time=3,
+        )
+        
+        self.play(
+            Write(line_equation),
+            run_time=3,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        # Cross out the b term
+        cross_b = Cross(
+            line_equation[-1],
+            stroke_width=4,
+            color=RED,
+        )
+        self.play(
+            ShowCreation(cross_b),
+            run_time=3,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        line_equation_iteration_1 = Tex(
+            y, space, equal, space, m, x,
+            font_size=TITLE_FONTSIZE*1.5,
+            ).set_color(BLUE_B).move_to(
+            line_equation.get_center(),
+            aligned_edge=DOWN,)
+            
+        line_equation_iteration_1.z_index = 10
+        # .to_edge(RIGHT).shift(DOWN*0.5 + LEFT*2.5)
+        
+        self.play(
+            TransformMatchingTex(line_equation, line_equation_iteration_1),
+            FadeOut(cross_b),
+            run_time=3,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+            
+        line_equation_iteration_2 = Tex(
+            r"\frac{y}{x}", space, equal, space, m,
+            font_size=TITLE_FONTSIZE*1.5,
+            ).set_color(BLUE_B).move_to(
+            line_equation_iteration_1.get_center(),
+            aligned_edge=DOWN,
+            ).shift(DOWN*0.5)
+        #.to_edge(RIGHT).shift(DOWN*1 + LEFT*2.25)
+        
+        line_equation_iteration_2.z_index = 10
+        
+        self.play(
+            TransformMatchingTex(line_equation_iteration_1, line_equation_iteration_2),
+            run_time=3,
+        )
+        self.wait(NOMINAL_WAIT_TIME)      
+        
+        # Scale by lambda
+        line_equation_iteration_3 = Tex(
+            r"\frac{ \lambda  y}{ \lambda  x}", space, equal, space, m,
+            font_size=TITLE_FONTSIZE*1.5,
+            isolate=[r"\lambda"]
+            ).set_color(BLUE_B).move_to(
+            line_equation_iteration_2.get_center(),
+            aligned_edge=DOWN,
+            )
+        
+        line_equation_iteration_3.z_index = 10
+        
+        #.to_edge(RIGHT).shift(DOWN*1 + LEFT*2.25)  
+        line_equation_iteration_3.set_color_by_tex(r"\lambda", YELLOW_C)
+        
+        self.play(
+            ReplacementTransform(line_equation_iteration_2, line_equation_iteration_3),
+            run_time=3,
+        )
+        
+        self.wait(NOMINAL_WAIT_TIME)
+
+        #     1,
+        #     num_decimal_places=1,
+        #     color=YELLOW_C,
+        # ).next_to(lambda_tex, RIGHT, buff=0.1)
         
         
 
