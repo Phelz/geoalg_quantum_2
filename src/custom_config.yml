@@ -21,7 +21,8 @@ camera:
 file_writer:
   saturation: 1.5
 text:
-  font: "CMU Serif"
+  # font: "CMU Serif"
+  font: "Arial"
   alignment: "CENTER"
 tex:
   template: "default"

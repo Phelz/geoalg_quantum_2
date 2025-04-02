@@ -107,4 +107,14 @@ class ProjectiveGeometry(Scene):
             Write(pt_inf_label),
             run_time=2,
         )
+        self.wait(PAUSE_WAIT_TIME)
+        
+        # Fadeout Everything
+        self.play(
+            FadeOut(plane),
+            FadeOut(graph),
+            FadeOut(graph_label),
+            FadeOut(pt_inf_label),
+            run_time=2,
+        )
         self.wait(NOMINAL_WAIT_TIME)
