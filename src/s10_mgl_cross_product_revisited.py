@@ -60,89 +60,202 @@ class CrossProductRevisited(ThreeDScene):
         
         # Set height (zoom in)
         self.camera.frame.set_height(5)
-        
+
         self.play(
             ShowCreation(axes),
-            run_time=3,
-        )
-        self.play(
+            
             self.camera.frame.animate.set_euler_angles(
                 theta=45*DEGREES + 15*DEGREES,
-                phi=70*DEGREES,
+                phi=60*DEGREES,
             ),
             run_time=3,
         )
         self.camera.frame.add_ambient_rotation(10*DEGREES)
         
-        origin = axes.c2p(0,0,0)
-
+        # * Vectors 
+        # * ________________________________________________________________________
+        
+        
         # Create three vectors, A, B and C
         vec_a_num = 0.35*np.array([4, -3, 2])
         vec_b_num = 0.35*np.array([2,  1.5, -1.5])
         vec_n_num = np.cross(vec_a_num, vec_b_num)
         
-        vec_a = Line3D(ORIGIN, vec_a_num).set_color(RED)
-        vec_b = Line3D(ORIGIN, vec_b_num).set_color(BLUE)
-        vec_n = Line3D(ORIGIN, vec_n_num).set_color(YELLOW)
+        vec_a = Vector(vec_a_num).set_color(RED)
+        vec_b = Vector(vec_b_num).set_color(BLUE)
+        vec_n = Vector(vec_n_num).set_color(YELLOW)
         
-        tip_a = Cone(u_range=(1, 1), v_range=(1, 1), radius=0.4, axis=vec_a_num).set_color(RED).move_to(vec_a.get_end())
-        tip_b = Cone(u_range=(1, 1), v_range=(1, 1), radius=0.4, axis=vec_b_num).set_color(BLUE).move_to(vec_b.get_end())
-        tip_n = Cone(u_range=(1, 1), v_range=(1, 1), radius=0.4, axis=vec_n_num).set_color(YELLOW).move_to(vec_n.get_end())
         
         self.play(
             GrowFromCenter(vec_a),
             GrowFromCenter(vec_b),
             GrowFromCenter(vec_n),
+            run_time=2,
+        )
+        
+        # * Plane
+        # * ________________________________________________________________________
+        
+        lines_kwags = {"stroke_width": 2, "color": BLUE_B, "stroke_opacity": 0.4}
+        lines_a = VGroup(*[
+            Line(
+                start = axes.c2p(*[-1.5*comp_a + s*comp_b for comp_a, comp_b in zip(vec_a_num, vec_b_num)]), 
+                end  =  axes.c2p(*[+1.5*comp_a + s*comp_b for comp_a, comp_b in zip(vec_a_num, vec_b_num)]), 
+                **lines_kwags
+            )
+            for s in np.linspace(-1.5,1.5,7)
+        ])
 
-            run_time=3,
+        lines_b = VGroup(*[
+            Line(
+                start = axes.c2p(*[r*comp_a - 1.5*comp_b for comp_a, comp_b in zip(vec_a_num, vec_b_num)]), 
+                end  =  axes.c2p(*[r*comp_a + 1.5*comp_b for comp_a, comp_b in zip(vec_a_num, vec_b_num)]), 
+                **lines_kwags
+            )
+            for r in np.linspace(-1.5,1.5,7)
+        ])
+        neg_vec_n = Vector(-1*vec_n_num).set_color(YELLOW).set_opacity(0)
+        self.add(neg_vec_n)
+        
+
+
+        
+        # parallelogram = Polygon(
+        #     vec_a.get_start(),
+        #     vec_a.get_end(),
+        #     vec_b.get_end(),
+        #     vec_b.get_start(),
+        #     color=BLUE_B,
+        # ).set_opacity(0)
+        # self.add(parallelogram)
+
+        big_rect = VGroup3D()
+        big_rect.set_points_as_corners([
+            lines_a[0].get_start(),
+            lines_b[0].get_end(), 
+            lines_a[-1].get_end(),
+            lines_b[-1].get_start(),
+            lines_a[0].get_start()
+        ])
+        big_rect.set_fill(color = BLUE_B, opacity = 0.1)
+        big_rect.set_stroke(width = 0.1, color = GREY)
+        
+        
+        self.play(ShowCreation(lines_a), ShowCreation(lines_b), 
+                  ShowCreation(big_rect),
+                  run_time = 2)
+        self.wait(NOMINAL_WAIT_TIME*3)
+        # self.wait(NOMINAL_WAIT_TIME)
+        
+        # Draw the negative of vec_n and
+        
+        
+        
+        # Stop ambient rotation
+        self.camera.frame.remove_updater(
+            self.camera.frame.get_updaters()[0]
         )
         
         self.play(
-            GrowFromCenter(tip_a),
-            GrowFromCenter(tip_b),
-            GrowFromCenter(tip_n),
+            neg_vec_n.animate.set_opacity(0.5),
+            # Rotate the camerea frame
+            self.camera.frame.animate.set_euler_angles(
+                theta=self.camera.frame.get_euler_angles()[0] - 40*DEGREES,
+                phi=self.camera.frame.get_euler_angles()[1] + 60*DEGREES,
+                # gamma=-10*DEGREES,
+            ),
+            run_time=2,
         )
-        self.wait(10)
-        # Draw a plane like we had in the s06_cross_product.py
-        plane = Polygon(
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        self.play(
+            Indicate(neg_vec_n, color=YELLOW, scale_factor=1.5),
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        self.play(
+            self.camera.frame.animate.set_euler_angles(
+                theta=self.camera.frame.get_euler_angles()[0] + 30*DEGREES,
+                phi=self.camera.frame.get_euler_angles()[1] - 50*DEGREES,
+                # gamma=-10*DEGREES,
+            ),
+            FadeOut(neg_vec_n),
+            run_time=2,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        self.play(
+            FadeOut(big_rect),
+            FadeOut(lines_a),
+            FadeOut(lines_b),
+            
+        )
+        
+                
+        vec_a_line = Line(
+            vec_a.get_start(), vec_a.get_end(), color=WHITE
+        )
+        vec_b_line = Line(
+            vec_b.get_start(), vec_b.get_end(), color=WHITE
+        )
+
+        # Shift vec_a_line's tail to the tip of vec_b
+        self.play(
+            vec_a_line.animate.shift(
+                vec_b.get_end() - vec_a_line.get_start()
+            ),
+            vec_b_line.animate.shift(
+                vec_a.get_end() - vec_b_line.get_start()
+            ),
+            run_time=1,
+        )
+
+        # Create a filled polygon from the tails of all 4 points
+        polygon_pts = [
             vec_a.get_start(),
             vec_a.get_end(),
-            vec_b.get_end(),
-            vec_b.get_start(),
-            color=BLUE_B,
-            fill_opacity=0.5,
+            vec_b_line.get_end(),
+            vec_a_line.get_start(),
+        ]
 
+        bivector_polygon = Polygon(
+            *polygon_pts,
+            color=WHITE,
+            fill_color=BLUE_A,
+            fill_opacity=0.5,
+        )
+        # bivector_polygon.set_stroke(color=BLUE_A, width=10,)
+        
+        # Now draw a curved arrowc
+        cur_arr = CurvedArrow(
+            vec_a.get_end(),
+            vec_b.get_end(),
+            color=YELLOW,
+            angle=PI/2,
         )
         
         self.play(
-            ShowCreation(plane),
-            run_time=3,
+            ShowCreation(cur_arr),
+            run_time=2,
+        )       
+        
+        
+        self.play(
+            ShowCreation(bivector_polygon),
         )
+        self.wait(PAUSE_WAIT_TIME)
         
-        # vec_a_label = Tex("A", font_size=int(3 * TITLE_FONTSIZE / 3)
-        # ).next_to(vec_a, RIGHT).set_color(RED)
-        # vec_b_label = Tex("B",  font_size=int(3 * TITLE_FONTSIZE / 3)
-        # ).next_to(vec_b, UP).set_color(BLUE)
-        
-        # for label in [vec_a_label, vec_b_label]:
-        #     label.fix_in_frame()
-        #     self.play(
-        #         Write(label, run_time=1),
-                
-        #     )
-        
-        # for vec in [vec_a, vec_b]:
-        #     self.play(
-        #         Create(vec),
-        #         runtime=2
-        #     )
-        # self.wait(dfs.NOMINAL_WAIT_TIME)
-        
-        
-        # # Zoom in and shift axes to the right
-        # self.play(
-        #     self.camera.frame.animate.set_field_of_view(50),
-        # )
-        
-        # Create three vectors like we had in the s06_cross_product.py
-        # A_vector = 
+        # Fade out everything
+        self.play(
+            FadeOut(vec_a),
+            FadeOut(vec_b),
+            FadeOut(vec_n),
+            FadeOut(vec_a_line),
+            FadeOut(vec_b_line),
+            FadeOut(bivector_polygon),
+            FadeOut(cur_arr),
+            FadeOut(axes),
+            FadeOut(final_formula_box),
+            FadeOut(final_formula),
+            run_time=2,
+        )
