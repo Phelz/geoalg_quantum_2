@@ -230,7 +230,7 @@ class Rotations(Scene):
         down_arr_ket = r" \ket{ \downarrow }"
         up_arr_ket = r" \ket{ \uparrow }"
         w = "w"
-        z = "z"
+        v = "v"
         qubit_label = Tex("Qubit:", font_size=int(3 * TITLE_FONTSIZE / 3)
         ).to_corner(UR).shift(DOWN*0.25+ LEFT*1.5)
         qubit_label.set_color(BLUE_B)
@@ -238,9 +238,9 @@ class Rotations(Scene):
         
         spin_state = Tex(
             diag_arr_ket, space, equal, space,
-            w, space, up_arr_ket, space,
+            v, space, up_arr_ket, space,
             plus, space,
-            z, space, down_arr_ket)
+            w, space, down_arr_ket)
         spin_state.set_color(BLUE_B)
         spin_state.next_to(qubit_label, DOWN).shift(DOWN*0.25)
         spin_state.fix_in_frame()
@@ -255,7 +255,7 @@ class Rotations(Scene):
         # * Denote that w and z are complex numbers
         
         wz_in_C = Tex(
-            w, ",", z, space, "\in \mathbb{C}",
+            v, ",", w, space, "\in \mathbb{C}",
             font_size=int(3 * TITLE_FONTSIZE / 3)
         ).next_to(spin_state, DOWN).shift(DOWN*0.25)
         wz_in_C.set_color(BLUE_B)
@@ -322,19 +322,19 @@ class Rotations(Scene):
         )
         self.wait(NOMINAL_WAIT_TIME)
 
-        one_over_w = r"\frac{1}{w}"
+        one_over_v = r"\frac{1}{v}"
         u = "u"
         
-        one_over_w_scaled_state = Tex(
-            one_over_w, space, diag_arr_ket,
+        one_over_v_scaled_state = Tex(
+            one_over_v, space, diag_arr_ket,
             space, equal, space, up_arr_ket,
             space, plus, space,
             u, space, down_arr_ket,
         ).set_color(BLUE_B)
-        one_over_w_scaled_state.fix_in_frame()
-        one_over_w_scaled_state.next_to(lambda_scaled_state, DOWN).shift(DOWN*0.25)
+        one_over_v_scaled_state.fix_in_frame()
+        one_over_v_scaled_state.next_to(lambda_scaled_state, DOWN).shift(DOWN*0.25)
         self.play(
-            Write(one_over_w_scaled_state),
+            Write(one_over_v_scaled_state),
             run_time=3,
         )
         self.wait(NOMINAL_WAIT_TIME)
@@ -342,10 +342,10 @@ class Rotations(Scene):
         # Define u below
         u_term = Tex(
             u, space, equal, space,
-            r"\frac{z}{w}")
+            r"\frac{w}{v}")
         u_term.set_color(BLUE_B)
         u_term.fix_in_frame()
-        u_term.next_to(one_over_w_scaled_state, DOWN).shift(DOWN*0.25)
+        u_term.next_to(one_over_v_scaled_state, DOWN).shift(DOWN*0.25)
         self.play(
             Write(u_term),
             run_time=3,
@@ -355,7 +355,7 @@ class Rotations(Scene):
         # Color the denominator
         self.play(
             u_term.animate.set_color_by_tex_to_color_map(
-            {w: RED}
+            {v: RED}
             ),
             run_time=2,
         )
@@ -378,13 +378,13 @@ class Rotations(Scene):
         inf = r"\infty"
         u_term_fixed = Tex(
             u, space, equal, space,
-            r"\frac{z}{0}")
+            r"\frac{w}{0}")
         u_term_fixed.set_color(BLUE_B)
         u_term_fixed.fix_in_frame()
         u_term_fixed.next_to(u_term, DOWN).shift(DOWN*0.25)
         
         u_term_fixed.set_color_by_tex_to_color_map(
-            {w: RED, "0": RED}
+            {v: RED, "0": RED}
         )
         
         self.play(
@@ -395,7 +395,7 @@ class Rotations(Scene):
 
         u_term_fixed_w_inf = Tex(
             inf, space, equal, space,
-            r"\frac{z}{0}", 
+            r"\frac{w}{0}", 
         )
         u_term_fixed_w_inf.set_color(BLUE_B)
         u_term_fixed_w_inf.fix_in_frame()

@@ -41,8 +41,8 @@ class RealProjectiveLine(Scene):
             #     "stroke_width": 0.5,
             #     "stroke_opacity": 1
             # },
-            height=15,
-            width=15,
+            height=16,
+            width=16,
         )
         
         
@@ -103,8 +103,8 @@ class RealProjectiveLine(Scene):
         # * ______________________________________________________________________
         
         line_graph = Line(
-            start=plane.c2p(-7, 1),
-            end=plane.c2p(7, 1),
+            start=plane.c2p(-10, 1),
+            end=plane.c2p(10, 1),
             color=YELLOW_C,
             stroke_width=4,
         )
@@ -201,7 +201,7 @@ class RealProjectiveLine(Scene):
             intersection_pt = Dot(
                 intersection,
                 color=RED_B,
-                radius=0.1,
+                radius=0.125,
             )
             
             intersection_pt.set_fill(RED_B, opacity=0.5)
@@ -311,8 +311,8 @@ class RealProjectiveLine(Scene):
         arrow_from_behind = VGroup()
         
         easel_behind = Line(
-            start=plane.c2p(-7, -1),
-            end=plane.c2p(7, -1),
+            start=plane.c2p(-10, -1),
+            end=plane.c2p(10, -1),
             color=YELLOW_C,
             stroke_width=4,
         ).set_opacity(0)
@@ -629,18 +629,6 @@ class RealProjectiveLine(Scene):
             color=BLACK,
             buff=0.6)
         
-        # Create a custom rectangle instead
-        # custom_rect = Rectangle(
-        #     width=line_equation.get_width() + 0.5,
-        #     height=line_equation.get_height() + 2,
-        #     color=BLACK,)
-        # custom_rect.move_to(line_equation.get_center())
-        # custom_rect.set_fill(color=BLACK, opacity=1)
-        
-        bg_rect_tex.z_index = 9
-        line_equation.z_index = 10
-        
-        # line_equation.shift(DOWN*0.65)
         
         self.play(
             ShowCreation(bg_rect_tex),
@@ -669,9 +657,9 @@ class RealProjectiveLine(Scene):
             font_size=TITLE_FONTSIZE*1.5,
             ).set_color(BLUE_B).move_to(
             line_equation.get_center(),
-            aligned_edge=DOWN,)
+            )
             
-        line_equation_iteration_1.z_index = 10
+        # line_equation_iteration_1.z_index = 10
         # .to_edge(RIGHT).shift(DOWN*0.5 + LEFT*2.5)
         
         self.play(
@@ -686,11 +674,11 @@ class RealProjectiveLine(Scene):
             font_size=TITLE_FONTSIZE*1.5,
             ).set_color(BLUE_B).move_to(
             line_equation_iteration_1.get_center(),
-            aligned_edge=DOWN,
-            ).shift(DOWN*0.5)
+            )
+            #.shift(DOWN*0.75)
         #.to_edge(RIGHT).shift(DOWN*1 + LEFT*2.25)
         
-        line_equation_iteration_2.z_index = 10
+        # line_equation_iteration_2.z_index = 10
         
         self.play(
             TransformMatchingTex(line_equation_iteration_1, line_equation_iteration_2),
@@ -705,10 +693,9 @@ class RealProjectiveLine(Scene):
             isolate=[r"\lambda"]
             ).set_color(BLUE_B).move_to(
             line_equation_iteration_2.get_center(),
-            aligned_edge=DOWN,
             )
+            # .shift(DOWN*0.75)
         
-        line_equation_iteration_3.z_index = 10
         
         #.to_edge(RIGHT).shift(DOWN*1 + LEFT*2.25)  
         line_equation_iteration_3.set_color_by_tex(r"\lambda", YELLOW_C)
@@ -719,6 +706,636 @@ class RealProjectiveLine(Scene):
         )
         
         self.wait(NOMINAL_WAIT_TIME)
+        
+        
+        line_equation_iteration_4 = Tex(
+            r"\frac{y}{x}", space, equal, space, m,
+            font_size=TITLE_FONTSIZE*1.5,
+            ).set_color(BLUE_B).move_to(
+            line_equation_iteration_3.get_center(),
+            )
+            # .shift(DOWN*0.75)
+        
+        line_equation_iteration_4.set_color_by_tex("m", YELLOW_C)
+        self.play(
+            TransformMatchingTex(line_equation_iteration_3, line_equation_iteration_4),
+            # Also FadeOut the decimal descriptor and the lambda_tex
+            FadeOut(lambda_decimal_descriptor),
+            FadeOut(one_half),
+            run_time=3,
+        )
+        self.play(
+            Indicate(line_equation_iteration_4[-1], scale_factor=2, color=YELLOW_C),
+            run_time=3,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # Now set the m = 2
+        line_equation_iteration_5 = Tex(
+            r"\frac{y}{x}", space, equal, space, "2",
+            font_size=TITLE_FONTSIZE*1.5,
+            ).set_color(BLUE_B).move_to(
+            line_equation_iteration_4.get_center(),
+            )
+            # .shift(DOWN*0.75)
+        line_equation_iteration_5.set_color_by_tex("2", YELLOW_C)
+        self.play(
+            TransformMatchingTex(line_equation_iteration_4, line_equation_iteration_5),
+            run_time=3,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # Indicate the intersection point and bring it to the front, making it bigger as well
+        self.play(
+            Indicate(intersection_pts[-1], scale_factor=2, color=RED),
+            run_time=3,
+        )
+        
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # * Clean up 
+        # * ______________________________________________________________________
+        
+        self.play(
+            *[FadeOut(obj) for obj in [
+            line_equation_iteration_5,
+            bg_rect_tex,
+            ldot_label,
+            ldot_label_copy,
+            *ldot_behind_label[1:],
+            dot_y_0_5,
+            ldot_behind_copy,
+            last_dot_copy,
+            dots[-1],
+            dots_behind[-1],
+            
+            ]],
+            run_time=3,
+        )
+        self.wait(PAUSE_WAIT_TIME)
+        # * Rotation scene
+        # * ______________________________________________________________________
+        
+        # Attach the intersection point to where the line meets the easel
+        
+        # Shift the new_line up by one unit
+        def get_intersection():
+            intersection = line_intersection((line_graph.get_start(), line_graph.get_end()), (new_line.get_start(), new_line.get_end()))
+            return intersection
+
+        
+        intersection_pts[-1].add_updater(lambda m: m.move_to(get_intersection()))
+        
+        # Rotate the new line
+        self.play(
+            line_graph.animate.shift(UP*1.05),
+            run_time=3,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        # self.play(
+        #     Rotate(
+        #         new_line,
+        #         angle=PI/8,
+        #         about_point=ORIGIN,
+        #         run_time=3,
+        #     ),
+        # )
+
+
+        # Draw a dot at a specific proportion of the line
+        dot_at_2_1 = Dot(
+            new_line.point_from_proportion(0.3825),
+            color=BLUE_C,
+            radius=0.1,
+        )
+        dot_at_2_1.set_fill(BLUE_A, opacity=1)
+        
+        self.play(
+            ShowCreation(dot_at_2_1),
+            run_time=3,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # Add a trace to the path of the dot
+        trace = TracedPath(
+            dot_at_2_1.get_center,
+            stroke_width=4,
+            stroke_color=BLUE_A,
+            # stroke_opacity=0.5,
+        )
+        self.add(trace)
+        
+        trail = TracingTail(
+            intersection_pts[-1].get_center,
+            stroke_width=4,
+            stroke_color=RED,
+            stroke_opacity=0.75,
+            # time_traced=5,
+        )
+        # trail.z_index = 10
+        self.add(trail)
+        
+        # Make sure the intersection point is always facing the camera
+        
+        # * START ROTATION
+        self.play(
+            Rotate(
+                new_line,
+                angle=PI/2,
+                about_point=ORIGIN,
+                run_time=3,
+            ),
+            Rotate(
+                dot_at_2_1,
+                angle=PI/2,
+                about_point=ORIGIN,
+                axis=OUT,
+                run_time=3,
+            ),
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # * BIG SCENE ROTATION
+        self.play(
+            Rotate(
+                new_line,
+                angle=PI/4,
+                about_point=ORIGIN,
+            ),
+            Rotate(
+                dot_at_2_1,
+                angle=PI/4,
+                about_point=ORIGIN,
+                axis=OUT,
+            ),
+            run_time=7
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+                
+        self.play(
+            Rotate(
+                new_line,
+                angle=PI/4,
+                about_point=ORIGIN,
+            ),
+            Rotate(
+                dot_at_2_1,
+                angle=PI/4,
+                about_point=ORIGIN,
+                axis=OUT,
+            ),
+            run_time=12
+        )
+        self.wait(PAUSE_WAIT_TIME)
+        
+        # Label the point at infinity
+        infinity_tex_right = Tex(
+            "Point", space, "at", space, r"\infty", r"\rightarrow", 
+            font_size=TITLE_FONTSIZE*1.5,
+            ).set_color(BLUE_B).to_edge(RIGHT).shift(UP*1.5)
+        infinity_tex_left = Tex(
+          r"\leftarrow", "Point", space, "at", space, r"\infty",
+            font_size=TITLE_FONTSIZE*1.5,
+            ).set_color(BLUE_B).to_edge(LEFT).shift(UP*1.5)
+        
+        
+        self.play(
+            Write(infinity_tex_right),
+            Write(infinity_tex_left),
+            run_time=3,
+        )
+        self.wait(PAUSE_WAIT_TIME)
+        
+        self.play(
+            Rotate(
+                new_line,
+                angle=-PI/4,
+                about_point=ORIGIN,
+            ),
+            Rotate(
+                dot_at_2_1,
+                angle=-PI/4,
+                about_point=ORIGIN,
+                axis=OUT,
+            ),
+            run_time=7
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # Calculate the angle to rotate the line to y=0
+        current_angle = np.arctan2(new_line.get_end()[1] - new_line.get_start()[1], 
+                       new_line.get_end()[0] - new_line.get_start()[0])
+        target_angle = 0  # For y=0, the line should be horizontal
+        rotation_angle = target_angle - current_angle
+
+        # Rotate the line to y=0
+        self.play(
+            Rotate(
+            new_line,
+            angle=rotation_angle,
+            about_point=ORIGIN,
+            ),
+            Rotate(
+            dot_at_2_1,
+            angle=rotation_angle,
+            about_point=ORIGIN,
+            axis=OUT,
+            ),
+            run_time=3
+        )
+        
+        # Make a copy of new_line and make it yellow and a bit thicker
+        new_line_copy = new_line.copy().set_color(YELLOW_C).set_stroke(width=6)
+        
+        # Label the new line
+        new_line_label = Tex(
+            y, space, equal, space, "0",
+            font_size=TITLE_FONTSIZE*1.5,
+            ).set_color(YELLOW_C).to_edge(RIGHT).shift(DOWN*0.5 + LEFT*0.5)
+        
+        self.play(
+            ShowCreation(new_line_copy),
+            Write(new_line_label),
+            infinity_tex_left.animate.set_color(YELLOW_C),
+            infinity_tex_right.animate.set_color(YELLOW_C),
+            run_time=3,
+        )
+        self.wait(PAUSE_WAIT_TIME)
+        
+        # * DOUBLE ANGLE 
+        # * ______________________________________________________________________
+        
+        # keep_trace_intersection = TracedPath(
+        #     intersection_pts[-1].get_center,
+        #     stroke_width=3,
+        #     stroke_color=RED,
+        #     stroke_opacity=0.9,
+        # )
+        
+
+        # # keep_trace_intersection.z_index = 10
+        # self.add(keep_trace_intersection)
+        
+        self.play(
+            Rotate(
+                new_line,
+                angle=PI/2,
+                about_point=ORIGIN,
+            ),
+            Rotate(
+                dot_at_2_1,
+                angle=PI/2,
+                about_point=ORIGIN,
+                axis=OUT,
+            ),
+            run_time=3
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        self.play(
+            Rotate(
+                new_line,
+                angle=PI/2,
+                about_point=ORIGIN,
+            ),
+            Rotate(
+                dot_at_2_1,
+                angle=PI/2,
+                about_point=ORIGIN,
+                axis=OUT,
+            ),
+            run_time=3
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        self.play(
+            Rotate(
+                new_line,
+                angle=PI,
+                about_point=ORIGIN,
+            ),
+            Rotate(
+                dot_at_2_1,
+                angle=PI,
+                about_point=ORIGIN,
+                axis=OUT,
+            ),
+            run_time=10
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        self.play(
+            Rotate(
+                new_line,
+                angle=2*PI,
+                about_point=ORIGIN,
+                lag_ratio=0.5,
+            ),
+            Rotate(
+                dot_at_2_1,
+                angle=2*PI,
+                about_point=ORIGIN,
+                axis=OUT,
+                lag_ratio=0.5,
+            ),
+            run_time=20
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        
+        # * Final Scene, Transforming the circle into a sphere and the lines into planes
+        # * ______________________________________________________________________
+        # Fade out the infinity labels
+        self.play(
+            FadeOut(infinity_tex_right),
+            FadeOut(infinity_tex_left),
+            FadeOut(title),
+            FadeOut(new_line_label),
+            FadeOut(bg_rect_title),
+            FadeOut(plane),
+            run_time=3,
+        )
+        # Create a circle aroung the traced path, so basically a circle with radius=2 about the origin
+        circle = Circle(
+            radius=2.1,
+            color=BLUE_B,
+            stroke_width=4,
+            stroke_color=BLUE_B,
+            fill_opacity=0.5,
+            fill_color=BLUE_B,
+            
+        )
+        self.play(
+            ShowCreation(circle),
+            run_time=3,
+        )
+        
+        # Draw a 3D axes now
+        axes = ThreeDAxes(
+            x_range=[-10, 10, 1],
+            y_range=[-10, 10, 1],
+            z_range=[-10, 10, 1],
+
+        )
+        self.play(
+            ShowCreation(axes),
+            run_time=3,
+        )
+        
+        # Now add a tracing path to the circle and rotate by 360 to make it a sphere
+
+        circles = VGroup()
+        for i in range(8):  # Create 12 copies for a full rotation
+            new_circle = circle.copy().rotate(
+            angle=(i * 360*DEGREES/16),  # Rotate by 30 degrees each step
+            about_point=ORIGIN,
+            axis=UP,
+            )
+            new_circle.set_opacity(0.25)  # Set opacity for better visualization
+            # Set stroke with BLUE_D color
+            new_circle.set_stroke(width=7, color=BLUE_D)
+            circles.add(new_circle)
+            
+
+        # Do a similar thing with the lines
+        inf_lines = VGroup()
+        for i in range(8):
+            l = new_line.copy().rotate(
+            angle=(i * 360*DEGREES/16),  # Rotate by 30 degrees each step
+            about_point=ORIGIN,
+            axis=UP,
+            )
+            l.set_color(YELLOW_C)
+            l.set_opacity(0.25)
+            l.set_stroke(width=2)
+            inf_lines.add(l)
+            
+        easel_lines = VGroup()
+        for i in range(8):
+            l = line_graph.copy().rotate(
+            angle=(i * 360*DEGREES/16),  # Rotate by 30 degrees each step
+            about_point=ORIGIN,
+            axis=UP,
+            )
+            l.set_color(YELLOW_C)
+            l.set_opacity(0.5)
+            l.set_stroke(width=2)
+            easel_lines.add(l)
+
+        self.play(
+            LaggedStartMap(
+                ShowCreation,
+                circles,
+                lag_ratio=0.5,
+                run_time=10,
+            ),
+            LaggedStartMap(
+                ShowCreation,
+                easel_lines,
+                lag_ratio=0.5,
+                run_time=10,
+            ),
+            LaggedStartMap(
+                ShowCreation,
+                inf_lines,
+                lag_ratio=0.5,
+                run_time=10,
+            ),
+            self.camera.frame.animate.set_euler_angles(
+                theta=70*DEGREES,
+                phi=50*DEGREES,
+            ),
+            FadeOut(circle),
+            
+            run_time=10,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # Fade out the lines and put a rectangle in their place  
+        
+        rectangle_inf_lines = Square3D(
+            side_length=20,
+            u_range=[-0.5, 0.5],
+            v_range=[-0.5, 0.5],
+            color=YELLOW_C,
+        ).set_opacity(0.1)
+        
+        rectangle_easel_lines = Square3D(
+            side_length=20,
+            u_range=[-0.5, 0.5],
+            v_range=[-0.5, 0.5],
+            color=YELLOW_C,
+        ).set_opacity(0.1)
+        rectangle_easel_lines.move_to(
+            new_line.get_center(),
+        )
+        rectangle_easel_lines.rotate(
+            angle=PI/2,
+            # about_point=ORIGIN,
+            axis=RIGHT,
+        )
+
+        # Move its center to the center of the line_graph
+        rectangle_inf_lines.move_to(
+            line_graph.get_center(),
+        )
+        rectangle_inf_lines.rotate(
+            angle=PI/2,
+            # about_point=ORIGIN,
+            axis=RIGHT,
+        )
+        
+        sphere = Sphere(
+            radius=2.1,
+            color=BLUE_B,
+        ).set_opacity(0.75) 
+        # sphere_mesh = SurfaceMesh(
+        #     sphere,
+        #     color=BLUE_D,)
+        
+        self.play(
+            FadeOut(easel_lines),
+            FadeOut(inf_lines),
+            FadeOut(circles),
+            ShowCreation(sphere),
+            
+            run_time=3,
+        )
+
+        self.play(
+            ShowCreation(rectangle_inf_lines),
+            run_time=1,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+     
+        self.play(
+            ShowCreation(rectangle_easel_lines),
+            run_time=1,
+        )
+        
+        self.wait(NOMINAL_WAIT_TIME)
+
+        # * New title to the left
+        new_title = Title(
+            "Real Projective Plane",
+            font_size=TITLE_FONTSIZE*1.25,
+            match_underline_width_to_text=True,
+        ).set_color(BLUE_D).to_edge(LEFT)
+        new_title.fix_in_frame()
+        
+        self.play(
+            Write(new_title),
+            run_time=2,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # * Now our points are (x, 1, z) 
+        
+        new_points_tex = Tex(
+            r"\mathbb{P}", r"\mathbb{R}^2", ":", space,
+            "(", "x,", space, "y,", space, "z", ")")
+        new_points_tex.move_to(
+            new_title.get_center(),
+        ).shift(DOWN)
+        new_points_tex.fix_in_frame()
+        
+        
+        self.play(
+            Write(new_points_tex),
+            run_time=2,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+
+        new_points_tex_scaled = Tex(
+            r"\mathbb{P}", r"\mathbb{R}^2", ":", space,
+            r"\frac{1}{y}", space,
+            "(", "x,", space, "y,", space, "z", ")")
+        new_points_tex_scaled.move_to(
+            new_points_tex.get_center(),
+        )
+        new_points_tex_scaled.fix_in_frame()
+
+        self.play(
+            TransformMatchingTex(new_points_tex, new_points_tex_scaled),
+            run_time=2,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        new_points_tex_final = Tex(
+            r"\mathbb{P}", r"\mathbb{R}^2", ":", space,
+            "(", r"\frac{x}{y},", space, "1,", space, r"\frac{z}{y}", ")")
+
+        new_points_tex_final.move_to(
+            new_points_tex_scaled.get_center(),
+        )
+        new_points_tex_final.fix_in_frame()
+        self.play(
+            TransformMatchingTex(new_points_tex_scaled, new_points_tex_final),
+            run_time=2,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # * Indicate that only x and z are our free parameters now, and color them yellow
+        self.play(
+            Indicate(new_points_tex_final[-4:-1], scale_factor=1.2, color=YELLOW_C),
+            Indicate(new_points_tex_final[-10:-7], scale_factor=1.2, color=YELLOW_C),
+            run_time=1.5,
+        )
+        self.play(
+            new_points_tex_final[-4:-1].animate.set_color(YELLOW_C),
+            new_points_tex_final[-10:-7].animate.set_color(YELLOW_C),
+            run_time=1.5,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # * Correspondence between CP1 and PR2
+        # * ______________________________________________________________________
+        w_correspondence_with_xy_zy = Tex(
+            "u", space, equal, r"\frac{w}{v}", space, r"\Longleftrightarrow ", space,
+            r"\{", r"\frac{x}{y},", space, r"\frac{z}{y}", r"\}")
+        w_correspondence_with_xy_zy.move_to(
+            new_points_tex_final.get_center(),
+        ).shift(DOWN*1.25)
+        w_correspondence_with_xy_zy.fix_in_frame()
+
+        self.play(
+            Write(w_correspondence_with_xy_zy),
+            run_time=2,
+        )
+        self.wait(NOMINAL_WAIT_TIME)        
+        
+        correspondence_tex = Tex(
+            r"\mathbb{P}", r"\mathbb{C}^1", r"\Longleftrightarrow ", r"\mathbb{P}", r"\mathbb{R}^2",
+            font_size=TITLE_FONTSIZE*1.5,
+        ).move_to(w_correspondence_with_xy_zy.get_center()).shift(DOWN*1.25 + LEFT*0.25)
+        correspondence_tex.fix_in_frame()
+        
+        self.play(
+            Write(correspondence_tex),
+            run_time=2,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        bbox_result =Polygon(
+            correspondence_tex.get_corner(UL) + 2.5*np.array([-0.1, 0.1, 0]),
+            correspondence_tex.get_corner(UR) + 2.5*np.array([0.1, 0.1, 0]),
+            correspondence_tex.get_corner(DR) + 2.5*np.array([0.1, -0.1, 0]),
+            correspondence_tex.get_corner(DL) + 2.5*np.array([-0.1, -0.1, 0]),
+
+        )
+        bbox_result.fix_in_frame()
+        self.play(
+            ShowCreation(bbox_result),
+            run_time=2,
+        )
+        self.wait(PAUSE_WAIT_TIME)
+
+        # Fade out the rectangle
+        
+
+
 
         #     1,
         #     num_decimal_places=1,

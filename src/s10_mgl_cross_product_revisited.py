@@ -10,6 +10,7 @@ COLORMAP_DICT = {"A": RED, "B": BLUE}
 
 class CrossProductRevisited(ThreeDScene):
     def construct(self):
+        # * Formula on top
         
         A_term = "A"
         B_term = "B"
@@ -48,31 +49,30 @@ class CrossProductRevisited(ThreeDScene):
         # * ________________________________________________________________________
         # Create a 3D axes
         axes = ThreeDAxes(
-            x_range=(-3.5, 3.5, 0.5),
-            y_range=(-3.5, 3.5, 0.5),
-            z_range=(-3.5, 3.5, 0.5),
-        ).set_opacity(0.75)
+            x_range=(-2, 2, 1),
+            y_range=(-2, 2, 1),
+            z_range=(-2, 2, 1),
+            height=7,
+            width=7,
+            depth=6,
+            unit_size=2
+        ).set_opacity(1)
         
-        # axes.add_coordinate_labels(
-        #     font_size=TITLE_FONTSIZE,
-        #     x_label="x",
-        #     y_label="y",
-        #     z_label="z",
-        # )
-        
+        # Set height (zoom in)
+        self.camera.frame.set_height(5)
         
         self.play(
             ShowCreation(axes),
             run_time=3,
         )
-        
-        # self.play(
-        #     self.camera.frame.animate.set_euler_angles(
-        #         theta=45*DEGREES + 15*DEGREES,
-        #         phi=70*DEGREES,
-        #     ),
-        #     run_time=3,
-        # )
+        self.play(
+            self.camera.frame.animate.set_euler_angles(
+                theta=45*DEGREES + 15*DEGREES,
+                phi=70*DEGREES,
+            ),
+            run_time=3,
+        )
+        self.camera.frame.add_ambient_rotation(10*DEGREES)
         
         origin = axes.c2p(0,0,0)
 
@@ -81,32 +81,55 @@ class CrossProductRevisited(ThreeDScene):
         vec_b_num = 0.35*np.array([2,  1.5, -1.5])
         vec_n_num = np.cross(vec_a_num, vec_b_num)
         
-        # vec_a = StrokeArrow(origin, axes.c2p(*vec_a_num)).set_color(RED)
-        # vec_b = StrokeArrow(origin, axes.c2p(*vec_b_num)).set_color(BLUE)
-        # vec_n = StrokeArrow(origin, axes.c2p(*vec_n_num)).set_color(YELLOW)
+        vec_a = Line3D(ORIGIN, vec_a_num).set_color(RED)
+        vec_b = Line3D(ORIGIN, vec_b_num).set_color(BLUE)
+        vec_n = Line3D(ORIGIN, vec_n_num).set_color(YELLOW)
         
-        vec_a = StrokeArrow(ORIGIN, vec_a_num).set_color(RED)
-        vec_b = StrokeArrow(ORIGIN, axes.c2p(*vec_b_num)).set_color(BLUE)
-        vec_n = StrokeArrow(ORIGIN, axes.c2p(*vec_n_num)).set_color(YELLOW)
+        tip_a = Cone(u_range=(1, 1), v_range=(1, 1), radius=0.4, axis=vec_a_num).set_color(RED).move_to(vec_a.get_end())
+        tip_b = Cone(u_range=(1, 1), v_range=(1, 1), radius=0.4, axis=vec_b_num).set_color(BLUE).move_to(vec_b.get_end())
+        tip_n = Cone(u_range=(1, 1), v_range=(1, 1), radius=0.4, axis=vec_n_num).set_color(YELLOW).move_to(vec_n.get_end())
         
         self.play(
             GrowFromCenter(vec_a),
             GrowFromCenter(vec_b),
             GrowFromCenter(vec_n),
+
             run_time=3,
         )
         
-        vec_a_label = Tex("A", font_size=int(3 * TITLE_FONTSIZE / 3)
-        ).next_to(vec_a, RIGHT).set_color(RED)
-        vec_b_label = Tex("B",  font_size=int(3 * TITLE_FONTSIZE / 3)
-        ).next_to(vec_b, UP).set_color(BLUE)
+        self.play(
+            GrowFromCenter(tip_a),
+            GrowFromCenter(tip_b),
+            GrowFromCenter(tip_n),
+        )
+        self.wait(10)
+        # Draw a plane like we had in the s06_cross_product.py
+        plane = Polygon(
+            vec_a.get_start(),
+            vec_a.get_end(),
+            vec_b.get_end(),
+            vec_b.get_start(),
+            color=BLUE_B,
+            fill_opacity=0.5,
+
+        )
         
-        for label in [vec_a_label, vec_b_label]:
-            label.fix_in_frame()
-            self.play(
-                Write(label, run_time=1),
+        self.play(
+            ShowCreation(plane),
+            run_time=3,
+        )
+        
+        # vec_a_label = Tex("A", font_size=int(3 * TITLE_FONTSIZE / 3)
+        # ).next_to(vec_a, RIGHT).set_color(RED)
+        # vec_b_label = Tex("B",  font_size=int(3 * TITLE_FONTSIZE / 3)
+        # ).next_to(vec_b, UP).set_color(BLUE)
+        
+        # for label in [vec_a_label, vec_b_label]:
+        #     label.fix_in_frame()
+        #     self.play(
+        #         Write(label, run_time=1),
                 
-            )
+        #     )
         
         # for vec in [vec_a, vec_b]:
         #     self.play(
