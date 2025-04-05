@@ -5,7 +5,7 @@ mf.setup()
 import definitions as dfs
 
 
-class Bivectors(VectorScene):
+class _3_Bivectors(VectorScene):
 # class GeometricAlgebra(ThreeDScene):
     def construct(self):
         self.next_section("Scalars and Vectors", skip_animations=False)

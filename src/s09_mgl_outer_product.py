@@ -8,7 +8,7 @@ LATEX_TEMPLATE = r"\usepackage{amsbsy}"
 
 
 
-class OuterProduct(Scene):
+class _9_OuterProduct(Scene):
     def construct(self):
         
         # * Title

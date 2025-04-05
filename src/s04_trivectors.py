@@ -6,7 +6,7 @@ import definitions as dfs
 
 
 
-class Trivectors(ThreeDScene):
+class _4_Trivectors(ThreeDScene):
 
     def construct(self):
         # * ______________________________________________________________________

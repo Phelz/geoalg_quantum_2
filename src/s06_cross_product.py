@@ -5,7 +5,7 @@ mf.setup()
 import definitions as dfs
 
 
-class CrossProduct(ThreeDScene):
+class _6_CrossProduct(ThreeDScene):
 
     def construct(self):
         # * ______________________________________________________________________

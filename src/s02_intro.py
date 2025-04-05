@@ -5,7 +5,7 @@ mf.setup()
 import definitions as dfs
 
 
-class Intro(Scene):
+class _2_Intro(Scene):
     def construct(self):
 
         self.next_section("Intro", skip_animations=False)

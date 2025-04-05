@@ -5,7 +5,7 @@ mf.setup()
 import definitions as dfs
         
 
-class LeviCevita(Scene):
+class _7_LeviCevita(Scene):
 
     def construct(self):
 

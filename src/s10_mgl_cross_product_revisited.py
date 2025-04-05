@@ -8,7 +8,7 @@ COLORMAP_DICT = {"A": RED, "B": BLUE}
 
 
 
-class CrossProductRevisited(ThreeDScene):
+class _10_CrossProductRevisited(ThreeDScene):
     def construct(self):
         # * Formula on top
         
@@ -117,18 +117,6 @@ class CrossProductRevisited(ThreeDScene):
         neg_vec_n = Vector(-1*vec_n_num).set_color(YELLOW).set_opacity(0)
         self.add(neg_vec_n)
         
-
-
-        
-        # parallelogram = Polygon(
-        #     vec_a.get_start(),
-        #     vec_a.get_end(),
-        #     vec_b.get_end(),
-        #     vec_b.get_start(),
-        #     color=BLUE_B,
-        # ).set_opacity(0)
-        # self.add(parallelogram)
-
         big_rect = VGroup3D()
         big_rect.set_points_as_corners([
             lines_a[0].get_start(),
@@ -145,12 +133,7 @@ class CrossProductRevisited(ThreeDScene):
                   ShowCreation(big_rect),
                   run_time = 2)
         self.wait(NOMINAL_WAIT_TIME*3)
-        # self.wait(NOMINAL_WAIT_TIME)
-        
-        # Draw the negative of vec_n and
-        
-        
-        
+
         # Stop ambient rotation
         self.camera.frame.remove_updater(
             self.camera.frame.get_updaters()[0]
@@ -245,6 +228,25 @@ class CrossProductRevisited(ThreeDScene):
         )
         self.wait(PAUSE_WAIT_TIME)
         
+        # * Indicate the bivector
+        self.play(
+            Indicate(bivector_polygon, color=YELLOW, scale_factor=1.05),
+            run_time=3,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # * Indicate the pseudo-scalar in the formula
+        self.play(
+            Indicate(final_formula[-1], color=YELLOW, scale_factor=1.25),
+            FlashAround(
+                final_formula[-1], color=YELLOW, 
+                time_width=0.5,
+            ),
+            run_time=3,
+        )
+        self.wait(PAUSE_WAIT_TIME)
+        
+        
         # Fade out everything
         self.play(
             FadeOut(vec_a),
@@ -255,7 +257,7 @@ class CrossProductRevisited(ThreeDScene):
             FadeOut(bivector_polygon),
             FadeOut(cur_arr),
             FadeOut(axes),
-            FadeOut(final_formula_box),
-            FadeOut(final_formula),
+            # FadeOut(final_formula_box),
+            # FadeOut(final_formula),
             run_time=2,
         )

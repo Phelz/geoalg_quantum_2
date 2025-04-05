@@ -7,7 +7,7 @@ from src.definitions import *
 
 
 
-class Rotations(Scene):
+class _14_Rotations(Scene):
     def construct(self):
 
         sigma_1 = r"\sigma_1"

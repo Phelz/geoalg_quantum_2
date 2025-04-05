@@ -7,7 +7,7 @@ mf.setup()
 from definitions import TITLE_FONTSIZE, NOMINAL_WAIT_TIME, PAUSE_WAIT_TIME
 
 
-class LeviCivitaGA(Scene):
+class _8_LeviCivitaGA(Scene):
     def construct(self):
         
         title = Tex(

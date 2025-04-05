@@ -3,7 +3,7 @@ from src.definitions import *
 
 
 
-class ProjectiveGeometry(Scene):
+class _15_ProjectiveGeometry(Scene):
     def construct(self):
         
         # # # * Title

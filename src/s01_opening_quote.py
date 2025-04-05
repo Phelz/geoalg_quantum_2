@@ -5,7 +5,7 @@ mf.setup()
 
 
 
-class OpeningQuote(Scene):
+class _1_OpeningQuote(Scene):
     def construct(self):
         
         ragged2e_template = TexTemplate()

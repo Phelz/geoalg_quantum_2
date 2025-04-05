@@ -2,3 +2,4 @@
 mpl_stylesheets/
 figures/
 **/__pycache__/
+src/videos/**

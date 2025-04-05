@@ -6,7 +6,7 @@ import definitions as dfs
 
 
 
-class GeometricProduct(VectorScene):
+class _5_GeometricProduct(VectorScene):
 
     def construct(self):
         
