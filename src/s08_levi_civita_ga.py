@@ -72,7 +72,6 @@ class _8_LeviCivitaGA(Scene):
             start=case1_tex.get_left(),
             end=case1_tex.get_right(),
             color=BLUE_C,
-            stroke_width=2
         ).shift(DOWN*0.5)
         self.play(Write(case1_tex), Create(line), run_time=2)
         self.wait(NOMINAL_WAIT_TIME)
@@ -137,7 +136,6 @@ class _8_LeviCivitaGA(Scene):
             start=case2_tex.get_left(),
             end=case2_tex.get_right(),
             color=BLUE_C,
-            stroke_width=2
         ).shift(DOWN*0.5)
         self.play(Write(case2_tex), Create(line2), run_time=2)
         self.wait(NOMINAL_WAIT_TIME)
@@ -267,7 +265,6 @@ class _8_LeviCivitaGA(Scene):
             start=case3_tex.get_left(),
             end=case3_tex.get_right(),
             color=BLUE_C,
-            stroke_width=2
         ).shift(DOWN*0.5)
         self.play(Write(case3_tex), Create(line3), run_time=2)
         self.wait(NOMINAL_WAIT_TIME)

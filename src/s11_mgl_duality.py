@@ -151,7 +151,6 @@ class _11_Duality(Scene):
             ORIGIN + RIGHT + UP*3,
             ORIGIN + RIGHT + DOWN*3,
             color=WHITE,
-            stroke_width=1
         )
         
         self.play(
@@ -199,7 +198,6 @@ class _11_Duality(Scene):
             dual_to_e1_iter_7.get_bottom() + DOWN*0.5 + LEFT*2,
             dual_to_e1_iter_7.get_bottom() + DOWN*0.5 + RIGHT*2,
             color=WHITE,
-            stroke_width=1
         )
         self.play(
             ShowCreation(line),
@@ -304,7 +302,6 @@ class _11_Duality(Scene):
             pseudo_squared_to_minus_final_box.get_bottom() + DOWN*0.5 + LEFT*2,
             pseudo_squared_to_minus_final_box.get_bottom() + DOWN*0.5 + RIGHT*2,
             color=WHITE,
-            stroke_width=1
         )
         self.play(
             ShowCreation(right_line_1),

@@ -159,7 +159,6 @@ class _13_SGA(Scene):
             ORIGIN + DOWN*2,
             ORIGIN + UP*2,
             color=WHITE,
-            stroke_width=1,
         ).shift(RIGHT*2.5)
         
         self.play(
