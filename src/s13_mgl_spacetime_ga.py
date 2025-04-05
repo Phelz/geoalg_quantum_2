@@ -54,6 +54,7 @@ class _13_SGA(Scene):
             underline_style=dict(stroke_width=3, stroke_color=WHITE),
         ).to_corner(UL).set_color(BLUE_D)
         
+        
         self.play(Write(title))
         self.wait(NOMINAL_WAIT_TIME)
         
