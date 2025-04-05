@@ -1,5 +1,4 @@
 from manimlib import *
-from networkx import sigma
 from src.definitions import *
 
 
@@ -485,17 +484,18 @@ class _13B_EvenSubalgebra(Scene):
                     eps_ijk: eps_ijk,
                 },
             ),
-            ShowCreation(pseudoscalar_dagger_pseudoscalar_final_box)
         )
+        self.play(ShowCreation(pseudoscalar_dagger_pseudoscalar_final_box))
         self.wait(NOMINAL_WAIT_TIME)
         
         # * 4. Fade out the pseudoscalar dagger and pseudoscalar from the levi cevita
         
         levi_cevita_pseudoscalar_mult_fade = Tex(
-            eps_ijk, space, equal, space, 
+            eps_ijk, space, pseudoscalar, 
+            space, equal, space, 
             sigma_i, sigma_j, sigma_k,
             )
-        levi_cevita_pseudoscalar_mult_fade.move_to(levi_cevita_pseudoscalar_mult.get_center())
+        levi_cevita_pseudoscalar_mult_fade.move_to(levi_cevita_pseudoscalar_mult.get_center(), aligned_edge=DOWN).shift(DOWN*0.25)
         levi_cevita_pseudoscalar_mult_fade.set_color_by_tex_to_color_map(color_dict)
         self.play(
             TransformMatchingTex(
@@ -507,13 +507,252 @@ class _13B_EvenSubalgebra(Scene):
                     sigma_k: sigma_k,
                     eps_ijk: eps_ijk,
                     equal: equal,
-                    pseudoscalar: "",
+                    pseudoscalar: pseudoscalar,
                     pseudoscalar_dagger: "",
                 },
             )
         )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # * 5. Multiply both sides by sigma_k
+        levi_cevita_pseudoscalar_mult_sigma_k = Tex(
+            eps_ijk, space, pseudoscalar, space, sigma_k,
+            space, equal, space,
+            sigma_i, sigma_j, sigma_k, sigma_k
+            )
+        levi_cevita_pseudoscalar_mult_sigma_k.move_to(levi_cevita_pseudoscalar_mult_fade.get_center()).shift(DOWN*1)
+        levi_cevita_pseudoscalar_mult_sigma_k.set_color_by_tex_to_color_map(color_dict)
+        
+        self.play(
+            TransformMatchingTex(
+                levi_cevita_pseudoscalar_mult_fade.copy(),
+                levi_cevita_pseudoscalar_mult_sigma_k,
+                key_map={
+                    sigma_i: sigma_i,
+                    sigma_j: sigma_j,
+                    sigma_k: sigma_k,
+                    eps_ijk: eps_ijk,
+                    equal: equal,
+                    pseudoscalar: pseudoscalar,
+                },
+                path_arc=PI/2,
+            )
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+
+        # * 6.  Fade out the sigma_k sigma_k at the end 
+        levi_cevita_final_result = Tex(
+            eps_ijk, space, pseudoscalar, space, sigma_k,
+            space, equal, space,
+            sigma_i, sigma_j, 
+            )
+        
+        levi_cevita_final_result.move_to(levi_cevita_pseudoscalar_mult_sigma_k.get_center()).shift(DOWN*1.5)
+        levi_cevita_final_result.set_color_by_tex_to_color_map(color_dict)
+
+        self.play(
+            TransformMatchingTex(
+                levi_cevita_pseudoscalar_mult_sigma_k.copy(),
+                levi_cevita_final_result,
+                key_map={
+                    sigma_i: sigma_i,
+                    sigma_j: sigma_j,
+                    sigma_k: sigma_k,
+                    eps_ijk: eps_ijk,
+                    equal: equal,
+                    pseudoscalar: pseudoscalar,
+                },
+            )
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # * 7. Box the final result
+        levi_cevita_final_result_box = Polygon(
+            levi_cevita_final_result.get_corner(UL) + 2.5*np.array([-0.1, 0.1, 0]),
+            levi_cevita_final_result.get_corner(UR) + 2.5*np.array([0.1, 0.1, 0]),
+            levi_cevita_final_result.get_corner(DR) + 2.5*np.array([0.1, -0.1, 0]),
+            levi_cevita_final_result.get_corner(DL) + 2.5*np.array([-0.1, -0.1, 0]),
+        )
+        levi_cevita_final_result_box.set_color(WHITE)
+        self.play(ShowCreation(levi_cevita_final_result_box))
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # * Clean up the scene:
+        # * 1. FadeOut everything on the left
+        
+        self.play(
+            FadeOut(scalars_text),
+            FadeOut(pseudoscalar_text),
+            
+            FadeOut(pseudoscalar_dagger_pseudoscalar_final_box),
+            FadeOut(pseudoscalar_dagger_pseudoscalar_final),
+            FadeOut(pseudoscalar_dagger_pseudoscalar_sigma_1_faded),
+            
+            FadeOut(pseudoscalar_tex_box),
+            FadeOut(pseudoscalar_tex),
+            
+            FadeOut(sigma_i_squared_final_box),
+            FadeOut(sigma_i_squared_final),
+        )
+
+        # * The Anti-symmetry of the Levi-Cevita symbol enables us to write sigma_i sigma_j = - sigma_j sigma_i
+        
+        anti_symmetry_text = Tex(
+            r"\text{Anti-symmetry:}",
+        ).move_to(title.get_center()).shift(DOWN*1.25).to_edge(LEFT)
+        anti_symmetry_text.set_color(WHITE)
+        anti_symmetry_tex = Tex(
+            sigma_i, sigma_j, space, equal, space,
+            minus, sigma_j, sigma_i
+        ).next_to(anti_symmetry_text, RIGHT, aligned_edge=RIGHT).shift(RIGHT*2 + DOWN*0.1)
+        anti_symmetry_tex.set_color_by_tex_to_color_map(color_dict)
+        
+        self.play(Write(anti_symmetry_text))
+        self.wait(NOMINAL_WAIT_TIME)
+        self.play(Write(anti_symmetry_tex))
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # * Some math magic: sigma_i sigma_j + sigma_i sigma_j = 2 sigma_i sigma_j
+        anti_symmetry_tex_expanded = Tex(
+            sigma_i, sigma_j, 
+            space, plus, space,
+            sigma_i, sigma_j,
+            space, equal, space,
+            "2", sigma_i, sigma_j,
+        ).move_to(title.get_center()).shift(DOWN*2.5)
+        anti_symmetry_tex_expanded.set_color_by_tex_to_color_map(color_dict)
+        self.play(
+            TransformMatchingTex(
+                anti_symmetry_tex.copy(),
+                anti_symmetry_tex_expanded,
+                key_map={
+                    sigma_i: sigma_i,
+                    sigma_j: sigma_j,
+                    equal: equal,
+                    minus: plus,
+                },
+            )
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # * Swap the order of the second sigma_i sigma_j and pickup a minus sign
+        anti_symmetry_tex_expanded_swapped = Tex(
+            sigma_i, sigma_j, 
+            space, minus, space,
+            sigma_j, sigma_i,
+            space, equal, space,
+            "2", sigma_i, sigma_j,
+        ).move_to(anti_symmetry_tex_expanded.get_center())
+        anti_symmetry_tex_expanded_swapped.set_color_by_tex_to_color_map(color_dict)
+        self.play(
+            TransformMatchingTex(
+                anti_symmetry_tex_expanded,
+                anti_symmetry_tex_expanded_swapped,
+                key_map={
+                    sigma_i: sigma_i,
+                    sigma_j: sigma_j,
+                    equal: equal,
+                    minus: plus,
+                    "2": "2",
+                },
+            )
+        )
+        self.wait(NOMINAL_WAIT_TIME)
         
         
+        # * Now rewrite things in terms of the commutator
+        
+        self.play(
+            Indicate(anti_symmetry_tex_expanded_swapped[:-6], scale_factor=1.2),
+            FlashUnder(anti_symmetry_tex_expanded_swapped[:-6], color=YELLOW, time_width=0.5),
+            run_time=3,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        
+        anti_symmetry_tex_expanded_commutator = Tex(
+            r"\left[" + sigma_i + comma + space + sigma_j + r"\right]",
+             space, equal, space,
+            "2", sigma_i, sigma_j,
+        ).move_to(anti_symmetry_tex_expanded_swapped.get_center()).shift(DOWN*1)
+        anti_symmetry_tex_expanded_commutator.set_color_by_tex_to_color_map(color_dict)
+        
+        self.play(
+            TransformMatchingTex(
+                anti_symmetry_tex_expanded_swapped.copy(),
+                anti_symmetry_tex_expanded_commutator,
+                key_map={
+                    sigma_i: sigma_i,
+                    sigma_j: sigma_j,
+                    equal: equal,
+                    minus: plus,
+                    "2": "2",
+                },
+            )
+        )
+        # * Final form: substitute the sigma_i sigma_j on the left with eps_ijk I sigma_k
+        anti_symmetry_tex_final = Tex(
+            r"\left[" + sigma_i + comma + space + sigma_j + r"\right]",
+             space, equal, space,
+            "2", eps_ijk, pseudoscalar, sigma_k,
+        ).move_to(anti_symmetry_tex_expanded_commutator.get_center())
+        anti_symmetry_tex_final.set_color_by_tex_to_color_map(color_dict)
+        self.play(
+            TransformMatchingTex(
+                anti_symmetry_tex_expanded_commutator,
+                anti_symmetry_tex_final,
+                key_map={
+                    r"\left[" + sigma_i + comma + space + sigma_j + r"\right]": r"\left[" + sigma_i + comma + space + sigma_j + r"\right]",
+                    sigma_i: sigma_i,
+                    sigma_j: sigma_j,
+                    equal: equal,
+                    minus: plus,
+                    "2": "2",
+                    eps_ijk: eps_ijk,
+                    sigma_k: sigma_k,
+                },
+            )
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+
+        # * Box the final result
+        anti_symmetry_tex_final_box = Polygon(
+            anti_symmetry_tex_final.get_corner(UL) + 2.5*np.array([-0.1, 0.1, 0]),
+            anti_symmetry_tex_final.get_corner(UR) + 2.5*np.array([0.1, 0.1, 0]),
+            anti_symmetry_tex_final.get_corner(DR) + 2.5*np.array([0.1, -0.1, 0]),
+            anti_symmetry_tex_final.get_corner(DL) + 2.5*np.array([-0.1, -0.1, 0]),
+        )
+        anti_symmetry_tex_final_box.set_color(WHITE)
+        self.play(ShowCreation(anti_symmetry_tex_final_box))
+        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
+
+        # * Fade out everything
+        self.play(
+            
+            FadeOut(title),
+            
+            FadeOut(levi_cevita_text),
+            FadeOut(levi_cevita_tex),
+            FadeOut(levi_cevita_pseudoscalar_mult_sigma_k),
+            
+            FadeOut(anti_symmetry_text),
+            FadeOut(anti_symmetry_tex),
+            # FadeOut(anti_symmetry_tex_expanded),
+            FadeOut(anti_symmetry_tex_expanded_swapped),
+            
+            FadeOut(anti_symmetry_tex_final),
+            FadeOut(anti_symmetry_tex_final_box),
+            
+            FadeOut(line_separator),
+            
+            FadeOut(levi_cevita_final_result),
+            FadeOut(levi_cevita_final_result_box),
+            FadeOut(levi_cevita_pseudoscalar_mult_fade),
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+            
         
         
  
