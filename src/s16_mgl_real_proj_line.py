@@ -31,16 +31,16 @@ class _16_RealProjectiveLine(Scene):
         plane = NumberPlane(
             x_range=[-7, 7, 1],
             y_range=[-7, 7, 1],
-            # background_line_style={
-            #     "stroke_color": BLUE_D,
-            #     "stroke_width": 0.5,
-            #     "stroke_opacity": 0.75
-            # },
-            # faded_line_style={
-            #     "stroke_color": BLUE_D,
-            #     "stroke_width": 0.5,
-            #     "stroke_opacity": 1
-            # },
+            background_line_style={
+                "stroke_color": BLUE_D,
+                "stroke_width": 0.5,
+                "stroke_opacity": 0.75
+            },
+            faded_line_style={
+                "stroke_color": BLUE_B,
+                "stroke_width": 0.5,
+                "stroke_opacity": 0.5
+            },
             height=16,
             width=16,
         )
