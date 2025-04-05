@@ -147,7 +147,7 @@ class _11_Duality(Scene):
         question_2.fix_in_frame()
         
         # Draw a line down the middle of the screen (verical)
-        line = Line(
+        og_line = Line(
             ORIGIN + RIGHT + UP*3,
             ORIGIN + RIGHT + DOWN*3,
             color=WHITE,
@@ -159,7 +159,7 @@ class _11_Duality(Scene):
             run_time=2
         )
         self.play(
-            ShowCreation(line),
+            ShowCreation(og_line),
             run_time=2
         )
         self.wait(NOMINAL_WAIT_TIME)
@@ -300,14 +300,14 @@ class _11_Duality(Scene):
         )
         
         # Draw a line under the final formula
-        line = Line(
+        right_line_1 = Line(
             pseudo_squared_to_minus_final_box.get_bottom() + DOWN*0.5 + LEFT*2,
             pseudo_squared_to_minus_final_box.get_bottom() + DOWN*0.5 + RIGHT*2,
             color=WHITE,
             stroke_width=1
         )
         self.play(
-            ShowCreation(line),
+            ShowCreation(right_line_1),
             run_time=2
         )
         self.wait(NOMINAL_WAIT_TIME)
@@ -437,23 +437,219 @@ class _11_Duality(Scene):
             run_time=2
         )
         
-        # Fade out everyting on the right side
-        # self.play(
-        #     FadeOut(dual_to_e1_iter_5),
-        #     FadeOut(dual_to_e1_iter_6),
-        #     FadeOut(dual_to_e1_iter_7),
-        #     FadeOut(pseudo_squared_to_minus_final),
-        #     FadeOut(pseudo_squared_to_minus_final_box),
-        #     # FadeOut(dual_to_e2_iter_1),
-        #     FadeOut(dual_to_e2_iter_2),
-        #     FadeOut(question_3),
-        #     FadeOut(question),
-        #     FadeOut(question_2),
-        #     FadeOut(line),
-        #     FadeOut
+        # Now fadeout everything
+        self.play(
+            
+            FadeOut(question),
+            FadeOut(question_2),
+            FadeOut(question_3),
+            FadeOut(line),
+            FadeOut(right_line_1),
+            FadeOut(og_line),
             
             
+            FadeOut(dual_to_e1_iter_6),
+            FadeOut(dual_to_e1_iter_7),
+            
+            FadeOut(dual_to_e2),
+            FadeOut(dual_to_e2_iter_1),
+            
+            FadeOut(pseudo_squared_to_minus_final),
+            FadeOut(pseudo_squared_to_minus_final_box),  
+            
+            FadeOut(dual_to_e1_final_box),
+            FadeOut(dual_to_e1_final),
+            FadeOut(dual_to_e2_final_flipped_box),
+            FadeOut(dual_to_e2_final_flipped),
+            FadeOut(final_formula_box),
+            FadeOut(final_formula),  
+            
+            
+                    
+            run_time=2
         )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # Move the final results to the right
+        # self.play(
+        #     dual_to_e1_final_box.animate.shift(RIGHT*8).shift(UP*1.75),
+        #     dual_to_e1_final.animate.shift(RIGHT*8).shift(UP*1.75),
+        #     dual_to_e2_final_flipped_box.animate.shift(RIGHT*8).shift(UP*1.75),
+        #     dual_to_e2_final_flipped.animate.shift(RIGHT*8).shift(UP*1.75),
+            
+        #     final_formula_box.animate.shift(RIGHT*8.5),
+        #     final_formula.animate.shift(RIGHT*8.5),
+            
+        #     # Move the og line to the right
+        #     og_line.animate.shift(RIGHT*0.5),
+        #     run_time=2,
+        # )
+
+        
+        # * Duality
+        # * ________________________________________________________________________
+        
+        question_4 = Tex(
+            "What", space, "about", space, "higher", space, "dimensions?",
+            # font_size=int(3 * TITLE_FONTSIZE / 3),
+            ).to_edge(UP).set_color_by_tex_to_color_map(color_dict_3d)
+        question_4.fix_in_frame()
+        self.play(
+            Write(question_4),
+            run_time=2
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        e_i = r"\mathbf{e}_i"
+        e_j = r"\mathbf{e}^j"
+        delta_ij = r"\delta_{i}^j"
+        dot = r"\cdot"
+        # DUAL DEFINITION
+        dual_def = Tex(
+            e_i, space, dot, space, e_j, space, equal, space, delta_ij).set_color_by_tex_to_color_map(color_dict_3d)
+        dual_def.move_to(question_4.get_center()).shift(DOWN * 1.5)
+        
+        # Draw a box around the dual definition
+        dual_def_box = Polygon(
+            dual_def.get_corner(UL) + 2.5*np.array([-0.1, 0.1, 0]),
+            dual_def.get_corner(UR) + 2.5*np.array([0.1, 0.1, 0]),
+            dual_def.get_corner(DR) + 2.5*np.array([0.1, -0.1, 0]),
+            dual_def.get_corner(DL) + 2.5*np.array([-0.1, -0.1, 0]),
+        )
+        dual_def_box.set_color(WHITE)
+        dual_def_box.fix_in_frame()
+        self.play(
+            Write(dual_def),
+            run_time=2
+        )
+        self.play(
+            ShowCreation(dual_def_box),
+            run_time=2
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        elipsis = r"\cdots"
+        en = r"\mathbf{e}_n"
+        # pseudoscalar definition in higher dimensions
+        pseudoscalar_def = Tex(
+            pseudoscalar, space, equal, space,
+            e1, space, wedge, space, e2, space, wedge, space, e3, space,
+            elipsis, space, wedge, space, en)
+        pseudoscalar_def.set_color_by_tex_to_color_map(color_dict_3d)
+        pseudoscalar_def.move_to(dual_def.get_center()).shift(DOWN * 1.5)
+        # Draw a box around the dual definition
+        pseudoscalar_def_box = Polygon(
+            pseudoscalar_def.get_corner(UL) + 2.5*np.array([-0.1, 0.1, 0]),
+            pseudoscalar_def.get_corner(UR) + 2.5*np.array([0.1, 0.1, 0]),
+            pseudoscalar_def.get_corner(DR) + 2.5*np.array([0.1, -0.1, 0]),
+            pseudoscalar_def.get_corner(DL) + 2.5*np.array([-0.1, -0.1, 0]),
+        )
+        pseudoscalar_def_box.set_color(WHITE)
+        pseudoscalar_def_box.fix_in_frame()
+        self.play(
+            Write(pseudoscalar_def),
+            run_time=2
+        )
+        self.play(
+            ShowCreation(pseudoscalar_def_box),
+            run_time=2
+        )
+        self.wait(NOMINAL_WAIT_TIME)       
+        
+        handedness_term = r"(-1)^{j-1}"
+        ej_hat_lower = r"\hat{\mathbf{e}}_j"
+        
+        # Now define e^j, the dual vector
+        dual_vector_def = Tex(
+            e_j, space, equal, space,
+            handedness_term, space,
+            e1, space, wedge, space, e2, space, elipsis, space,
+            wedge, space, ej_hat_lower, space,
+            wedge, space, en, space,
+            pseudoscalar_dagger,
+            ).set_color_by_tex_to_color_map(color_dict_3d)
+        dual_vector_def.move_to(pseudoscalar_def.get_center()).shift(DOWN * 1.5)
+        # Draw a box around the dual definition
+        dual_vector_def_box = Polygon(
+            dual_vector_def.get_corner(UL) + 2.5*np.array([-0.1, 0.1, 0]),
+            dual_vector_def.get_corner(UR) + 2.5*np.array([0.1, 0.1, 0]),
+            dual_vector_def.get_corner(DR) + 2.5*np.array([0.1, -0.1, 0]),
+            dual_vector_def.get_corner(DL) + 2.5*np.array([-0.1, -0.1, 0]),
+        )
+        dual_vector_def_box.set_color(WHITE)
+        dual_vector_def_box.fix_in_frame()
+        self.play(
+            Write(dual_vector_def),
+            run_time=2
+        )
+        self.play(
+            ShowCreation(dual_vector_def_box),
+            run_time=2
+        )
+        self.wait(NOMINAL_WAIT_TIME) 
+        
+        # Indicate the hat term
+        self.play(
+            dual_vector_def[19:22].animate.set_color(YELLOW),
+            run_time=5
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # Fade out the boxes
+        self.play(
+            FadeOut(dual_def_box),
+            FadeOut(pseudoscalar_def_box),
+            FadeOut(dual_vector_def_box),
+            run_time=2
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        
+        
+        # Now, for a concrete example, let us try to find e^2
+        e2_dual = r"\mathbf{e}^2"
+        
+        # Add a color, BLUE_E for e2_dual to the color_dict_3d
+        color_dict_3d[e2_dual] = BLUE_E
+        color_dict_3d["2"] = BLUE_E
+        
+        
+        e2_dual_def = Tex(
+            e2_dual, space, equal, space,
+            r"(-1)^{2-1}", space,
+            e1, space, wedge, space, e2, space, elipsis, space,
+            wedge, space, ej_hat_lower, space,
+            wedge, space, en, space,
+            pseudoscalar_dagger,
+            isolate=['2'],
+            ).set_color_by_tex_to_color_map(color_dict_3d).move_to(dual_vector_def.get_center())      
+            
+            
+        # Transform the dual vector definition to the dual vector definition for e2
+        self.play(
+            TransformMatchingTex(dual_vector_def, e2_dual_def,
+                                 key_map={e1: e1, e2: e2, equal: equal,
+                                          handedness_term: r"(-1)^{2-1}",
+                                          ej_hat_lower: ej_hat_lower,
+                                          lbracket: lbracket,
+                                            rbracket: rbracket,
+                                            wedge: wedge,
+                                          pseudoscalar_dagger: pseudoscalar_dagger,
+                                          en: en,
+                                            elipsis: elipsis,
+                                          
+                                          }),
+            run_time=2
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # Color ej_hat_lower 
+        
+        
+        
+        
+        
+        
+        # )
         
                 # # * Title
         # title = Title(
