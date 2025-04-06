@@ -108,6 +108,7 @@ class _15_ProjectiveGeometry(Scene):
             run_time=2,
         )
         self.wait(PAUSE_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
         
         # Fadeout Everything
         self.play(

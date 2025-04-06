@@ -44,6 +44,8 @@ class _5_GeometricProduct(VectorScene):
             runtime=3
         )
         self.wait(dfs.PAUSE_WAIT_TIME)
+        self.wait(dfs.PAUSE_WAIT_TIME)
+        
         
         # * ______________________________________________________________________
         self.next_section("Complex Numbers", skip_animations=False)
@@ -164,17 +166,19 @@ class _5_GeometricProduct(VectorScene):
         
         geo_prod_tex[0] = uterm
         geo_prod_tex[1] = vterm
-        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5))
+        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5),
+        run_time=0.5)
         
         geo_prod_tex[3] = uterm
         geo_prod_tex[5] = vterm
-        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5))
+        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5),
+        run_time=0.5)
         
         geo_prod_tex[-3] = uterm
         geo_prod_tex[-1] = vterm
-        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5))
+        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5),
+        run_time=0.5)
 
-        self.wait(dfs.NOMINAL_WAIT_TIME)
         
         e1_term = MathTex( "\\mathbf{e_1}" ).set_color(RED)
         e2_term = MathTex( "\\mathbf{e_2}" ).set_color(BLUE)
@@ -190,16 +194,19 @@ class _5_GeometricProduct(VectorScene):
         self.play( 
             TransformInStages.progress(geo_prod_tex, lag_ratio=0.5),
             TransformInStages.progress(u_label, lag_ratio=0.5),
-            TransformInStages.progress(v_label, lag_ratio=0.5)
+            TransformInStages.progress(v_label, lag_ratio=0.5),
+            run_time=1
         )
         
         geo_prod_tex[3] = e1_term
         geo_prod_tex[5] = e2_term
-        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5))
+        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5),
+        run_time=0.5)
         
         geo_prod_tex[-3] = e1_term
         geo_prod_tex[-1] = e2_term
-        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5))
+        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5),
+        run_time=0.5)
         
                 
         # * ______________________________________________________________________
@@ -226,7 +233,6 @@ class _5_GeometricProduct(VectorScene):
             Write(left_rotation_symbol),
             runtime=2
         )
-        self.wait(dfs.NOMINAL_WAIT_TIME)
         
         
         # * ______________________________________________________________________

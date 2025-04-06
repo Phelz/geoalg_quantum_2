@@ -26,9 +26,9 @@ class _1_OpeningQuote(Scene):
         author.next_to(words, DOWN, buff = 0.5).to_edge(RIGHT)
 
         self.play(FadeIn(words))
-        self.wait(1)
+        self.wait(2)
         self.play(Write(author, run_time = 3))
-        self.wait()
+        self.wait(20)
         
         # Fade everything out
         self.play(
