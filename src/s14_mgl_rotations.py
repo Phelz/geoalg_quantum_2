@@ -4,15 +4,12 @@ from src.definitions import *
 
 
 
-
-
-
 class _14_Rotations(Scene):
     def construct(self):
 
-        sigma_1 = r"\sigma_1"
-        sigma_2 = r"\sigma_2"
-        sigma_3 = r"\sigma_3"
+        sigma_1 = r"\mathbf{\sigma_1}"
+        sigma_2 = r"\mathbf{\sigma_2}"
+        sigma_3 = r"\mathbf{\sigma_3}"
         
         exp_sigma_3 = r"e^{\sigma_3 \mathbb{I} \theta/2}"
         exp_sigma_3_inv = r"e^{-\sigma_3 \mathbb{I} \theta/2}"
@@ -23,48 +20,47 @@ class _14_Rotations(Scene):
         cos_theta = r"\cos(\theta)"
         sin_theta = r"\sin(\theta)"
         
+        cos_pi_over_2 = r"\cos(\frac{\pi}{2})"
+        cos_pi_over_4 = r"\cos(\frac{\pi}{4})"
+        
+        sin_pi_over_2 = r"\sin(\frac{\pi}{2})"
+        sin_pi_over_4 = r"\sin(\frac{\pi}{4})"
+        
         equal = "="; plus = "+"; wedge = r"\wedge"; space = " \ "
         lbracket = "("
         rbracket = ")"
+
+                
+        colormap_dict = {
+            sigma_1: RED_B,
+            sigma_2: BLUE_C,
+            sigma_3: GREEN_B,
+            
+            cos_pi_over_2: YELLOW_C,
+            cos_pi_over_4: YELLOW_C,
+
+            sin_pi_over_2: YELLOW_C,
+            sin_pi_over_4: YELLOW_C,
+
+
+        }
         
-        rotor_formula = Tex(
-            # R_theta, sigma_1, R_theta_dagger, space, equal, space, r"\newline",
-            sigma_1, space, cos_theta, 
+        rotation_geometric_alg_final = Tex(
+            sigma_1, space, r"\rightarrow",
+            space, sigma_1, space, cos_theta,
             space, plus, space,
             sigma_2, space, sin_theta,
-            font_size=int(3 * TITLE_FONTSIZE / 3),
+            isolate=[sigma_1, sigma_2],
         )
-        # rotor_formula[4:6].set_color(BLUE_C)
         
-        rotor_formula.fix_in_frame()
-        rotor_formula.to_corner(UL).shift(DOWN*0.25+ RIGHT*0.25)
+        rotation_geometric_alg_final.set_color(BLUE_B)
+        rotation_geometric_alg_final.set_color_by_tex_to_color_map(colormap_dict)
         
-        self.add(rotor_formula)
-
-        # final_formula = Tex(A_term, space, wedge, space, B_term, space, equal, space,
-        #                    lbracket, A_term, space, times, space, B_term, rbracket, space,
-        #                    '\\mathbb{I}')
         
-        # final_formula.fix_in_frame()
+        rotation_geometric_alg_final.fix_in_frame()
+        rotation_geometric_alg_final.to_corner(UL)
         
-        # final_formula.set_color_by_tex_to_color_map(COLORMAP_DICT)
-
-        # final_formula_box = Polygon(
-        #     final_formula.get_corner(UL) + 2.5*np.array([-0.1, 0.1, 0]),
-        #     final_formula.get_corner(UR) + 2.5*np.array([0.1, 0.1, 0]),
-        #     final_formula.get_corner(DR) + 2.5*np.array([0.1, -0.1, 0]),
-        #     final_formula.get_corner(DL) + 2.5*np.array([-0.1, -0.1, 0]),
-        # )
-        
-        # final_formula.to_corner(UL).shift(DOWN*0.25+ RIGHT*0.25),
-        # final_formula_box.to_corner(UL)
-        
-        # final_formula_box.fix_in_frame()
-        # self.add(
-        #     final_formula_box,
-        #     final_formula
-        # )
-        
+        self.add(rotation_geometric_alg_final)
         
         # * Begin 3D Scene - Create Axes
         # * ________________________________________________________________________
@@ -88,18 +84,18 @@ class _14_Rotations(Scene):
         
         self.play(
             ShowCreation(axes),
-            run_time=3,
+            run_time=2,
         )
         self.play(
             self.camera.frame.animate.set_euler_angles(
                 theta=45*DEGREES + 15*DEGREES,
                 phi=70*DEGREES,
             ),
-            run_time=3,
+            run_time=2,
         )
 
         
-        self.camera.frame.add_ambient_rotation(angular_speed=5*DEGREES),       
+        self.camera.frame.add_ambient_rotation(angular_speed=10*DEGREES),       
         self.wait(NOMINAL_WAIT_TIME)
         
         
@@ -108,49 +104,102 @@ class _14_Rotations(Scene):
         
         sigma_1_arr = 1.75*np.array([1, 0, 0])
         sigma_1_vector = Vector(sigma_1_arr, stroke_width=3,
-                                ).set_color(BLUE_C)
+                                ).set_color(RED)
+        
+        
         
         self.play(
             GrowFromCenter(sigma_1_vector),
-            run_time=3,
+            run_time=2,
         )
         self.wait(NOMINAL_WAIT_TIME)
         
         
         trace = TracedPath(
             sigma_1_vector.get_end,
-            stroke_width=5,
+            stroke_width=3,
             stroke_color=BLUE_A,
             time_traced=32
         )
         self.add(trace)
         
-        self.play(
-            Rotate(sigma_1_vector, angle=PI/4, axis=OUT, about_point=ORIGIN),
-            run_time=3,
-        )
-        self.wait(NOMINAL_WAIT_TIME)
+        # * Theta/4 rotation: Transform the theta in the formula to theta/4
+        pi_over_4 = Tex(
+            sigma_1, space, r"\rightarrow",
+            space, sigma_1, space, 
+            cos_pi_over_4,
+            space, plus, space,
+            sigma_2, space,
+            sin_pi_over_4,
+        ).set_color(BLUE_B)
+        pi_over_4.fix_in_frame()
+        pi_over_4.move_to(rotation_geometric_alg_final.get_center()).shift(RIGHT*0.25)
+        pi_over_4.set_color_by_tex_to_color_map(
+            colormap_dict)
         
         self.play(
             Rotate(sigma_1_vector, angle=PI/4, axis=OUT, about_point=ORIGIN),
-            run_time=3,
+            
+            TransformMatchingTex(
+                rotation_geometric_alg_final,
+                pi_over_4,
+                key_map={
+                    sigma_1:sigma_1,
+                    sigma_2:sigma_2,
+                    plus:plus,
+                    r"\rightarrow":r"\rightarrow",
+                    cos_theta: cos_pi_over_4,
+                    sin_theta: sin_pi_over_4,
+                    
+                }
+            ),
+            run_time=2,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        # * Rotate by theta/2
+        
+        pi_over_2 = Tex(
+            sigma_1, space, r"\rightarrow",
+            space, sigma_1, space,
+            cos_pi_over_2,
+            space, plus, space,
+            sigma_2, space,
+            sin_pi_over_2,
+        ).set_color(BLUE_B)
+        pi_over_2.fix_in_frame()
+        pi_over_2.move_to(rotation_geometric_alg_final.get_center())
+        pi_over_2.set_color_by_tex_to_color_map(
+            colormap_dict)
+        
+        self.play(
+            Rotate(sigma_1_vector, angle=PI/4, axis=OUT, about_point=ORIGIN),
+            TransformMatchingTex(
+                pi_over_4,
+                pi_over_2,
+                key_map={
+                    sigma_1:sigma_1,
+                    sigma_2:sigma_2,
+                    plus:plus,
+                    r"\rightarrow":r"\rightarrow",
+                    cos_pi_over_4: cos_pi_over_2,
+                    sin_pi_over_4: sin_pi_over_2,
+                    
+                }
+            ),
+            run_time=2,
         )
         self.wait(NOMINAL_WAIT_TIME)
         
         # * Combinations of rotations
         # * ________________________________________________________________________
         
-        # Fade out the text
+        # Fade out the text and         
+        # rotate the whole way around
         self.play(
-            FadeOut(rotor_formula),
-            run_time=3,
-        )
-        self.wait(NOMINAL_WAIT_TIME)
-        
-        # Now rotate the whole way around
-        self.play(
+            FadeOut(pi_over_2),
             Rotate(sigma_1_vector, angle=PI/2 + PI, axis=OUT, about_point=ORIGIN),
-            run_time=5,
+            run_time=4,
         )
         self.wait(NOMINAL_WAIT_TIME)
         
@@ -158,7 +207,7 @@ class _14_Rotations(Scene):
         # Now rotate in the xz-plane
         self.play(
             Rotate(sigma_1_vector, angle=2*PI, axis=DOWN, about_point=ORIGIN),
-            run_time=5,
+            run_time=4,
         )
         
         self.wait(NOMINAL_WAIT_TIME)
@@ -172,11 +221,11 @@ class _14_Rotations(Scene):
         ).set_opacity(0.25)
         mesh = SurfaceMesh(unit_sphere).set_stroke(width=1.5, color=BLUE_D, opacity=0.8)
         self.play(
-            ShowCreation(mesh, lag_ratio=0.01, run_time=3),
+            ShowCreation(mesh, lag_ratio=0.01, run_time=2),
         )
         self.wait(NOMINAL_WAIT_TIME)
         self.play(
-            ShowCreation(unit_sphere, lag_ratio=0.01, run_time=3),
+            ShowCreation(unit_sphere, lag_ratio=0.01, run_time=2),
         )
         self.wait(NOMINAL_WAIT_TIME)
         
@@ -201,7 +250,7 @@ class _14_Rotations(Scene):
         self.play(
             Write(Riemann_sphere),
             Write(Riemann_sphere_underline),
-            run_time=3,
+            run_time=2,
         )
         self.wait(NOMINAL_WAIT_TIME)
         
@@ -211,7 +260,29 @@ class _14_Rotations(Scene):
         # Change the color of the vector to yellow
         self.play(
             sigma_1_vector.animate.set_color( YELLOW),
-            run_time=3,
+            run_time=2,
+        )
+        
+        # !!! At this point, get the camera's euler angles and set it fixed ther (STOP ROTATION)
+        theta, phi, gamma = self.camera.frame.get_euler_angles()
+        
+        # First remove the camera updater
+        self.camera.frame.remove_updater(
+            self.camera.frame.get_updaters()[0]
+        )
+        
+        # self.camera.frame.set_euler_angles(
+        #     theta=theta
+        #     phi=phi,
+        #     gamma=gamma,
+        # )
+        
+        self.play(
+            self.camera.frame.animate.set_euler_angles(
+                theta=theta - 25 * DEGREES,
+                phi=phi,
+                gamma=gamma,
+            ),
         )
         
         # Rotate it 
@@ -245,14 +316,19 @@ class _14_Rotations(Scene):
         spin_state.next_to(qubit_label, DOWN).shift(DOWN*0.25)
         spin_state.fix_in_frame()
         
+        
+        
         # Write both
         self.play(
             Write(qubit_label),
             Write(spin_state),
-            run_time=3,
+            run_time=2,
         )
         self.wait(NOMINAL_WAIT_TIME)
         # * Denote that w and z are complex numbers
+        
+
+        
         
         wz_in_C = Tex(
             v, ",", w, space, "\in \mathbb{C}",
@@ -262,9 +338,10 @@ class _14_Rotations(Scene):
         wz_in_C.fix_in_frame()
         self.play(
             Write(wz_in_C),
-            run_time=3,
+            run_time=2,
         )
         self.wait(NOMINAL_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
         
         # * Fixing the problem - global phase transformation
         # * ________________________________________________________________________
@@ -286,24 +363,11 @@ class _14_Rotations(Scene):
         self.play(
             ReplacementTransform(Riemann_sphere, global_phase,),
             ReplacementTransform(Riemann_sphere_underline, global_phase_underline,),
-            run_time=3,
+            run_time=2,
         )
         self.wait(NOMINAL_WAIT_TIME)
         
-        # !!! At this point, get the camera's euler angles and set it fixed ther (STOP ROTATION)
-        theta, phi, gamma = self.camera.frame.get_euler_angles()
-        
-        # First remove the camera updater
-        self.camera.frame.remove_updater(
-            self.camera.frame.get_updaters()[0]
-        )
-        
-        self.camera.frame.set_euler_angles(
-            theta=theta,
-            phi=phi,
-            gamma=gamma,
-        )
-        
+
         
         
         
@@ -318,9 +382,10 @@ class _14_Rotations(Scene):
         lambda_scaled_state.next_to(global_phase, DOWN).shift(DOWN*0.25)
         self.play(
             Write(lambda_scaled_state),
-            run_time=3,
+            run_time=2,
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
+        
 
         one_over_v = r"\frac{1}{v}"
         u = "u"
@@ -335,9 +400,9 @@ class _14_Rotations(Scene):
         one_over_v_scaled_state.next_to(lambda_scaled_state, DOWN).shift(DOWN*0.25)
         self.play(
             Write(one_over_v_scaled_state),
-            run_time=3,
+            run_time=2,
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
         
         # Define u below
         u_term = Tex(
@@ -348,9 +413,9 @@ class _14_Rotations(Scene):
         u_term.next_to(one_over_v_scaled_state, DOWN).shift(DOWN*0.25)
         self.play(
             Write(u_term),
-            run_time=3,
+            run_time=2,
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
         
         # Color the denominator
         self.play(
@@ -359,10 +424,7 @@ class _14_Rotations(Scene):
             ),
             run_time=2,
         )
-        # !!!
-        # self.camera.frame.stop_ambient_camera_rotation() 
-        # self.add_updater(lambda m, dt: m.increment_theta(angular_speed * dt))
-        # self.camera.clear()
+
         
         self.play(
             FlashAround(u_term[-1], color=RED),
@@ -389,9 +451,10 @@ class _14_Rotations(Scene):
         
         self.play(
             Write(u_term_fixed),
-            run_time=3,
+            run_time=2,
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
+
 
         u_term_fixed_w_inf = Tex(
             inf, space, equal, space,
@@ -404,13 +467,35 @@ class _14_Rotations(Scene):
             {"0": RED, inf: GREEN_C}
         )
         self.play(
-            Transform(u_term_fixed, u_term_fixed_w_inf),
-            run_time=3,
+            ReplacementTransform(u_term_fixed, u_term_fixed_w_inf),
+            run_time=2,
         )
 
+        self.wait(NOMINAL_WAIT_TIME)
         self.wait(PAUSE_WAIT_TIME)
         
-        # Fade out everything
+        # * Fade out everything
+        self.play(
+                FadeOut(sigma_1_vector),
+                FadeOut(trace),
+                FadeOut(unit_sphere),
+                FadeOut(mesh),
+                FadeOut(qubit_label),
+                FadeOut(spin_state),
+                FadeOut(wz_in_C),
+                FadeOut(global_phase),
+                FadeOut(global_phase_underline),
+                FadeOut(lambda_scaled_state),
+                FadeOut(one_over_v_scaled_state),
+                FadeOut(u_term),
+                FadeOut(u_term_fixed_w_inf),
+                FadeOut(axes),
+                
+            run_time=2,
+        )
+        self.wait(NOMINAL_WAIT_TIME)
+        
+        
         
         
         
