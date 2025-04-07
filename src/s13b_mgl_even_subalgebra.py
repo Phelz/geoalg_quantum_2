@@ -47,11 +47,11 @@ class _13B_EvenSubalgebra(Scene):
         # * Title
         title = Title(
             "The Even Subalgebra",
-            stroke_color=BLUE_D,
+            stroke_color=BLUE,
             include_underline=True,
             match_underline_width_to_text=True,
             underline_style=dict(stroke_width=3, stroke_color=WHITE),
-        ).to_corner(UL).set_color(BLUE_D)
+        ).to_corner(UL).set_color(BLUE)
         
         
         self.play(Write(title))

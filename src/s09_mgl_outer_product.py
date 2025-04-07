@@ -12,7 +12,7 @@ class _9_OuterProduct(Scene):
     def construct(self):
         
         # * Title
-        title = TexText(f'The Outer Product', font_size=TITLE_FONTSIZE*1.5).set_color(BLUE_D).to_edge(UP)
+        title = TexText(f'The Outer Product', font_size=TITLE_FONTSIZE*1.5).set_color(BLUE).to_edge(UP)
         self.play(Write(title), run_time=3)
 
         # * Summation equation

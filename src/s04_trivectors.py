@@ -12,7 +12,7 @@ class _4_Trivectors(ThreeDScene):
         self.next_section("Title", skip_animations=False)
         # * ______________________________________________________________________
         title = Text(
-            f'Trivectors', color=BLUE_D,
+            f'Trivectors', color=BLUE,
             font_size=TITLE_FONTSIZE
         )
         title.to_corner(UL)

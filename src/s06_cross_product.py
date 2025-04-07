@@ -2,7 +2,7 @@ from manim import *
 from reactive_manim import *
 import manimforge as mf
 mf.setup()
-import definitions as dfs
+from definitions import *
 
 
 class _6_CrossProduct(ThreeDScene):
@@ -12,12 +12,12 @@ class _6_CrossProduct(ThreeDScene):
         self.next_section("Title", skip_animations=False)
         # * ______________________________________________________________________
         title = Text(
-            f'The Cross Product', color=BLUE_D,
-            font_size=dfs.TITLE_FONTSIZE
+            f'The Cross Product', color=BLUE,
+            font_size=TITLE_FONTSIZE
         )
         title.to_corner(UL)
         self.add_fixed_in_frame_mobjects(title)
-        self.play(Write(title), run_time=3)
+        self.play(Write(title), run_time=2)
 
 
 
@@ -44,10 +44,10 @@ class _6_CrossProduct(ThreeDScene):
         ).set_opacity(0.75)
         self.play(
             Create(axes),
-            run_time=3,
+            run_time=1,
         )
-        self.move_camera(phi=70*DEGREES,theta=45*DEGREES + 15*DEGREES,run_time=3)
-        self.wait(dfs.NOMINAL_WAIT_TIME)
+        self.move_camera(phi=70*DEGREES,theta=45*DEGREES + 15*DEGREES,run_time=1)
+        self.wait(NOMINAL_WAIT_TIME)
         phi, theta, focal_distance, gamma, distance_to_origin = self.camera.get_value_trackers()
         
         # Zoom in and shift axes to the right
@@ -74,15 +74,14 @@ class _6_CrossProduct(ThreeDScene):
         for vec in [vec_a, vec_b]:
             self.play(
                 Create(vec),
-                runtime=2
+                runtime=1
             )
-        self.wait(dfs.NOMINAL_WAIT_TIME)
         
         vec_a_label = MathTex("A",
-            color=RED, font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            color=RED, font_size=int(3 * TITLE_FONTSIZE / 3)
         ).next_to(vec_a, RIGHT)
         vec_b_label = MathTex("B",
-            color=BLUE, font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            color=BLUE, font_size=int(3 * TITLE_FONTSIZE / 3)
         ).next_to(vec_b, UP)
         
         for label in [vec_a_label, vec_b_label]:
@@ -105,11 +104,11 @@ class _6_CrossProduct(ThreeDScene):
         #     runtime=3
         # )
 
-        # self.wait(dfs.NOMINAL_WAIT_TIME*2)
+        # self.wait(NOMINAL_WAIT_TIME*2)
         # # self.play(
         # #     gamma.animate.set_value(0.5),
         # # )
-        # # self.wait(dfs.NOMINAL_WAIT_TIME*2)
+        # # self.wait(NOMINAL_WAIT_TIME*2)
         # # self.play(
             
         # # )
@@ -135,7 +134,7 @@ class _6_CrossProduct(ThreeDScene):
             # focal_distance.animate.set_value(25)
         )
         
-        self.begin_ambient_camera_rotation(rate = - 0.64)
+        self.begin_ambient_camera_rotation(rate = - 0.16)
         
         lines_kwags = {"stroke_width": 2, "color": BLUE_B, "stroke_opacity": 0.2}
         lines_a = VGroup(*[
@@ -166,8 +165,8 @@ class _6_CrossProduct(ThreeDScene):
         ])
         big_rect.set_fill(color = BLUE_B, opacity = 0.3)
         big_rect.set_stroke(width = 0.5, color = GREY)
-        self.play(Create(big_rect), Create(lines_a), Create(lines_b), run_time = 3)
-        # self.wait(dfs.NOMINAL_WAIT_TIME)
+        self.play(Create(big_rect), Create(lines_a), Create(lines_b), run_time = 2)
+        # self.wait(NOMINAL_WAIT_TIME)
         
         self.play(
             Create(vec_n),
@@ -175,7 +174,7 @@ class _6_CrossProduct(ThreeDScene):
 
         
         vec_n_label = MathTex("A", "\\times", "B",
-            color=YELLOW, font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            color=YELLOW, font_size=int(3 * TITLE_FONTSIZE / 3)
         ).next_to(vec_n, OUT).shift(UP*1)
         self.add_fixed_orientation_mobjects(vec_n_label)
         
@@ -187,10 +186,10 @@ class _6_CrossProduct(ThreeDScene):
         self.play(
             Write(vec_n_label),
             # phi.animate.set_value(60*DEGREES),
-            run_time=3
+            run_time=1
         )
         
-        self.wait(dfs.PAUSE_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
         
         # Group everything in this scene and shift it all to the left*2
         everything = VGroup(
@@ -201,7 +200,7 @@ class _6_CrossProduct(ThreeDScene):
         
         self.play(
             everything.animate.shift(RIGHT*1 + UP*1 ),
-            run_time=3
+            run_time=1
         )
         
           
@@ -219,12 +218,12 @@ class _6_CrossProduct(ThreeDScene):
         levi_civita_symbol = MathTex("\\epsilon_{ijk}", color=WHITE)
 
         cross_product_def = MathTex(A_term, "\\times", B_term, "=", levi_civita_symbol, a_i_term, b_i_term, e_k_term,
-            font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            font_size=int(3 * TITLE_FONTSIZE / 3)
         ).to_corner(UL).shift(DOWN * 1)
 
         levi_civita_tex = Tex(
             "Levi-Civita Tensor",
-            color=BLUE_B, font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            color=BLUE_B, font_size=int(3 * TITLE_FONTSIZE / 3)
         )
         levi_civita_tex.to_corner(UL).shift(DOWN * 2)
         
@@ -237,20 +236,21 @@ class _6_CrossProduct(ThreeDScene):
             self.add_fixed_in_frame_mobjects(latex_term)
             self.remove(latex_term)
             self.play(Write(latex_term), run_time=2)
-            self.wait(dfs.NOMINAL_WAIT_TIME)
+            self.wait(NOMINAL_WAIT_TIME)
             
-        
+        self.wait(NOMINAL_WAIT_TIME)
         # Fade out A_sum and B_sum
         self.play(
             FadeOut(A_term_sum),
             FadeOut(B_term_sum),
             FadeOut(cross_product_def),
-            run_time=2
+            run_time=1
         )
+        self.wait(1)
         
         new_cross_product_def = MathTex(
             "\\mathbf{e}_i", "\\times", "\\mathbf{e}_j", "=", "\\epsilon_{ijk}", "\\mathbf{e}_k",
-            font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            font_size=int(3 * TITLE_FONTSIZE / 3)
         ).to_corner(UL).shift(DOWN * 1)
         new_cross_product_def[0].set_color(RED)
         new_cross_product_def[2].set_color(BLUE)
@@ -261,7 +261,7 @@ class _6_CrossProduct(ThreeDScene):
             Write(new_cross_product_def),
             run_time=2
         )
-        self.wait(dfs.NOMINAL_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME*5)
         
 
         

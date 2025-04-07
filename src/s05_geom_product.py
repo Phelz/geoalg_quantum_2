@@ -14,7 +14,7 @@ class _5_GeometricProduct(VectorScene):
         self.next_section("Title", skip_animations=False)
         # * ______________________________________________________________________
         title = Text(
-            f'The Geometric Product', color=BLUE_D,
+            f'The Geometric Product', color=BLUE,
             font_size=TITLE_FONTSIZE
         )
         title.to_edge(UP)

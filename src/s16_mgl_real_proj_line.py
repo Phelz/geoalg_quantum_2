@@ -12,7 +12,7 @@ class _16_RealProjectiveLine(Scene):
             f'Real Projective Line', include_underline=False, 
             font_size=TITLE_FONTSIZE*1.5,)
         title.to_corner(UL)
-        title.set_color(BLUE_D)
+        title.set_color(BLUE)
         # title.fix_in_frame()
         
         title.z_index = 10

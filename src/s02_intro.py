@@ -11,7 +11,7 @@ class _2_Intro(Scene):
         self.next_section("Intro", skip_animations=False)
         # Video Title
         title = MarkupText(
-            f'Geometric Algebra in Quantum Mechanics', color=BLUE_D,
+            f'Geometric Algebra in Quantum Mechanics', color=BLUE,
             font_size=dfs.TITLE_FONTSIZE
         )
         self.play(Write(title), run_time=3)
@@ -19,7 +19,7 @@ class _2_Intro(Scene):
 
         # Author
         name = MarkupText(
-            f'Filobateer Ghaly', color=BLUE_D, font_size=int(2.5*dfs.TITLE_FONTSIZE/3)
+            f'Filobateer Ghaly', color=BLUE, font_size=int(2.5*dfs.TITLE_FONTSIZE/3)
         ).shift(DOWN)
 
         self.play(Write(name), run_time=2, shift=DOWN*2)
@@ -27,7 +27,7 @@ class _2_Intro(Scene):
 
         # Shift the title up
         new_title = MarkupText(
-            f'Geometric Algebra', color=BLUE_D,
+            f'Geometric Algebra', color=BLUE,
             font_size=45
         ).to_edge(UP)
         self.wait(38)

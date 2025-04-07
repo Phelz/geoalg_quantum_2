@@ -11,7 +11,7 @@ class _3_Bivectors(VectorScene):
         self.next_section("Scalars and Vectors", skip_animations=False)
 
         title = MarkupText(
-            "Geometric Algebra", color=BLUE_D, font_size=TITLE_FONTSIZE
+            "Geometric Algebra", color=BLUE, font_size=TITLE_FONTSIZE
         ).to_edge(UP)
         self.add(title)
 
