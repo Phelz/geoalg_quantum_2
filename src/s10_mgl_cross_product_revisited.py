@@ -68,9 +68,9 @@ class _10_CrossProductRevisited(ThreeDScene):
                 theta=45*DEGREES + 15*DEGREES,
                 phi=60*DEGREES,
             ),
-            run_time=3,
+            run_time=2,
         )
-        self.camera.frame.add_ambient_rotation(10*DEGREES)
+        self.camera.frame.add_ambient_rotation(9*DEGREES)
         
         # * Vectors 
         # * ________________________________________________________________________
@@ -90,7 +90,7 @@ class _10_CrossProductRevisited(ThreeDScene):
             GrowFromCenter(vec_a),
             GrowFromCenter(vec_b),
             GrowFromCenter(vec_n),
-            run_time=2,
+            run_time=1,
         )
         
         # * Plane
@@ -132,7 +132,7 @@ class _10_CrossProductRevisited(ThreeDScene):
         self.play(ShowCreation(lines_a), ShowCreation(lines_b), 
                   ShowCreation(big_rect),
                   run_time = 2)
-        self.wait(NOMINAL_WAIT_TIME*3)
+        self.wait(NOMINAL_WAIT_TIME*2)
 
         # Stop ambient rotation
         self.camera.frame.remove_updater(
@@ -147,25 +147,24 @@ class _10_CrossProductRevisited(ThreeDScene):
                 phi=self.camera.frame.get_euler_angles()[1] + 60*DEGREES,
                 # gamma=-10*DEGREES,
             ),
-            run_time=2,
+            run_time=1,
         )
-        self.wait(NOMINAL_WAIT_TIME)
         
         self.play(
             Indicate(neg_vec_n, color=YELLOW, scale_factor=1.5),
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(1)
         
         self.play(
             self.camera.frame.animate.set_euler_angles(
-                theta=self.camera.frame.get_euler_angles()[0] + 30*DEGREES,
+                theta=self.camera.frame.get_euler_angles()[0] + 50*DEGREES,
                 phi=self.camera.frame.get_euler_angles()[1] - 50*DEGREES,
                 # gamma=-10*DEGREES,
             ),
             FadeOut(neg_vec_n),
             run_time=2,
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(1)
         
         self.play(
             FadeOut(big_rect),
@@ -219,7 +218,7 @@ class _10_CrossProductRevisited(ThreeDScene):
         
         self.play(
             ShowCreation(cur_arr),
-            run_time=2,
+            run_time=1,
         )       
         
         
@@ -234,6 +233,10 @@ class _10_CrossProductRevisited(ThreeDScene):
             run_time=3,
         )
         self.wait(NOMINAL_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
+        
         
         # * Indicate the pseudo-scalar in the formula
         self.play(
@@ -242,9 +245,9 @@ class _10_CrossProductRevisited(ThreeDScene):
                 final_formula[-1], color=YELLOW, 
                 time_width=0.5,
             ),
-            run_time=3,
+            run_time=10,
         )
-        self.wait(PAUSE_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME*1)
         
         
         # Fade out everything

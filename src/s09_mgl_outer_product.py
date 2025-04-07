@@ -316,9 +316,9 @@ class _9_OuterProduct(Scene):
             FadeOut(new_line_1),
             FadeOut(new_line_2),
             FadeOut(new_line_3),
-            TransformMatchingTex(new_line_2.copy().set_opacity(0), new_line_1_rearranged, run_time=1.5, lag_ratio=0.3, rate_func=double_smooth),
-            TransformMatchingTex(new_line_3.copy().set_opacity(0), new_line_2_rearranged, run_time=1.5, lag_ratio=0.3, rate_func=double_smooth),
-            TransformMatchingTex(new_line_1.copy().set_opacity(0), new_line_3_rearranged, run_time=1.5, lag_ratio=0.3, rate_func=double_smooth),
+            TransformMatchingTex(new_line_2.copy().set_opacity(0), new_line_1_rearranged, run_time=3, lag_ratio=0.5, rate_func=double_smooth),
+            TransformMatchingTex(new_line_3.copy().set_opacity(0), new_line_2_rearranged, run_time=3, lag_ratio=0.5, rate_func=double_smooth),
+            TransformMatchingTex(new_line_1.copy().set_opacity(0), new_line_3_rearranged, run_time=3, lag_ratio=0.5, rate_func=double_smooth),
         )
         self.wait(NOMINAL_WAIT_TIME)
         
