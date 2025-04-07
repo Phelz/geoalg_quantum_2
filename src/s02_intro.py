@@ -30,5 +30,6 @@ class _2_Intro(Scene):
             f'Geometric Algebra', color=BLUE_D,
             font_size=45
         ).to_edge(UP)
+        self.wait(38)
 
         self.play(Transform(title, new_title), FadeOut(name), run_time=1)

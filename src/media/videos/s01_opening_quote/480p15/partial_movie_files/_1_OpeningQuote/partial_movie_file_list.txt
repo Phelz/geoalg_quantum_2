@@ -1,0 +1,6 @@
+# This file is used internally by FFMPEG.
+file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s01_opening_quote/480p15/partial_movie_files/_1_OpeningQuote/1185818338_2028973310_223132457.mp4'
+file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s01_opening_quote/480p15/partial_movie_files/_1_OpeningQuote/624642324_2844360058_3237145903.mp4'
+file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s01_opening_quote/480p15/partial_movie_files/_1_OpeningQuote/624642324_1913710315_452801264.mp4'
+file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s01_opening_quote/480p15/partial_movie_files/_1_OpeningQuote/624642324_1265829795_4205772017.mp4'
+file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s01_opening_quote/480p15/partial_movie_files/_1_OpeningQuote/624642324_4172525339_2141102920.mp4'

@@ -1,9 +1,8 @@
 from manim import *
-from reactive_manim import *
+# from reactive_manim import *
 import manimforge as mf
 mf.setup()
-import definitions as dfs
-
+from definitions import *
 
 
 class _4_Trivectors(ThreeDScene):
@@ -14,17 +13,17 @@ class _4_Trivectors(ThreeDScene):
         # * ______________________________________________________________________
         title = Text(
             f'Trivectors', color=BLUE_D,
-            font_size=dfs.TITLE_FONTSIZE
+            font_size=TITLE_FONTSIZE
         )
         title.to_corner(UL)
         
         basis_vectors_text = MathTex(
             " \{ \\mathbf{e}_1 , \\mathbf{e}_2 , \\mathbf{e}_3 \}",
-            color=WHITE, font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            color=WHITE, font_size=int(3 * TITLE_FONTSIZE / 3)
         ).to_corner(UL).shift(0.75*DOWN)
         
         self.add_fixed_in_frame_mobjects(title)
-        self.play(Write(title), run_time=3)
+        self.play(Write(title), run_time=2)
 
 
         # * ______________________________________________________________________
@@ -52,10 +51,10 @@ class _4_Trivectors(ThreeDScene):
         self.play(
             Create(axes),
             Write(basis_vectors_text),
-            run_time=3,
+            run_time=2,
         )
-        self.move_camera(phi=70*DEGREES,theta=45*DEGREES + 15*DEGREES,run_time=3)
-        self.wait(dfs.NOMINAL_WAIT_TIME)
+        self.move_camera(phi=70*DEGREES,theta=45*DEGREES + 15*DEGREES,run_time=2)
+        self.wait(NOMINAL_WAIT_TIME)
 
 
         
@@ -78,13 +77,13 @@ class _4_Trivectors(ThreeDScene):
         
         # Add labeling math tex for each vector
         i_hat_label = MathTex(
-            "\\mathbf{e}_1", color=CONFIG["basis_i_color"], font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            "\\mathbf{e}_1", color=CONFIG["basis_i_color"], font_size=int(3 * TITLE_FONTSIZE / 3)
         ).next_to(i_hat, RIGHT) #.set_stroke(width=0, family=False).set_shaded_in_3d(True)
         j_hat_label = MathTex(
-            "\\mathbf{e}_2", color=CONFIG["basis_j_color"], font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            "\\mathbf{e}_2", color=CONFIG["basis_j_color"], font_size=int(3 * TITLE_FONTSIZE / 3)
         ).next_to(j_hat, UP) #.set_stroke(width=0, family=False).set_shaded_in_3d(True)
         k_hat_label = MathTex(
-            "\\mathbf{e}_3", color=CONFIG["basis_k_color"], font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            "\\mathbf{e}_3", color=CONFIG["basis_k_color"], font_size=int(3 * TITLE_FONTSIZE / 3)
         ).next_to(k_hat, OUT).shift(UP*.75) #.set_stroke(width=0, family=False).set_shaded_in_3d(True)
 
         
@@ -92,12 +91,12 @@ class _4_Trivectors(ThreeDScene):
             self.add_fixed_orientation_mobjects(obj)
             obj.z_index = 10  # Ensure the labels are on top of the axes
             self.play(
-                Write(obj, run_time=1),
+                Write(obj, run_time=0.5),
             )
         
 
         # self.stop_ambient_camera_rotation()
-        self.wait(dfs.NOMINAL_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
         
         
         # * ______________________________________________________________________
@@ -107,21 +106,21 @@ class _4_Trivectors(ThreeDScene):
         # Wedge all 3 basis vectors
         wedge_text = MathTex(
             "\\mathbf{e}_1 \\wedge \\mathbf{e}_2 \\wedge \\mathbf{e}_3",
-            color=WHITE, font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            color=WHITE, font_size=int(3 * TITLE_FONTSIZE / 3)
         ).to_corner(UL).shift(DOWN *2.25)
         
         pseudoscalar = MathTex(
             "\\mathbb{I} =  \\mathbf{e}_1 \\wedge \\mathbf{e}_2 \\wedge \\mathbf{e}_3",
-            color=WHITE, font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            color=WHITE, font_size=int(3 * TITLE_FONTSIZE / 3)
         ).move_to(wedge_text.get_center()).shift(RIGHT * 0.75)
         
         
         self.add_fixed_in_frame_mobjects(wedge_text)
         self.play(
             Write(wedge_text),
-            runtime=3
+            runtime=1
         )
-        self.wait(dfs.NOMINAL_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
         
         # Create a volume element trivector
         cube = Cube(
@@ -133,20 +132,20 @@ class _4_Trivectors(ThreeDScene):
         
         self.play(
             Write(cube),
-            run_time=3
+            run_time=2
         )
-        self.wait(dfs.PAUSE_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
         
         # * The pseudoscalar
 
 
         self.play(
             ReplacementTransform(wedge_text, pseudoscalar),
-            runtime=3
+            runtime=2
         )
         self.add_fixed_in_frame_mobjects(pseudoscalar)
         
-        self.wait(dfs.NOMINAL_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
         
         
         # Add box around the pseudoscalar
@@ -155,13 +154,13 @@ class _4_Trivectors(ThreeDScene):
         )
         self.add_fixed_in_frame_mobjects(pseudoscalar_box)
         self.play(Create(pseudoscalar_box), run_time=1)
-        self.wait(dfs.NOMINAL_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
         
         # *  Indicate the pseudoscalar 
         pseudoscalar_label = MathTex(
             "\\text{Pseudoscalar}",
             color=YELLOW,
-            font_size=int(3 * dfs.TITLE_FONTSIZE / 3),
+            font_size=int(3 * TITLE_FONTSIZE / 3),
         ).next_to(pseudoscalar, DOWN).shift(DOWN * 0.5)
         self.add_fixed_in_frame_mobjects(pseudoscalar_label)
 
@@ -170,7 +169,7 @@ class _4_Trivectors(ThreeDScene):
             Write(pseudoscalar_label),
             run_time=4,
         )
-        self.wait(dfs.PAUSE_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME + 1)
         
 
         # * ______________________________________________________________________
@@ -178,12 +177,12 @@ class _4_Trivectors(ThreeDScene):
         # * ______________________________________________________________________ 
         multivector_title = Text(
             "Multivectors", color=BLUE_D,
-            font_size=dfs.TITLE_FONTSIZE
+            font_size=TITLE_FONTSIZE
         ).to_corner(UR)
         
         multivector_text = MathTex(
             "\\mathbf{e}_1 \\wedge \\mathbf{e}_2 \\wedge \\mathbf{e}_3 \\wedge \\mathbf{e}_4 ... \\wedge \\mathbf{e}_n",
-            color=WHITE, font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            color=WHITE, font_size=int(3 * TITLE_FONTSIZE / 3)
         ).to_corner(UR).shift(DOWN *1)
         
         self.add_fixed_in_frame_mobjects(multivector_title)
@@ -191,14 +190,14 @@ class _4_Trivectors(ThreeDScene):
             Write(multivector_title),
             runtime=3
         )
-        self.wait(dfs.NOMINAL_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
         
         self.add_fixed_in_frame_mobjects(multivector_text)
         self.play(
             Write(multivector_text),
             runtime=3
         )
-        self.wait(dfs.PAUSE_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME*2)
         
         # Fade everything away
         self.play(

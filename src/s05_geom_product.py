@@ -2,7 +2,7 @@ from manim import *
 from reactive_manim import *
 import manimforge as mf
 mf.setup()
-import definitions as dfs
+from definitions import *
 
 
 
@@ -15,7 +15,7 @@ class _5_GeometricProduct(VectorScene):
         # * ______________________________________________________________________
         title = Text(
             f'The Geometric Product', color=BLUE_D,
-            font_size=dfs.TITLE_FONTSIZE
+            font_size=TITLE_FONTSIZE
         )
         title.to_edge(UP)
         
@@ -27,7 +27,7 @@ class _5_GeometricProduct(VectorScene):
         geo_prod_tex = MathTex(
             uterm, vterm, "=", uterm, "\\cdot", vterm, "+", uterm, "\\wedge", vterm,
             # "\\mathbf{u}  \\mathbf{v}  = \\mathbf{u} \\cdot \\mathbf{v} + \\mathbf{u} \\wedge \\mathbf{v}",
-            color=WHITE, font_size=int(4 * dfs.TITLE_FONTSIZE / 3)
+            color=WHITE, font_size=int(4 * TITLE_FONTSIZE / 3)
         ).to_edge(UP).shift(DOWN *1.5)
         
         geo_prod_box = SurroundingRectangle(
@@ -36,15 +36,15 @@ class _5_GeometricProduct(VectorScene):
         
         self.play(Write(title), run_time=2)
         
-        self.wait(dfs.NOMINAL_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
         
         self.play(
             Write(geo_prod_tex),
             Create(geo_prod_box),
             runtime=3
         )
-        self.wait(dfs.PAUSE_WAIT_TIME)
-        self.wait(dfs.PAUSE_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME + 1.5)
+        self.wait(PAUSE_WAIT_TIME + 1.5)
         
         
         # * ______________________________________________________________________
@@ -53,7 +53,7 @@ class _5_GeometricProduct(VectorScene):
         
         z1 = MathTex("z_1", "=", "a" "+", "i", "b", 
             # tex_to_color_map={"i": BLUE_C},
-            color=WHITE, font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            color=WHITE, font_size=int(3 * TITLE_FONTSIZE / 3)
         ).to_edge(UP).shift(DOWN *3 + LEFT*1.75)
         z1[3].set_color(BLUE_C)         
         
@@ -61,7 +61,7 @@ class _5_GeometricProduct(VectorScene):
             # "z_2 = c - i b",
             "z_2", "=", "c", "-", "i", "d",
             # tex_to_color_map={"i": BLUE_C},
-            color=WHITE, font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            color=WHITE, font_size=int(3 * TITLE_FONTSIZE / 3)
         ).to_edge(UP).shift(DOWN *3 + RIGHT*1.75)
         z2[4].set_color(BLUE_C)
         
@@ -70,18 +70,18 @@ class _5_GeometricProduct(VectorScene):
             runtime=3
         )
         
-        self.wait(dfs.NOMINAL_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
         self.play(
             Write(z2),
             runtime=3
         )
-        self.wait(dfs.NOMINAL_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
         
         z1_plus_z2 = MathTex(
             "z_1 + z_2", "=", "(a + c)", "+", "(b - d)", "i",
             # "z_1 + z_2 = (a + c) + (b - d) i",
             # tex_to_color_map={"i": BLUE_C},
-            color=WHITE, font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            color=WHITE, font_size=int(3 * TITLE_FONTSIZE / 3)
         ).to_edge(UP).shift(DOWN *4)
         z1_plus_z2[-1].set_color(BLUE_C)
 
@@ -90,26 +90,17 @@ class _5_GeometricProduct(VectorScene):
             runtime=3
         )
         
-        self.wait(dfs.PAUSE_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
         
         #  FadeOut all complex text
         self.play(
             FadeOut(z1),
             FadeOut(z2),
             FadeOut(z1_plus_z2),
-            runtime=2
-        )
-        
-        self.wait(dfs.NOMINAL_WAIT_TIME)
-        
-        self.play(
             FadeOut(title),
             FadeOut(geo_prod_box),
-            runtime=1.5
+            runtime=1
         )
-        
-        self.wait(dfs.NOMINAL_WAIT_TIME)
-        
         
         # * ______________________________________________________________________
         self.next_section("Vector Setup", skip_animations=False)
@@ -128,7 +119,7 @@ class _5_GeometricProduct(VectorScene):
         self.play(
             geo_prod_tex.animate.to_corner(UL).shift(DOWN * 0.75),
             Create(grid),
-            run_time=3
+            run_time=1
         )
         
         u = self.add_vector(1.75*np.array([1, 0, 0]), color=RED)
@@ -138,16 +129,16 @@ class _5_GeometricProduct(VectorScene):
         
         # Lavbel the basis vectors u and v (u is red, v is blue)
         u_label = MathTex(
-            uterm, color=RED, font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            uterm, color=RED, font_size=int(3 * TITLE_FONTSIZE / 3)
         ).next_to(u, DOWN)
         v_label = MathTex(
-            vterm, color=BLUE, font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            vterm, color=BLUE, font_size=int(3 * TITLE_FONTSIZE / 3)
         ).next_to(v, LEFT)
         
         self.play(
             Write(u_label),
             Write(v_label),
-            runtime=2
+            runtime=0.5
         )
         
                 
@@ -157,7 +148,7 @@ class _5_GeometricProduct(VectorScene):
         
         
         left_rotation_symbol = MathTex(
-            "\\circlearrowleft", color=WHITE, font_size=int(5 * dfs.TITLE_FONTSIZE / 3)
+            "\\circlearrowleft", color=WHITE, font_size=int(5 * TITLE_FONTSIZE / 3)
         ).move_to((u.get_end() + v.get_end()) / 2)
 
         # * Recolor text
@@ -166,18 +157,18 @@ class _5_GeometricProduct(VectorScene):
         
         geo_prod_tex[0] = uterm
         geo_prod_tex[1] = vterm
-        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5),
-        run_time=0.5)
+        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.05),
+        run_time=0.1)
         
         geo_prod_tex[3] = uterm
         geo_prod_tex[5] = vterm
-        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5),
-        run_time=0.5)
+        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.05),
+        run_time=0.1)
         
         geo_prod_tex[-3] = uterm
         geo_prod_tex[-1] = vterm
-        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5),
-        run_time=0.5)
+        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.05),
+        run_time=0.1)
 
         
         e1_term = MathTex( "\\mathbf{e_1}" ).set_color(RED)
@@ -192,21 +183,21 @@ class _5_GeometricProduct(VectorScene):
         v_label[0] = e2_term
         
         self.play( 
-            TransformInStages.progress(geo_prod_tex, lag_ratio=0.5),
-            TransformInStages.progress(u_label, lag_ratio=0.5),
-            TransformInStages.progress(v_label, lag_ratio=0.5),
-            run_time=1
+            TransformInStages.progress(geo_prod_tex, lag_ratio=0.25),
+            TransformInStages.progress(u_label, lag_ratio=0.25),
+            TransformInStages.progress(v_label, lag_ratio=0.25),
+            run_time=0.4
         )
         
         geo_prod_tex[3] = e1_term
         geo_prod_tex[5] = e2_term
-        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5),
-        run_time=0.5)
+        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.25),
+        run_time=0.4)
         
         geo_prod_tex[-3] = e1_term
         geo_prod_tex[-1] = e2_term
-        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.5),
-        run_time=0.5)
+        self.play( TransformInStages.progress(geo_prod_tex, lag_ratio=0.25),
+        run_time=0.4)
         
                 
         # * ______________________________________________________________________
@@ -233,6 +224,7 @@ class _5_GeometricProduct(VectorScene):
             Write(left_rotation_symbol),
             runtime=2
         )
+        self.wait(NOMINAL_WAIT_TIME)
         
         
         # * ______________________________________________________________________
@@ -245,9 +237,9 @@ class _5_GeometricProduct(VectorScene):
             Indicate(geo_prod_tex[3], rate_func=there_and_back),
             Indicate(geo_prod_tex[4], rate_func=there_and_back),
             Indicate(geo_prod_tex[5], rate_func=there_and_back),
-            run_time=3
+            run_time=2
         )
-        self.wait(dfs.NOMINAL_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
         
         geo_prod_tex[4:8] = ""
         self.play(
@@ -261,25 +253,24 @@ class _5_GeometricProduct(VectorScene):
         
         self.play(
             Create(box_wedge_simple),
-            run_time=2
+            run_time=1
         )
         
-        self.wait(dfs.PAUSE_WAIT_TIME)
         
         # * ______________________________________________________________________
         self.next_section("Zero Wedge", skip_animations=False)
         # * ______________________________________________________________________
 
         wedge_term = MathTex(geo_prod_tex[-3].copy(), geo_prod_tex[-2].copy(), geo_prod_tex[-1].copy(), 
-             font_size=int(4 * dfs.TITLE_FONTSIZE / 3)
+             font_size=int(4 * TITLE_FONTSIZE / 3)
         ).to_corner(UR).shift(DOWN *0.75 + LEFT*2)
         
         self.play(
-            TransformInStages.from_copy(geo_prod_tex, wedge_term, lag_ratio=0.5, run_time=2),
-            runtime=2
+            TransformInStages.from_copy(geo_prod_tex, wedge_term, lag_ratio=0.5, run_time=1),
+            runtime=1
         )
         
-        self.wait(dfs.PAUSE_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
         
         v_label[0] = e1_term
         v_label.move_to(u_label.get_center() + RIGHT* 0.5)
@@ -290,7 +281,6 @@ class _5_GeometricProduct(VectorScene):
             FadeOut(left_rotation_symbol),
             run_time=2,
         )
-        self.wait(1)
         
         wedge_term[2] = e1_term
         anim = TransformInStages.progress(wedge_term, lag_ratio=0.5, run_time=2)
@@ -301,35 +291,35 @@ class _5_GeometricProduct(VectorScene):
             v.animate.set_color(RED),
             anim
         )
-        self.wait(dfs.NOMINAL_WAIT_TIME)
+        self.wait(1)
         
         wedge_term.append("=")
         wedge_term.append("0")
         self.play(
             TransformInStages.progress(wedge_term, lag_ratio=0.5, run_time=2),
         )
-        self.wait(dfs.NOMINAL_WAIT_TIME)
+        self.wait(1)
         
         # * ______________________________________________________________________
         self.next_section("Dot Simplification", skip_animations=False)
         # * ______________________________________________________________________
 
         e1_e1_tex = MathTex(e1_term, e1_term, "=", e1_term, "\\cdot", e1_term,
-                            font_size=int(4 * dfs.TITLE_FONTSIZE / 3))
+                            font_size=int(4 * TITLE_FONTSIZE / 3))
         e1_e1_tex.to_corner(UR).shift(DOWN * 2 + LEFT * 1)
 
         self.play(
             TransformMatchingTex(v_label.copy(), e1_e1_tex),
-            runtime=3
+            runtime=2
         )
-        self.wait(dfs.NOMINAL_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
         
         e1_e1_tex.append("=")
         e1_e1_tex.append("1")
         self.play(
             TransformInStages.progress(e1_e1_tex, lag_ratio=0.5, run_time=2),
         )
-        # self.wait(dfs.NOMINAL_WAIT_TIME)
+        # self.wait(NOMINAL_WAIT_TIME)
         wedge_term_center = wedge_term.get_center()
         e1_e1_tex.move_to(wedge_term_center)
         
@@ -337,7 +327,6 @@ class _5_GeometricProduct(VectorScene):
             FadeOut(wedge_term),
             TransformInStages.progress(e1_e1_tex, lag_ratio=0.5, run_time=2),
         )
-        self.wait(dfs.NOMINAL_WAIT_TIME)
         
         # Create a box around that final result
         box_dot_simple = SurroundingRectangle(
@@ -345,35 +334,36 @@ class _5_GeometricProduct(VectorScene):
         )
         self.play(
             Create(box_dot_simple),
-            run_time=2
+            run_time=1
         )
-        self.wait(dfs.NOMINAL_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
         
         # * ______________________________________________________________________
         self.next_section("General Case", skip_animations=False)
         # * ______________________________________________________________________
         
         e_i = MathTex(
-            "\\mathbf{e}_i", color=RED, font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            "\\mathbf{e}_i", color=RED, font_size=int(3 * TITLE_FONTSIZE / 3)
         )
         e_j = MathTex(
-            "\\mathbf{e}_j", color=BLUE, font_size=int(3 * dfs.TITLE_FONTSIZE / 3)
+            "\\mathbf{e}_j", color=BLUE, font_size=int(3 * TITLE_FONTSIZE / 3)
         )
         
         general_case_wedge = MathTex(e_i, e_j, "=", e_i, "\\wedge", e_j,
-            font_size=int(4 * dfs.TITLE_FONTSIZE / 3)
+            font_size=int(4 * TITLE_FONTSIZE / 3)
         ).move_to(geo_prod_tex.get_center())
         
         general_case_dot = MathTex(e_i, e_i, "=", e_i, "\\cdot", e_i, "=", "1",
-            font_size=int(4 * dfs.TITLE_FONTSIZE / 3)
+            font_size=int(4 * TITLE_FONTSIZE / 3)
         ).move_to(box_dot_simple.get_center())
         
         self.play(
             TransformMatchingTex(e1_e1_tex, general_case_dot),
             TransformMatchingTex(geo_prod_tex, general_case_wedge),
-            runtime=3
+            runtime=2
         )
-        self.wait(dfs.PAUSE_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
         
         # Fade out everything
         self.play(
