@@ -7,6 +7,13 @@ from src.definitions import *
 class _12_DualVisualized(ThreeDScene):
     def construct(self):
         
+
+        color_dict_3d = {
+            r'\mathbf{e_1}': RED_B,
+            r'\mathbf{e_2}': BLUE_B,
+            r'\mathbf{e_3}': GREEN_B,
+        }
+        
         # * Formula on top
         title = Title(
             "Duality",
@@ -72,12 +79,12 @@ class _12_DualVisualized(ThreeDScene):
         )
         
         # * Show basis vectors
-        e1 = Vector(1.75*np.array([1, 0, 0])).set_color(BLUE_A)
-        e2 = Vector(1.75*np.array([0, 1, 0])).set_color(YELLOW_C)
-        e3 = Vector(1.75*np.array([0, 0, 1])).set_color(BLUE_A)
+        e1 = Vector(1.75*np.array([1, 0, 0])).set_color(RED_B)
+        e2 = Vector(1.75*np.array([0, 1, 0])).set_color(BLUE_B)
+        e3 = Vector(1.75*np.array([0, 0, 1])).set_color(GREEN_B)
         
         e2.set_opacity(0)
-        neg_e2 = Vector(1.75*np.array([0, -1, 0])).set_color(YELLOW_C)
+        neg_e2 = Vector(1.75*np.array([0, -1, 0])).set_color(BLUE)
         neg_e2.set_opacity(0)
         self.add(neg_e2)
         # self.add(e1, e2, e3)
