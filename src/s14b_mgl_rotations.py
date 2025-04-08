@@ -81,22 +81,16 @@ class _14B_Rotations(Scene):
             font_size=TITLE_FONTSIZE,
         )
         
-        
+        self.camera.frame.set_euler_angles(
+            theta=45*DEGREES + 15*DEGREES,
+            phi=70*DEGREES,
+        )
         self.play(
             ShowCreation(axes),
             run_time=2,
         )
-        self.play(
-            self.camera.frame.animate.set_euler_angles(
-                theta=45*DEGREES + 15*DEGREES,
-                phi=70*DEGREES,
-            ),
-            run_time=2,
-        )
-
         
-        self.camera.frame.add_ambient_rotation(angular_speed=10*DEGREES),       
-        self.wait(NOMINAL_WAIT_TIME)
+        self.camera.frame.add_ambient_rotation(angular_speed=8*DEGREES),       
         
         
         # * Create SIGMA_1 vector
@@ -110,9 +104,8 @@ class _14B_Rotations(Scene):
         
         self.play(
             GrowFromCenter(sigma_1_vector),
-            run_time=2,
+            run_time=1,
         )
-        self.wait(NOMINAL_WAIT_TIME)
         
         
         trace = TracedPath(
@@ -189,7 +182,6 @@ class _14B_Rotations(Scene):
             ),
             run_time=2,
         )
-        self.wait(NOMINAL_WAIT_TIME)
         
         # * Combinations of rotations
         # * ________________________________________________________________________
@@ -199,18 +191,16 @@ class _14B_Rotations(Scene):
         self.play(
             FadeOut(pi_over_2),
             Rotate(sigma_1_vector, angle=PI/2 + PI, axis=OUT, about_point=ORIGIN),
-            run_time=4,
+            run_time=2,
         )
-        self.wait(NOMINAL_WAIT_TIME)
         
         
         # Now rotate in the xz-plane
         self.play(
             Rotate(sigma_1_vector, angle=2*PI, axis=DOWN, about_point=ORIGIN),
-            run_time=4,
+            run_time=2,
         )
         
-        self.wait(NOMINAL_WAIT_TIME)
         
         # Now draw a sphere
         unit_sphere = Sphere(
@@ -223,11 +213,11 @@ class _14B_Rotations(Scene):
         self.play(
             ShowCreation(mesh, lag_ratio=0.01, run_time=2),
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(1)
         self.play(
             ShowCreation(unit_sphere, lag_ratio=0.01, run_time=2),
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(1)
         
         
         # * Label the Riemann Sphere
@@ -279,7 +269,7 @@ class _14B_Rotations(Scene):
         
         self.play(
             self.camera.frame.animate.set_euler_angles(
-                theta=theta - 25 * DEGREES,
+                theta=theta + 45 * DEGREES,
                 phi=phi,
                 gamma=gamma,
             ),
@@ -287,14 +277,13 @@ class _14B_Rotations(Scene):
         
         # Rotate it 
         self.play(
-            Rotate(sigma_1_vector, angle=PI/4, axis=OUT, about_point=ORIGIN),
-            run_time=2,
+            Rotate(sigma_1_vector, angle=-PI/4, axis=OUT, about_point=ORIGIN),
+            run_time=1,
         )
         self.play(
             Rotate(sigma_1_vector, angle=PI/4, axis=DOWN, about_point=ORIGIN),
-            run_time=2,
+            run_time=1,
         )
-        self.wait(NOMINAL_WAIT_TIME)
         
         # Qubit label
         diag_arr_ket = r" \ket{ \nearrow }"
@@ -314,6 +303,7 @@ class _14B_Rotations(Scene):
         spin_state.next_to(qubit_label, DOWN).shift(DOWN*0.25)
         spin_state.fix_in_frame()
         
+        self.wait(PAUSE_WAIT_TIME)
         
         
         # Write both
@@ -337,7 +327,7 @@ class _14B_Rotations(Scene):
             Write(wz_in_C),
             run_time=2,
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
         self.wait(PAUSE_WAIT_TIME)
         
         # * Fixing the problem - global phase transformation
@@ -409,7 +399,7 @@ class _14B_Rotations(Scene):
             Write(u_term),
             run_time=2,
         )
-        self.wait(PAUSE_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME/2)
         
         # Color the denominator
         self.play(
@@ -446,7 +436,7 @@ class _14B_Rotations(Scene):
             Write(u_term_fixed),
             run_time=2,
         )
-        self.wait(PAUSE_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME/1.5)
 
 
         u_term_fixed_w_inf = Tex(

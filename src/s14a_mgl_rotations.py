@@ -67,7 +67,7 @@ class _14A_Rotations(Scene):
         )
         euler_quantum_text.scale(1).next_to(euler_quantum, LEFT).shift(LEFT*0.5)
         self.play(Write(euler_quantum))
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
         self.play(Write(euler_quantum_text))
         self.wait(PAUSE_WAIT_TIME)
         
@@ -150,6 +150,8 @@ class _14A_Rotations(Scene):
                   FadeIn(box_imaginary),
         )
         self.wait(PAUSE_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
+        
         
         # * Line separator
         line = Line(
@@ -182,7 +184,7 @@ class _14A_Rotations(Scene):
         
         self.play(Write(rotation_quantum_p1))
         self.play(Write(rotation_quantum_p2))
-        self.wait(PAUSE_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
         
         # * Reduced version
         rotation_quantum_reduced = Tex(
@@ -252,6 +254,8 @@ class _14A_Rotations(Scene):
             )
         )
         self.wait(PAUSE_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
+        
         
         # * Clean up the scene by fading out everythin except the rotation_geometric_alg
         self.play(
@@ -401,7 +405,7 @@ class _14A_Rotations(Scene):
         self.play(
             Write(sigma_1_sigma_2_plane),
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
         
         # * Clean up scene:
         # * 1. Fade out everything except the rotation_geometric_alg
@@ -411,12 +415,12 @@ class _14A_Rotations(Scene):
             FadeOut(sigma_3_peudoscalar_term_expanded_final),
 
         )
-        self.wait(NOMINAL_WAIT_TIME)
         
         # ! AWESOME WAY TO FADE OUT PARTS OF A TEX OBJECT SO WE CAN DO CLEANER TRANSFORMS
         self.play(
             FadeOut(rotation_geometric_alg[exp_sigma_3_theta2]),
-            FadeOut(rotation_geometric_alg[exp_sigma_3_theta2_dagger])
+            FadeOut(rotation_geometric_alg[exp_sigma_3_theta2_dagger]),
+            run_time=0.5,
         )
         rotation_geometric_alg[exp_sigma_3_theta2].set_opacity(0)
         rotation_geometric_alg[exp_sigma_3_theta2_dagger].set_opacity(0)
@@ -446,11 +450,11 @@ class _14A_Rotations(Scene):
                     cos_theta: cos_theta,
                     sin_theta: sin_theta,
                 },
-            )
+            ),
+            run_time=1,
         )
         self.play(
             rotation_geometric_alg_final.animate.to_corner(UL),
         )
-        self.wait(NOMINAL_WAIT_TIME)
         
         
