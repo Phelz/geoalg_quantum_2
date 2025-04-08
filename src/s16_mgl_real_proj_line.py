@@ -53,13 +53,11 @@ class _16_RealProjectiveLine(Scene):
         bg_rect_title.z_index = 9
         
         
-        
         self.play(
             ShowCreation(plane),
             ShowCreation(bg_rect_title),
             run_time=2,
         )
-        self.wait(NOMINAL_WAIT_TIME)
         
         # * Signify the artist by a dot at the ORIGIN
         # * ______________________________________________________________________
@@ -88,16 +86,13 @@ class _16_RealProjectiveLine(Scene):
         self.play(
             Flash(ORIGIN, color=YELLOW),
             Write(artist_tex),
-            run_time=3,
+            run_time=1,
         )
-        self.wait(NOMINAL_WAIT_TIME)
-        
         
         self.play(
             ShowCreation(artist_dot),
-            run_time=2,
+            run_time=1,
         )
-        self.wait(NOMINAL_WAIT_TIME)
         
         # * Draw the line that is the Easel for the artist
         # * ______________________________________________________________________
@@ -120,9 +115,8 @@ class _16_RealProjectiveLine(Scene):
         self.play(
             ShowCreation(line_graph),
             Write(line_graph_label),
-            run_time=3,
+            run_time=2,
         )
-        self.wait(NOMINAL_WAIT_TIME)
         
         #         line_graph = plane.get_graph(
         #     lambda y: 1,
@@ -352,13 +346,13 @@ class _16_RealProjectiveLine(Scene):
                 ShowCreation,
                 dots_behind,
                 lag_ratio=0.5,
-                run_time=3,
+                run_time=2,
             ),
             LaggedStartMap(
                 ShowCreation,
                 lines_behind,
                 lag_ratio=0.5,
-                run_time=3,
+                run_time=2,
             ),
         )
         self.wait(NOMINAL_WAIT_TIME)
@@ -367,7 +361,7 @@ class _16_RealProjectiveLine(Scene):
                 GrowArrow,
                 arrow_from_behind,
                 lag_ratio=0.5,
-                run_time=7,
+                run_time=3,
             ),
             # Indicate the dots of intersection
             # *[Indicate(dot, scale_factor=2, color=RED) for dot in intersection_pts],
@@ -377,7 +371,7 @@ class _16_RealProjectiveLine(Scene):
                 lag_ratio=0.7,
                 scale_factor=2,
                 color=RED,
-                run_time=7,
+                run_time=3,
             )
         )
         self.wait(NOMINAL_WAIT_TIME)
@@ -473,35 +467,28 @@ class _16_RealProjectiveLine(Scene):
         f_always(ldot_coord_1_copy.set_value, get_x_coord)
         f_always(ldot_coord_2_copy.set_value, get_y_coord)
         
-        
-        
-        self.play(
-            last_dot_copy.animate.move_to(
-                intersection_pts[-1].get_center(),
-            ),
-            run_time=3,
-        )
-        self.wait(NOMINAL_WAIT_TIME)
-        
-        # * LAMBDA Scaling
-        # * ______________________________________________________________________
-        
         lambda_tex = Tex(
             r"\lambda",
             font_size=TITLE_FONTSIZE*1.2,
         ).set_color(YELLOW_C).next_to(ldot_label, LEFT, buff=0.1)
         
+        
         self.play(
             Write(lambda_tex),
-            run_time=3,
+            last_dot_copy.animate.move_to(
+                intersection_pts[-1].get_center(),
+            ),
+            run_time=2,
         )
+        
+        # * LAMBDA Scaling
+        # * ______________________________________________________________________
         
         self.play(
             FlashAround(lambda_tex, color=YELLOW_C, buff=0.2),
             run_time=3,
         )
         
-        self.wait(NOMINAL_WAIT_TIME)
         one_half = Tex(
             r"\frac{1}{2}",
             font_size=TITLE_FONTSIZE*1.2,
@@ -512,7 +499,6 @@ class _16_RealProjectiveLine(Scene):
             ReplacementTransform(lambda_tex, one_half),
             run_time=3,
         )
-        self.wait(NOMINAL_WAIT_TIME)
         
         
         # Repeat the same procedure for the last_dot_behind
@@ -539,7 +525,7 @@ class _16_RealProjectiveLine(Scene):
             Write(ldot_behind_label),
             run_time=2,
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(2)
         
         ldot_behind_copy = last_dot_behind.copy().set_opacity(0.5)
         ldot_behind_copy.move_to(last_dot_behind.get_center())
@@ -568,7 +554,7 @@ class _16_RealProjectiveLine(Scene):
             ldot_behind_copy.animate.move_to(
             lines_behind[-1].point_from_proportion(0.5),
             ),
-            run_time=3,
+            run_time=2,
         )
         self.wait(NOMINAL_WAIT_TIME)
         
@@ -576,7 +562,7 @@ class _16_RealProjectiveLine(Scene):
             ldot_behind_copy.animate.move_to(
             lines_behind[-1].point_from_proportion(0.25),
             ),
-            run_time=3,
+            run_time=2,
         )
         self.wait(NOMINAL_WAIT_TIME)
         
@@ -632,14 +618,9 @@ class _16_RealProjectiveLine(Scene):
         
         self.play(
             ShowCreation(bg_rect_tex),
-            run_time=3,
-        )
-        
-        self.play(
             Write(line_equation),
-            run_time=3,
+            run_time=2,
         )
-        self.wait(NOMINAL_WAIT_TIME)
         # Cross out the b term
         cross_b = Cross(
             line_equation[-1],
@@ -648,9 +629,9 @@ class _16_RealProjectiveLine(Scene):
         )
         self.play(
             ShowCreation(cross_b),
-            run_time=3,
+            run_time=1,
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(1)
         
         line_equation_iteration_1 = Tex(
             y, space, equal, space, m, x,
@@ -665,9 +646,9 @@ class _16_RealProjectiveLine(Scene):
         self.play(
             TransformMatchingTex(line_equation, line_equation_iteration_1),
             FadeOut(cross_b),
-            run_time=3,
+            run_time=2,
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(1)
             
         line_equation_iteration_2 = Tex(
             r"\frac{y}{x}", space, equal, space, m,
@@ -682,9 +663,9 @@ class _16_RealProjectiveLine(Scene):
         
         self.play(
             TransformMatchingTex(line_equation_iteration_1, line_equation_iteration_2),
-            run_time=3,
+            run_time=2,
         )
-        self.wait(NOMINAL_WAIT_TIME)      
+        self.wait(1)      
         
         # Scale by lambda
         line_equation_iteration_3 = Tex(
@@ -702,7 +683,7 @@ class _16_RealProjectiveLine(Scene):
         
         self.play(
             ReplacementTransform(line_equation_iteration_2, line_equation_iteration_3),
-            run_time=3,
+            run_time=2,
         )
         
         self.wait(NOMINAL_WAIT_TIME)
@@ -722,43 +703,45 @@ class _16_RealProjectiveLine(Scene):
             # Also FadeOut the decimal descriptor and the lambda_tex
             FadeOut(lambda_decimal_descriptor),
             FadeOut(one_half),
-            run_time=3,
+            run_time=2,
         )
         self.play(
             Indicate(line_equation_iteration_4[-1], scale_factor=2, color=YELLOW_C),
-            run_time=3,
+            run_time=2,
         )
         self.wait(NOMINAL_WAIT_TIME)
-        
-        # Now set the m = 2
-        line_equation_iteration_5 = Tex(
-            r"\frac{y}{x}", space, equal, space, "2",
-            font_size=TITLE_FONTSIZE*1.5,
-            ).set_color(BLUE_B).move_to(
-            line_equation_iteration_4.get_center(),
-            )
-            # .shift(DOWN*0.75)
-        line_equation_iteration_5.set_color_by_tex("2", YELLOW_C)
-        self.play(
-            TransformMatchingTex(line_equation_iteration_4, line_equation_iteration_5),
-            run_time=3,
-        )
         self.wait(NOMINAL_WAIT_TIME)
         
-        # Indicate the intersection point and bring it to the front, making it bigger as well
-        self.play(
-            Indicate(intersection_pts[-1], scale_factor=2, color=RED),
-            run_time=3,
-        )
+        # # ! NOT NEEDED        
+        # # # Now set the m = 2
+        # # line_equation_iteration_5 = Tex(
+        # #     r"\frac{y}{x}", space, equal, space, "2",
+        # #     font_size=TITLE_FONTSIZE*1.5,
+        # #     ).set_color(BLUE_B).move_to(
+        # #     line_equation_iteration_4.get_center(),
+        # #     )
+        # #     # .shift(DOWN*0.75)
+        # # line_equation_iteration_5.set_color_by_tex("2", YELLOW_C)
+        # # self.play(
+        # #     TransformMatchingTex(line_equation_iteration_4, line_equation_iteration_5),
+        # #     run_time=3,
+        # # )
+        # # self.wait(NOMINAL_WAIT_TIME)
         
-        self.wait(NOMINAL_WAIT_TIME)
+        # # # Indicate the intersection point and bring it to the front, making it bigger as well
+        # # self.play(
+        # #     Indicate(intersection_pts[-1], scale_factor=2, color=RED),
+        # #     run_time=3,
+        # # )
+        
+        # # self.wait(NOMINAL_WAIT_TIME)
         
         # * Clean up 
         # * ______________________________________________________________________
         
         self.play(
             *[FadeOut(obj) for obj in [
-            line_equation_iteration_5,
+            # line_equation_iteration_5,
             bg_rect_tex,
             ldot_label,
             ldot_label_copy,
@@ -768,11 +751,14 @@ class _16_RealProjectiveLine(Scene):
             last_dot_copy,
             dots[-1],
             dots_behind[-1],
+            # Equation
+            line_equation_iteration_4,
             
             ]],
-            run_time=3,
+            run_time=2,
         )
-        self.wait(PAUSE_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
+        
         # * Rotation scene
         # * ______________________________________________________________________
         
@@ -792,14 +778,7 @@ class _16_RealProjectiveLine(Scene):
             run_time=3,
         )
         self.wait(NOMINAL_WAIT_TIME)
-        # self.play(
-        #     Rotate(
-        #         new_line,
-        #         angle=PI/8,
-        #         about_point=ORIGIN,
-        #         run_time=3,
-        #     ),
-        # )
+
 
 
         # Draw a dot at a specific proportion of the line
@@ -868,7 +847,7 @@ class _16_RealProjectiveLine(Scene):
                 about_point=ORIGIN,
                 axis=OUT,
             ),
-            run_time=7
+            run_time=5
         )
         self.wait(NOMINAL_WAIT_TIME)
         
@@ -885,9 +864,9 @@ class _16_RealProjectiveLine(Scene):
                 about_point=ORIGIN,
                 axis=OUT,
             ),
-            run_time=12
+            run_time=9
         )
-        self.wait(PAUSE_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
         
         # Label the point at infinity
         infinity_tex_right = Tex(
@@ -903,10 +882,11 @@ class _16_RealProjectiveLine(Scene):
         self.play(
             Write(infinity_tex_right),
             Write(infinity_tex_left),
-            run_time=3,
+            run_time=2,
         )
-        self.wait(PAUSE_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
         
+        # ! No need 
         self.play(
             Rotate(
                 new_line,
@@ -919,7 +899,7 @@ class _16_RealProjectiveLine(Scene):
                 about_point=ORIGIN,
                 axis=OUT,
             ),
-            run_time=7
+            run_time=3
         )
         self.wait(NOMINAL_WAIT_TIME)
         
@@ -961,22 +941,10 @@ class _16_RealProjectiveLine(Scene):
             infinity_tex_right.animate.set_color(YELLOW_C),
             run_time=3,
         )
-        self.wait(PAUSE_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME*1.5)
         
         # * DOUBLE ANGLE 
         # * ______________________________________________________________________
-        
-        # keep_trace_intersection = TracedPath(
-        #     intersection_pts[-1].get_center,
-        #     stroke_width=3,
-        #     stroke_color=RED,
-        #     stroke_opacity=0.9,
-        # )
-        
-
-        # # keep_trace_intersection.z_index = 10
-        # self.add(keep_trace_intersection)
-        
         self.play(
             Rotate(
                 new_line,
@@ -1025,6 +993,7 @@ class _16_RealProjectiveLine(Scene):
         )
         self.wait(NOMINAL_WAIT_TIME)
         
+        # !! NOT NEEDED -- this is my pause
         self.play(
             Rotate(
                 new_line,
@@ -1039,9 +1008,9 @@ class _16_RealProjectiveLine(Scene):
                 axis=OUT,
                 lag_ratio=0.5,
             ),
-            run_time=20
+            run_time=30
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
         
         
         # * Final Scene, Transforming the circle into a sphere and the lines into planes
@@ -1207,7 +1176,6 @@ class _16_RealProjectiveLine(Scene):
             ShowCreation(rectangle_inf_lines),
             run_time=1,
         )
-        self.wait(NOMINAL_WAIT_TIME)
         
      
         self.play(
@@ -1215,7 +1183,6 @@ class _16_RealProjectiveLine(Scene):
             run_time=1,
         )
         
-        self.wait(NOMINAL_WAIT_TIME)
 
         # * New title to the left
         new_title = Title(
@@ -1235,7 +1202,8 @@ class _16_RealProjectiveLine(Scene):
         
         new_points_tex = Tex(
             r"\mathbb{P}", r"\mathbb{R}^2", ":", space,
-            "(", "x,", space, "y,", space, "z", ")")
+            r"\left(x, \  y, \ z\right)")
+            # r"\left (" + "x,"+ space+ "y,"+ space+ "z"+ "\right)")
         new_points_tex.move_to(
             new_title.get_center(),
         ).shift(DOWN)
@@ -1251,7 +1219,9 @@ class _16_RealProjectiveLine(Scene):
         new_points_tex_scaled = Tex(
             r"\mathbb{P}", r"\mathbb{R}^2", ":", space,
             r"\frac{1}{y}", space,
-            "(", "x,", space, "y,", space, "z", ")")
+            # r"\left(" + "x,"+ space+ "y,"+ space+ "z"+ "\right)")
+            r"\left( x, \ y, \ z\right)")
+        
         new_points_tex_scaled.move_to(
             new_points_tex.get_center(),
         )
@@ -1265,7 +1235,12 @@ class _16_RealProjectiveLine(Scene):
         
         new_points_tex_final = Tex(
             r"\mathbb{P}", r"\mathbb{R}^2", ":", space,
-            "(", r"\frac{x}{y},", space, "1,", space, r"\frac{z}{y}", ")")
+            r"\left ( \frac{x}{y}, \ 1, \ \frac{z}{y}\right )")
+            # "\left(" + space+
+            # r"\frac{x}{y}," + space+
+            # r"1" + space+
+            # r"\frac{z}{y}" + space+
+            # "\right)")
 
         new_points_tex_final.move_to(
             new_points_tex_scaled.get_center(),
@@ -1294,7 +1269,10 @@ class _16_RealProjectiveLine(Scene):
         # * ______________________________________________________________________
         w_correspondence_with_xy_zy = Tex(
             "u", space, equal, r"\frac{w}{v}", space, r"\Longleftrightarrow ", space,
-            r"\{", r"\frac{x}{y},", space, r"\frac{z}{y}", r"\}")
+            
+            r"\left ( \frac{x}{y}, \ 1, \ \frac{z}{y}\right )", space,)
+            # r"\left {" + r"\frac{x}{y}," + space + r"1," + space + r"\frac{z}{y}"+ r"\right }")
+            # r"\left {" + r"\frac{x}{y}," + space + r"\frac{z}{y}"+ r"\right } ")
         w_correspondence_with_xy_zy.move_to(
             new_points_tex_final.get_center(),
         ).shift(DOWN*1.25)
@@ -1330,87 +1308,7 @@ class _16_RealProjectiveLine(Scene):
             ShowCreation(bbox_result),
             run_time=2,
         )
-        self.wait(PAUSE_WAIT_TIME)
-
-        # Fade out the rectangle
-        
-
-
-
-        #     1,
-        #     num_decimal_places=1,
-        #     color=YELLOW_C,
-        # ).next_to(lambda_tex, RIGHT, buff=0.1)
-        
-        
-
-        # last_dot_coords_tex = Tex(
-        #     f"({last_dot_coords_point[0]:.2f}, {last_dot_coords_point[1]:.2f})",
-        #     font_size=TITLE_FONTSIZE*1,
-        # ).set_color(BLUE_B)
-        # last_dot_coords_tex.move_to(
-        #     last_dot.get_center(),
-        #     aligned_edge=DOWN,
-        # ).shift(UP * 0.5 + RIGHT*1.25)
-        
-        # # Make a copy of the tex down below
-        # last_dot_coords_tex_copy = last_dot_coords_tex.copy().move_to(
-        #     last_dot.get_center(),
-        #     aligned_edge=DOWN,
-        # ).shift(DOWN * 0.5 + RIGHT*1.25)
-        
-        # self.play(
-        #     Write(last_dot_coords_tex),
-        #     run_time=3,
-        # )
-        # self.play(
-        #     TransformFromCopy(last_dot_coords_tex, last_dot_coords_tex_copy),
-        #     run_time=1,
-            
-        # )
-        # self.wait(NOMINAL_WAIT_TIME)
-        
-        
-        # # * Now, add updaters that move this last dot to the intersection point, updating the numbers in the tex
-        # last_dot_copy = last_dot.copy().set_opacity(0.5)
-        # last_dot_copy.move_to(last_dot.get_center())
-        
-        # last_dot_copy_coords = plane.p2c(last_dot_copy.get_center())
-        
-        # last_dot_coords_tex_copy.add_updater(lambda m: m.move_to(last_dot_copy.get_center(), aligned_edge=DOWN).shift(DOWN * 0.5 + RIGHT*1.25))
-        
-        # last_dot_coords_tex_copy.make_number_changeable()
-                                             
+        self.wait(PAUSE_WAIT_TIME*2)
 
         
-        # # Now move the last dot to the intersection point
-        # self.play(
-        #     last_dot_copy.animate.move_to(intersection_pts[-1].get_center()),
-        #     run_time=3,
-        # )
-        
 
-        
-        # # Get the coords of the dots
-        # last_dot = dots[-1]
-        # dot_y_0_5 = pts_at_y_0_5[-1]
-        # last_dot_behind = dots_behind[-1]
-        
-        # last_dot_coords_point = plane.p2c(last_dot.get_center())
-        # dot_y_0_5_coords_point = plane.p2c(dot_y_0_5.get_center())
-        # last_dot_behind_coords_point = plane.p2c(last_dot_behind.get_center())
-        
-        # # Write out the coords of the dot_y_0_5 on screen in (x, y) format
-        # last_dot_coords_tex = Tex(
-        #     f"({last_dot_coords_point[0]:.2f}, {last_dot_coords_point[1]:.2f})",
-        #     font_size=TITLE_FONTSIZE*1,
-        # ).set_color(BLUE_B)
-        # last_dot_coords_tex.move_to(
-        #     last_dot.get_center(),
-        #     aligned_edge=DOWN,
-        # ).shift(UP * 0.5 + RIGHT*1.25)
-        
-        # self.play(
-        #     Write(last_dot_coords_tex),
-        #     run_time=3,
-        # )
