@@ -88,7 +88,9 @@ class _13B_EvenSubalgebra(Scene):
         self.play(Write(sigma_set))
         self.wait(NOMINAL_WAIT_TIME)
         self.play(Write(other_set))
+        self.wait(PAUSE_WAIT_TIME)
         self.wait(NOMINAL_WAIT_TIME)
+        
         
         # * Focusing on the sigma set, Indicate and add sigma_i
         
@@ -115,9 +117,7 @@ class _13B_EvenSubalgebra(Scene):
         sigma_i_squared.next_to(scalars_text, RIGHT, aligned_edge=DOWN).shift(RIGHT + DOWN*0.1)
         
         self.play(Write(scalars_text))
-        self.wait(NOMINAL_WAIT_TIME)
         self.play(Write(sigma_i_squared))
-        self.wait(NOMINAL_WAIT_TIME)
         
         sigma_i_squared_expanded_1 = Tex(
             sigma_i + "^2", space, equal, space,
@@ -133,7 +133,7 @@ class _13B_EvenSubalgebra(Scene):
                 }
             )
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(1)
         
         sigma_i_squared_expanded_2 = Tex(
             sigma_i, "^2", 
@@ -153,7 +153,7 @@ class _13B_EvenSubalgebra(Scene):
                 }
             )
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(1)
         
         sigma_i_squared_expanded_3 = Tex(
             sigma_i, "^2", 
@@ -205,7 +205,7 @@ class _13B_EvenSubalgebra(Scene):
                 # path_arc=PI/2,
             )
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(1)
         
         sigma_i_squared_expanded_5 = Tex(
             sigma_i, "^2", 
@@ -228,7 +228,7 @@ class _13B_EvenSubalgebra(Scene):
                 },
             )
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(1)
         
         sigma_i_squared_final = Tex(
             sigma_i, "^2", 
@@ -263,6 +263,8 @@ class _13B_EvenSubalgebra(Scene):
         self.play(ShowCreation(sigma_i_squared_final_box))
         self.wait(NOMINAL_WAIT_TIME)
         
+        
+        
         # * Pseudoscalar of the algebra
         pseudoscalar_text = Tex(
             r"\text{Pseudoscalar:}",
@@ -273,7 +275,6 @@ class _13B_EvenSubalgebra(Scene):
         pseudoscalar_tex.set_color_by_tex_to_color_map(color_dict)
         
         self.play(Write(pseudoscalar_text))
-        self.wait(NOMINAL_WAIT_TIME)
         self.play(Write(pseudoscalar_tex))
         
         # * Box the pseudoscalar result
@@ -328,7 +329,7 @@ class _13B_EvenSubalgebra(Scene):
             
             levi_cevita_text.animate.to_edge(RIGHT).shift(LEFT*0.25 + LEFT*1 + UP*5),
             levi_cevita_tex.animate.to_edge(RIGHT).shift(LEFT*0.25 + UP*4),
-            run_time = 3
+            run_time = 2
             
         )
         
@@ -410,6 +411,7 @@ class _13B_EvenSubalgebra(Scene):
         )
         self.wait(NOMINAL_WAIT_TIME)
         
+        
         # * Expand the terms
         pseudoscalar_dagger_pseudoscalar_expanded = Tex(
             pseudoscalar_dagger, pseudoscalar, 
@@ -487,6 +489,8 @@ class _13B_EvenSubalgebra(Scene):
         )
         self.play(ShowCreation(pseudoscalar_dagger_pseudoscalar_final_box))
         self.wait(NOMINAL_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
+        
         
         # * 4. Fade out the pseudoscalar dagger and pseudoscalar from the levi cevita
         
@@ -611,6 +615,8 @@ class _13B_EvenSubalgebra(Scene):
         self.wait(NOMINAL_WAIT_TIME)
         self.play(Write(anti_symmetry_tex))
         self.wait(NOMINAL_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
+        
         
         # * Some math magic: sigma_i sigma_j + sigma_i sigma_j = 2 sigma_i sigma_j
         anti_symmetry_tex_expanded = Tex(
@@ -633,6 +639,7 @@ class _13B_EvenSubalgebra(Scene):
                 },
             )
         )
+        self.wait(NOMINAL_WAIT_TIME)
         self.wait(NOMINAL_WAIT_TIME)
         
         # * Swap the order of the second sigma_i sigma_j and pickup a minus sign
@@ -690,6 +697,8 @@ class _13B_EvenSubalgebra(Scene):
                 },
             )
         )
+        self.wait(NOMINAL_WAIT_TIME)
+        
         # * Final form: substitute the sigma_i sigma_j on the left with eps_ijk I sigma_k
         anti_symmetry_tex_final = Tex(
             r"\left[" + sigma_i + comma + space + sigma_j + r"\right]",
@@ -724,8 +733,7 @@ class _13B_EvenSubalgebra(Scene):
         )
         anti_symmetry_tex_final_box.set_color(WHITE)
         self.play(ShowCreation(anti_symmetry_tex_final_box))
-        self.wait(NOMINAL_WAIT_TIME)
-        self.wait(PAUSE_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME*5)
 
         # * Fade out everything
         self.play(

@@ -7,8 +7,8 @@ NUM_CORES=12
 
 # Files starting with any of these will be skipped
 # exc_list = ['s18']  # Add more as needed
-exc_list = ['s09', 's10', 's11', 's12', 's13', 's14', 's15', 's16']
-# exc_list = ['s01', 's02', 's03', 's04', 's05', 's06', 's07', 's08']
+# exc_list = ['s09', 's10', 's11', 's12', 's13', 's14', 's15', 's16']
+exc_list = ['s01', 's02', 's03', 's04', 's05', 's06', 's07', 's08', 's09',]
 
 # Pattern to match files like s01_..., s02_..., etc.
 pattern = re.compile(r'^(s\d{2}).*\.py$')

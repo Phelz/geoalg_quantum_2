@@ -67,6 +67,7 @@ class _13A_SGA(Scene):
             space, minus, rbracket).to_edge(UP).shift(DOWN*1.25)
         
         self.play(Write(metric_signature))
+        self.wait(PAUSE_WAIT_TIME)
         self.wait(NOMINAL_WAIT_TIME)
         
         # * Basisc vectors set
@@ -82,7 +83,7 @@ class _13A_SGA(Scene):
         ).move_to(metric_signature.get_center() + DOWN*1 + RIGHT*0.5)
         
         self.play(Write(basis_set))
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
         
         # * Orthogonality: gamma_alpha gamma_beta = - gamma_beta gamma_alpha
         orthogonality = Tex(
@@ -113,13 +114,12 @@ class _13A_SGA(Scene):
         self.play(Write(orthogonality))
         self.wait(NOMINAL_WAIT_TIME)
         self.play(Write(orth_text))
-        
         self.wait(NOMINAL_WAIT_TIME)
         
         self.play(Write(inner_product))
         self.wait(NOMINAL_WAIT_TIME)
         self.play(Write(inner_text))
-        
+        self.wait(NOMINAL_WAIT_TIME)
         self.wait(NOMINAL_WAIT_TIME)
 
         # * Inner product example, use gamma_2
@@ -145,6 +145,7 @@ class _13A_SGA(Scene):
             )
         )
         self.wait(NOMINAL_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
         # * Make space for duality, move everything to the left
         self.play(
             orthogonality.animate.shift(LEFT*1),
@@ -163,9 +164,8 @@ class _13A_SGA(Scene):
         
         self.play(
             ShowCreation(line_separator),
-            run_time=2,
+            run_time=1,
         )
-        self.wait(NOMINAL_WAIT_TIME)        
         
         # * Remind the audience of the duality relation
         duality = Tex(
@@ -190,8 +190,8 @@ class _13A_SGA(Scene):
         
         
         self.play(FadeIn(duality))
-        self.play(ShowCreation(box_duality))
-        self.play(Write(duality_text))
+        self.play(Write(duality_text),
+                  ShowCreation(box_duality))
         self.wait(NOMINAL_WAIT_TIME)
         
         # * Apply the duality relation to gamma_2
@@ -273,7 +273,7 @@ class _13A_SGA(Scene):
             ShowCreation(box_duality_final),
             run_time=2,
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
         
         # * Clean up some space:
         # * 1. remove the basis set
@@ -366,7 +366,8 @@ class _13A_SGA(Scene):
             ShowCreation(box_duality_example_gamma_0),
             run_time=2,
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
+        
         
         # * Finally, generalize the duality relation using the metric tensor
         lower_to_upper = Tex(
