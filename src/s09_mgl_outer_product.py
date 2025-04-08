@@ -581,8 +581,6 @@ class _9_OuterProduct(Scene):
         
         
         
-        
-        
         # * The e1 wedge e2 term 
         # * _______________________________________________________________________
 
@@ -712,6 +710,8 @@ class _9_OuterProduct(Scene):
         #     ReplacementTransform(e1_wedge_e2_geo_prod_levi_civita, e1_wedge_e2_geo_prod_cross, run_time=2)
         # )
         self.wait(NOMINAL_WAIT_TIME)
+        self.wait(NOMINAL_WAIT_TIME)
+        
         
         # self.remove(e1_wedge_e2_geo_prod_levi_civita)
         
@@ -759,7 +759,6 @@ class _9_OuterProduct(Scene):
         # self.play(
         #     ReplacementTransform(e1_wedge_e2_geo_prod_cross, e1_wedge_e2_geo_prod_I, run_time=2, lag_ratio=0.4,)
         # )
-        self.wait(NOMINAL_WAIT_TIME)        
 
         # * Final Result
         surrounding_box_final_result = Polygon(
@@ -775,14 +774,14 @@ class _9_OuterProduct(Scene):
             FadeOut(box_pseudoscalar),
             FadeOut(levi_civita_relation),
             FadeOut(pseudo_scalar),
-            run_time=2
+            run_time=1
         )
         
         # Move the final result to the center
         self.play(
             e1_wedge_e2_geo_prod_I.animate.move_to(ORIGIN + DOWN*1.5),
             surrounding_box_final_result.animate.move_to(ORIGIN + DOWN*1.5),
-            run_time=2
+            run_time=1
         )
         
         
@@ -821,9 +820,27 @@ class _9_OuterProduct(Scene):
             line.set_color_by_tex_to_color_map(colormap_dict)
 
         self.play(
-            ReplacementTransform(new_line_1_flip_wedge_grouped, new_line_1_flip_wedge_I, run_time=2, lag_ratio=0.05),
-            ReplacementTransform(new_line_2_flip_wedge_grouped, new_line_2_flip_wedge_I, run_time=2, lag_ratio=0.05),
-            ReplacementTransform(new_line_3_flip_wedge_grouped, new_line_3_flip_wedge_I, run_time=2, lag_ratio=0.05),
+            TransformMatchingTex(new_line_1_flip_wedge_grouped, new_line_1_flip_wedge_I, run_time=2,
+            key_map={
+                e1: e1, e2: e2, e3: e3, a1: a1, a2: a2, a3: a3, b1: b1, b2: b2, b3: b3,
+                wedge: "\\times", plus: plus, minus: minus,
+                lbracket: lbracket, rbracket: rbracket,
+            }
+            ),
+            TransformMatchingTex(new_line_2_flip_wedge_grouped, new_line_2_flip_wedge_I, run_time=2,
+            key_map={
+                e1: e1, e2: e2, e3: e3, a1: a1, a2: a2, a3: a3, b1: b1, b2: b2, b3: b3,
+                wedge: "\\times", plus: plus, minus: minus,
+                lbracket: lbracket, rbracket: rbracket,
+            }
+            ),
+            TransformMatchingTex(new_line_3_flip_wedge_grouped, new_line_3_flip_wedge_I, run_time=2,
+            key_map={
+                e1: e1, e2: e2, e3: e3, a1: a1, a2: a2, a3: a3, b1: b1, b2: b2, b3: b3,
+                wedge: "\\times", plus: plus, minus: minus,
+                lbracket: lbracket, rbracket: rbracket,
+            }
+            ),
         )
 
         self.wait(NOMINAL_WAIT_TIME)
@@ -844,9 +861,8 @@ class _9_OuterProduct(Scene):
             Indicate(new_line_2_flip_wedge_I[-7:-2], color=YELLOW, scale_factor=1.2),
             FlashAround(new_line_3_flip_wedge_I[-7:-2], color=YELLOW_B, time_width=0.5, buff=0.2),
             
-            run_time=5,
+            run_time=3,
         )
-        self.wait(NOMINAL_WAIT_TIME)
         
         # * Replace unit vectors cross product
         
@@ -870,11 +886,33 @@ class _9_OuterProduct(Scene):
             line.set_color_by_tex_to_color_map(colormap_dict)
 
         self.play(
-            ReplacementTransform(new_line_1_flip_wedge_I, new_line_1_cross_vector, run_time=2, lag_ratio=0.05),
-            ReplacementTransform(new_line_2_flip_wedge_I, new_line_2_cross_vector, run_time=2, lag_ratio=0.05),
-            ReplacementTransform(new_line_3_flip_wedge_I, new_line_3_cross_vector, run_time=2, lag_ratio=0.05),
+            TransformMatchingTex(new_line_1_flip_wedge_I, new_line_1_cross_vector, run_time=2,
+            key_map={
+                e1: e1, e2: e2, e3: e3, a1: a1, a2: a2, a3: a3, b1: b1, b2: b2, b3: b3,
+                plus: plus, minus: minus,
+            }
+            ),
+            TransformMatchingTex(new_line_2_flip_wedge_I, new_line_2_cross_vector, run_time=2,
+            key_map={
+                e1: e1, e2: e2, e3: e3, a1: a1, a2: a2, a3: a3, b1: b1, b2: b2, b3: b3,
+                plus: plus, minus: minus,
+            }
+            ),
+            TransformMatchingTex(new_line_3_flip_wedge_I, new_line_3_cross_vector, run_time=2,
+            key_map={
+                e1: e1, e2: e2, e3: e3, a1: a1, a2: a2, a3: a3, b1: b1, b2: b2, b3: b3,
+                plus: plus, minus: minus,
+            }
+            ),
             # Move the entire group to the left
         )
+
+        # self.play(
+        #     ReplacementTransform(new_line_1_flip_wedge_I, new_line_1_cross_vector, run_time=2, lag_ratio=0.05),
+        #     ReplacementTransform(new_line_2_flip_wedge_I, new_line_2_cross_vector, run_time=2, lag_ratio=0.05),
+        #     ReplacementTransform(new_line_3_flip_wedge_I, new_line_3_cross_vector, run_time=2, lag_ratio=0.05),
+        #     # Move the entire group to the left
+        # )
         self.wait(0.5)
 
         self.play(
@@ -893,6 +931,8 @@ class _9_OuterProduct(Scene):
             rate_func=double_smooth,
             run_time=3
         )
+        self.wait(NOMINAL_WAIT_TIME)
+        
         
         final_formula = Tex(A_term, space, wedge, space, B_term, space, equal, space,
                             lbracket, A_term, space, times, space, B_term, rbracket, space, '\\mathbb{I}')
@@ -909,7 +949,6 @@ class _9_OuterProduct(Scene):
         self.play(
             final_formula.animate.move_to(ORIGIN).to_edge(UP).shift(DOWN*1.5),
         )
-        self.wait(NOMINAL_WAIT_TIME)
         
         # Draw a box around the final for
         # 89mula
@@ -921,9 +960,8 @@ class _9_OuterProduct(Scene):
         )
         self.play(
             ShowCreation(final_formula_box),
-            run_time=3
+            run_time=1
         )
-        self.wait(PAUSE_WAIT_TIME)
         
         # Move to upper left corner and fadeout the title
         self.play(
