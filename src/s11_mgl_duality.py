@@ -540,6 +540,8 @@ class _11_Duality(Scene):
             run_time=2
         )
         self.wait(NOMINAL_WAIT_TIME)       
+        self.wait(NOMINAL_WAIT_TIME)    
+        
         
         handedness_term = r"(-1)^{j-1}"
         ej_hat_lower = r"\hat{\mathbf{e}}_j"
@@ -562,6 +564,8 @@ class _11_Duality(Scene):
             Write(dual_vector_def_no_handedness),
             run_time=2
         )
+ 
+        self.wait(NOMINAL_WAIT_TIME)    
  
         self.wait(PAUSE_WAIT_TIME) 
         
@@ -616,6 +620,8 @@ class _11_Duality(Scene):
         )
         self.wait(PAUSE_WAIT_TIME)
         
+        self.wait(PAUSE_WAIT_TIME)
+        
         # * The e^2 example
         # # Now, for a concrete example, let us try to find e^2
         e2_dual = r"\mathbf{e^2}"
@@ -644,13 +650,16 @@ class _11_Duality(Scene):
                                           }),
             run_time=2
         )
-        self.wait(NOMINAL_WAIT_TIME)
+        # self.wait(NOMINAL_WAIT_TIME)
+        self.wait(PAUSE_WAIT_TIME)
+        
         
         e2_dual_def_final = Tex(
             e2_dual, space, equal, space,
             minus, space,
             e1, space, wedge, space, e3, space, pseudoscalar_dagger,
-            ).set_color_by_tex_to_color_map(color_dict_3d).move_to(dual_vector_def_w_handedness.get_center()).shift(DOWN * 1.5)
+            ).set_color_by_tex_to_color_map(color_dict_3d).move_to(dual_vector_def_w_handedness.get_center()).shift(DOWN * 1.5) 
+        
         e2_dual_def_final_box = Polygon(
             e2_dual_def_final.get_corner(UL) + 2.5*np.array([-0.1, 0.1, 0]),
             e2_dual_def_final.get_corner(UR) + 2.5*np.array([0.1, 0.1, 0]),
@@ -674,10 +683,7 @@ class _11_Duality(Scene):
             run_time=2
 
         )
-        self.play(
-            ShowCreation(e2_dual_def_final_box),
-            run_time=2
-        )
+
         self.wait(NOMINAL_WAIT_TIME)
         
         # * Clean up the scene:
