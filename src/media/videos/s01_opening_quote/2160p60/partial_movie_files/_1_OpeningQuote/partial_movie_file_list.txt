@@ -1,6 +1,6 @@
 # This file is used internally by FFMPEG.
 file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s01_opening_quote/2160p60/partial_movie_files/_1_OpeningQuote/1457378895_2028973310_223132457.mp4'
 file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s01_opening_quote/2160p60/partial_movie_files/_1_OpeningQuote/1993220219_2844360058_3237145903.mp4'
-file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s01_opening_quote/2160p60/partial_movie_files/_1_OpeningQuote/1993220219_1083283843_452801264.mp4'
-file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s01_opening_quote/2160p60/partial_movie_files/_1_OpeningQuote/1993220219_952528981_4205772017.mp4'
+file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s01_opening_quote/2160p60/partial_movie_files/_1_OpeningQuote/1993220219_1913710315_452801264.mp4'
+file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s01_opening_quote/2160p60/partial_movie_files/_1_OpeningQuote/1993220219_1265829795_4205772017.mp4'
 file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s01_opening_quote/2160p60/partial_movie_files/_1_OpeningQuote/1993220219_4172525339_2141102920.mp4'
