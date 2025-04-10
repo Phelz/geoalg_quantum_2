@@ -16,5 +16,6 @@ file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s03_bivectors/
 file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s03_bivectors/2160p60/partial_movie_files/_3_Bivectors/1993220219_1038707267_3346492629.mp4'
 file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s03_bivectors/2160p60/partial_movie_files/_3_Bivectors/1993220219_3886630316_1322875489.mp4'
 file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s03_bivectors/2160p60/partial_movie_files/_3_Bivectors/1993220219_952745764_3801698450.mp4'
-file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s03_bivectors/2160p60/partial_movie_files/_3_Bivectors/1993220219_2054863717_273725034.mp4'
+file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s03_bivectors/2160p60/partial_movie_files/_3_Bivectors/1993220219_779240018_273725034.mp4'
 file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s03_bivectors/2160p60/partial_movie_files/_3_Bivectors/1993220219_1797655766_1246478839.mp4'
+file 'file:/home/philo/projects/geoalg_quantum_2/src/media/videos/s03_bivectors/2160p60/partial_movie_files/_3_Bivectors/1993220219_3058078452_1833360737.mp4'

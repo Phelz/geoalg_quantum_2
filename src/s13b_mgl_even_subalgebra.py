@@ -290,7 +290,7 @@ class _13B_EvenSubalgebra(Scene):
         
         # * Levi-Cevita: Add the definition of the levi-cevita symbol within this subalgebra
         levi_cevita_text = Tex(
-            r"\text{Levi-Cevita:}",
+            r"\text{Levi-Civita:}",
         ).move_to(pseudoscalar_text.get_center()).shift(DOWN*1.5).to_edge(LEFT)
         levi_cevita_tex = Tex(
             eps_ijk, space, equal, space, 

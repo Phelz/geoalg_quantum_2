@@ -5,7 +5,8 @@ mf.setup()
 from definitions import *
 
 
-class _3_Bivectors(VectorScene):
+class _3_V2_Bivectors(VectorScene):
+# class _3_V2_Bivectors(VectorScene):
 # class GeometricAlgebra(ThreeDScene):
     def construct(self):
         self.next_section("Scalars and Vectors", skip_animations=False)
@@ -13,7 +14,9 @@ class _3_Bivectors(VectorScene):
         title = MarkupText(
             "Geometric Algebra", color=BLUE, font_size=TITLE_FONTSIZE
         ).to_edge(UP)
-        self.add(title)
+        # self.add(title)
+        self.play(Write(title), run_time=1)
+        self.wait(NOMINAL_WAIT_TIME)
 
         # * Scalar
         point = np.array([-3, 0, 0])
@@ -159,6 +162,11 @@ class _3_Bivectors(VectorScene):
 
         self.play(Transform(u_wedge_v_tex, v_wedge_u_tex), runtime=1)
         self.wait(PAUSE_WAIT_TIME*2)
+        
+        # * Fade to black
+        self.play(
+            *[FadeOut(mob)for mob in self.mobjects]
+        )
 
 
 
@@ -367,7 +375,3 @@ class _3_Bivectors(VectorScene):
 
         # # self.next_section("Trivectors", skip_animations=True)
 
-        # # * Fade to black
-        # self.play(
-        #     *[FadeOut(mob)for mob in self.mobjects]
-        # )

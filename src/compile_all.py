@@ -8,8 +8,9 @@ NUM_CORES=8
 # Files starting with any of these will be skipped
 # exc_list = ['s18']  # Add more as needed
 # exc_list = ['s09', 's10', 's11', 's12', 's13', 's14', 's15', 's16']
-# exc_list = ['s01', 's02', 's03', 's04', 's05', 's06', 's07', 's08', 's09',]
-exc_list = ['s20']
+# exc_list = ['s01', 's02', 's03', 's04', 's05', 's06', 's07', 's08', 's09', 's10', 's11', 's12', 's13', 's14', 's15', 's16']
+exc_list = ['s01','s02', 's03', 's04', 's05', 's07',  's09',  's11', 's12', 's13',  's15', 's16']
+# exc_list = ['s20']
 
 # Pattern to match files like s01_..., s02_..., etc.
 pattern = re.compile(r'^(s\d{2}).*\.py$')
@@ -41,10 +42,15 @@ def compile_file(filename):
 
 if __name__ == '__main__':
     filtered = list(filter(None, map(filter_files, files)))
-    for i in range(0, len(filtered), 4):
-        group = filtered[i:i + 4]
-        with Pool(processes=min(len(group), NUM_CORES)) as pool:
-            pool.map(compile_file, group)
+    
+    # All 
+    with Pool(processes=min(len(filtered), NUM_CORES)) as pool:
+        pool.map(compile_file, filtered)
+    
+    # for i in range(0, len(filtered), 4):
+        # group = filtered[i:i + 4]
+    # with Pool(processes=min(len(group), NUM_CORES)) as pool:
+        # pool.map(compile_file, group)
 
 
 # import os
